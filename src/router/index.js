@@ -212,7 +212,7 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/devOps',
+    path: '/case',
     component: Layout,
     redirect: 'noRedirect',
     // name: '示范小区',
@@ -225,8 +225,8 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'verify',
-        component: () => import('@/views/devOps/verify/list'),
+        path: 'list',
+        component: () => import('@/views/case/list'),
         name: 'verifyList',
         meta: {
           title: '案件查询',

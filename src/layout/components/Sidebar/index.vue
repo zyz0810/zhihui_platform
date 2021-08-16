@@ -6,9 +6,9 @@
         :default-active="activeMenu"
         :collapse="isCollapse"
         background-color="#fff"
-        text-color="#333"
+        text-color="#606266"
         :unique-opened="false"
-        :active-text-color="variables.menuActiveText"
+        active-text-color="#fff"
         :collapse-transition="false"
         mode="vertical" class="bold">
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />

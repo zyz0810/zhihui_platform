@@ -12,7 +12,7 @@
 <!--  </div>-->
   <el-header>
     <el-row class="flex flex-vertical">
-      <el-col :span="10" class="f22 clr_white bold">指挥平台</el-col>
+      <el-col :span="10" class="f26 txt_linear bold">滨江区城市管理局指挥一体化平台</el-col>
       <el-col :span="14" class="top_right">
         <div class="right-menu">
           <!--<template v-if="device!=='mobile'">-->
@@ -32,12 +32,12 @@
             <!--<span class="bold" style="margin: 0 5px; font-size: 18px">{{name}}</span>-->
             <!--<i class="el-icon-caret-bottom" />-->
           <!--</div>-->
-          <el-select v-model="citySelected" placeholder="请选择" @change="chooseCity">
-            <el-option v-for="item in cityList" :label="item.province+item.city+item.area" :value="item.id">
-            </el-option>
-            <!--<el-option v-for="item in cityList" :label="item.mobile" :value="item.id" :key="item.id">-->
-            <!--</el-option>-->
-          </el-select>
+<!--          <el-select v-model="citySelected" placeholder="请选择" @change="chooseCity">-->
+<!--            <el-option v-for="item in cityList" :label="item.province+item.city+item.area" :value="item.id">-->
+<!--            </el-option>-->
+<!--            &lt;!&ndash;<el-option v-for="item in cityList" :label="item.mobile" :value="item.id" :key="item.id">&ndash;&gt;-->
+<!--            &lt;!&ndash;</el-option>&ndash;&gt;-->
+<!--          </el-select>-->
 
                     <!--<el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">-->
                       <!--<div class="avatar-wrapper">-->
@@ -61,7 +61,10 @@
           <div class="avatar-wrapper clr_white ml_20 flex flex-vertical">
             <!--<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
             <img :src="headImg" class="user-avatar" />
-            <span style="margin: 0 5px; font-size: 14px; display: inline-block;">{{name}}</span>
+            <p>
+              <span class="block f14" style="margin: 0 5px 5px;">{{name}}</span>
+              <span class="block f12" style="margin: 5px 5px 0;color: #5fb5ec;">超级管理员</span>
+            </p>
           </div>
           <div class="ml_20 clr_white" @click="logout"><i class="el-icon-switch-button bold f20" style="margin-left: 5px"></i></div>
         </div>
@@ -248,7 +251,7 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-      this.$router.push(`/login?redirect=/dashboard`)
+      this.$router.push(`/login?redirect=/system/organization/manage`)
     },
     // addDate() {
     //   let nowDate = new Date();
@@ -270,6 +273,7 @@ export default {
     // }
   },
   mounted() {
+
   },
 }
 </script>
@@ -279,7 +283,7 @@ export default {
   .el-header{
     //color: $txtColor;
     height: 60px !important;
-    background: rgba(51,88,166,1);
+    background: rgba(51,88,165,1);
   }
   .get_code {
     position: relative;
@@ -378,9 +382,9 @@ export default {
 
         .user-avatar {
           cursor: pointer;
-          width: 30px;
-          height: 30px;
-          border-radius: 10px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
         }
 
         .el-icon-caret-bottom {

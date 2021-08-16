@@ -1043,4 +1043,9 @@ input[type="number"] {
     }
   }
 }
-
+.txt_linear{
+  background-image:-webkit-linear-gradient(bottom,rgba(51, 191, 231,1),rgba(237,254,255,1));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  cursor:pointer;
+}

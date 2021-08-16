@@ -41,7 +41,8 @@
 
     &.has-logo {
       .el-scrollbar {
-        height: calc(100% - 50px);
+        padding-top: 20px;
+        height: calc(100% - 280px);
       }
     }
 
@@ -56,7 +57,7 @@
     }
 
     .svg-icon,.iconfont {
-      color: #333;
+      //color: #fff;
       //color:red;
       margin-right: 16px;
     }
@@ -67,6 +68,7 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      padding-left: 10px;
       background: transparent !important;
     }
 
@@ -78,29 +80,37 @@
       }
     }
 
-    .is-active>.el-submenu__title, .is-active.el-menu-item {
-      //color: rgba(243,237,145,1) !important;
-      .iconfont{
-        color: #3358a6 !important;
-      }
-    }
-
     .el-menu-item{
       //font-size: 16px !important;
-      background-color: transparent !important;
+      //background-color: transparent !important;
     }
     & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
       padding-left: 50px !important;
       //background-color: $subMenuBg !important;
-      background-color: transparent !important;
+      //background-color: transparent !important;
       &.is-active{
         //color: rgba(243,237,145,1) !important;
-        //background-color: transparent !important;
+        background-color: #3358a5 !important;
+        border-top-left-radius:50px;
+        border-bottom-left-radius:50px;
+
       }
       &:hover {
+        //background-color: transparent !important;
+      }
+    }
+    .el-menu-item{
+      &:hover, &:focus{
         background-color: transparent !important;
+        border-top-left-radius:50px;
+        border-bottom-left-radius:50px;
+      }
+      &.is-active{
+        background-color: #3358a5 !important;
+        border-top-left-radius:50px;
+        border-bottom-left-radius:50px;
       }
     }
   }
@@ -203,10 +213,10 @@
   .el-menu-item {
     &:hover {
       // you can use $subMenuHover
-      background-color: transparent !important;
+      //background-color: transparent !important;
     }
     &.is-active{
-      color: yellow !important;
+      //color: yellow !important;
     }
   }
 
