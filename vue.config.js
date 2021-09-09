@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '后台系统' // page title
+const name = defaultSettings.title || '二级指挥平台' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -24,8 +24,8 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
-  outputDir: 'dist',
+  publicPath: '/direct/',
+  outputDir: 'direct',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
@@ -39,11 +39,32 @@ module.exports = {
     // before: require('./mock/mock-server.js'),
     proxy:{
       '/api':{
-        target:'http://yy.susongzhijia.com',
+        target:'http://erp.susongzhijia.com',
         changeOrigin: true,
-        pathRewrite:{
-          '^/api':'/api'
-        }
+        // pathRewrite:{
+        //   '^/api':'/api'
+        // }
+      },
+      '/admin':{
+        target:'http://erp.susongzhijia.com',
+        changeOrigin: true,
+        // pathRewrite:{
+        //   '/keynote/api':''
+        // }
+      },
+      '/job':{
+        target:'http://erp.susongzhijia.com',
+        changeOrigin: true,
+        // pathRewrite:{
+        //   '/keynote/api':''
+        // }
+      },
+      '/ai':{
+        target:'http://erp.susongzhijia.com',
+        changeOrigin: true,
+        // pathRewrite:{
+        //   '/keynote/api':''
+        // }
       }
     }
     // proxy:"http://139.224.233.152:18000",

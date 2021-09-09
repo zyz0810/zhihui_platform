@@ -66,7 +66,8 @@
               <span class="block f12" style="margin: 5px 5px 0;color: #5fb5ec;">超级管理员</span>
             </p>
           </div>
-          <div class="ml_20 clr_white" @click="logout"><i class="el-icon-switch-button bold f20" style="margin-left: 5px"></i></div>
+<!--          <div class="ml_20 clr_white" @click="logout"><i class="el-icon-switch-button bold f20" style="margin-left: 5px"></i></div>-->
+          <a class="ml_20 clr_white" href="/jsc/index.html#/dashboard"><i class="el-icon-s-promotion bold f20" style="margin-left: 5px"></i> 回首页</a>
         </div>
         <my-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="80%">
           <ul class="street">
@@ -107,7 +108,7 @@ export default {
   name: 'topTitle',
   data() {
     return {
-      citySelected:Number(getCitySelected()),
+      // citySelected:Number(getCitySelected()),
       headImg: headImg,
       systemDate:'',
       // name:getName()!='null'?getName():'',
@@ -121,7 +122,7 @@ export default {
       temp:{
         oldPassword:''
       },
-      cityList:getCity(),
+      // cityList:getCity(),
       rules:{
         password: [
           { required: true, message: "请输入密码", trigger: "change" },{validator: isPassword}
@@ -165,10 +166,10 @@ export default {
   },
   methods: {
     chooseCity(val){
-      this.citySelected = val;
-      setCitySelected(val);
-      console.log( getCity())
-     console.log( getCitySelected())
+     //  this.citySelected = val;
+     //  setCitySelected(val);
+     //  console.log( getCity())
+     // console.log( getCitySelected())
     },
     updateCity(){},
     resetPasswordTemp(){
