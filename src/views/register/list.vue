@@ -59,7 +59,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>
     </div>
 
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-  import {paraList, paraSave, paraUpdate, paraDelete} from '@/api/parameter'
+  import {collectList} from '@/api/collect'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import { mapState } from 'vuex'
@@ -241,10 +241,8 @@
         },],
         listLoading: false,
         listQuery: {
-          name: '',
-          status: undefined,
           page: 1,
-          limit: 10
+          pageSize: 10
         },
         tableHeight:'100'
       }
@@ -288,7 +286,7 @@
           }
         };
       });
-      // this.getList();
+      this.getList();
     },
     methods: {
 
@@ -297,7 +295,7 @@
         this.getList()
       },
       getList() {
-        paraList(this.listQuery).then(res => {
+        collectList(this.listQuery).then(res => {
           this.list = res.data.data
           this.total = res.data.count
         });
@@ -308,7 +306,7 @@
           name: '',
           status: undefined,
           page: 1,
-          limit: 10
+          pageSize: 10
         }
         this.getList();
       },
