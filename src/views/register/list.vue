@@ -37,8 +37,8 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="clickRow" @selection-change="handleSelectionChange">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件来源" align="center" prop="num"></el-table-column>
-        <el-table-column label="案件类型" align="center" prop="name">
+        <el-table-column label="任务号" align="center" prop="num"></el-table-column>
+        <el-table-column label="案件大类" align="center" prop="name">
           <template slot-scope="scope">
             <span>{{scope.row.type | filtersType}}</span>
           </template>
@@ -48,16 +48,11 @@
             <span>{{scope.row.source | filtersSource}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="问题描述" align="center" prop="name"></el-table-column>
-        <el-table-column label="位置" align="center" prop="address"></el-table-column>
-        <el-table-column label="举报人" align="center" prop="time"></el-table-column>
-        <el-table-column label="举报人" align="center" prop="time"></el-table-column>
-        <el-table-column label="联系电话" align="center" prop="time"></el-table-column>
-        <el-table-column label="登记时间" align="center" prop="">
-          <template slot-scope="scope">
-            <span>{{scope.row.status | filtersStatus}}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="举报人" align="center" prop="name"></el-table-column>
+        <el-table-column label="举报人电话" align="center" prop="address"></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="time"></el-table-column>
+        <el-table-column label="登记时间" align="center" prop="time"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="time"></el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>

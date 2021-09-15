@@ -33,9 +33,19 @@
           </template>
         </el-table-column>
         <el-table-column label="小类" align="center" prop="name"></el-table-column>
-        <el-table-column label="立案时间" align="center" prop="">
+        <el-table-column label="是否紧急事件" align="center" prop="">
           <template slot-scope="scope">
             <span>{{scope.row.status | filtersStatus}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="审核时间" align="center" prop="time">
+          <template slot-scope="scope">
+            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="事件位置" align="center" prop="time">
+          <template slot-scope="scope">
+            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
           </template>
         </el-table-column>
         <el-table-column label="问题描述" align="center" prop="time">

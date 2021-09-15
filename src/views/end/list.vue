@@ -23,26 +23,26 @@
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
         <el-table-column label="案件编号" align="center" prop="num"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="name">
+        <el-table-column label="事件来源" align="center" prop="name">
           <template slot-scope="scope">
             <span>{{scope.row.type | filtersType}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="事件来源" align="center" prop="num"></el-table-column>
-        <el-table-column label="大类" align="center" prop="source">
+        <el-table-column label="大类" align="center" prop="num"></el-table-column>
+        <el-table-column label="小类" align="center" prop="source">
           <template slot-scope="scope">
             <span>{{scope.row.source | filtersSource}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="小类" align="center" prop="name"></el-table-column>
-        <el-table-column label="截至时间" align="center" prop="">
+        <el-table-column label="是否紧急事件" align="center" prop="name"></el-table-column>
+        <el-table-column label="派遣事件" align="center" prop="">
           <template slot-scope="scope">
             <span>{{scope.row.status | filtersStatus}}</span>
           </template>
         </el-table-column>
         <el-table-column label="剩余时间" align="center" prop="name"></el-table-column>
         <el-table-column label="处置部门" align="center" prop="name"></el-table-column>
-        <el-table-column label="紧急案卷" align="center" prop="name"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="name"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="time">
           <template slot-scope="scope">
             <span @click="handleView(scope.row)">{{scope.row.status}}</span>

@@ -212,6 +212,32 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/disposal',
+    component: Layout,
+    redirect: 'noRedirect',
+    // name: '示范小区',
+    meta: {
+      // title: '示范小区',
+      icon: 'iconfont icon-xingxing',
+      roles: [
+        'admin',
+      ]
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/disposal/list'),
+        name: 'verifyList',
+        meta: {
+          title: '待处置',
+          roles: [
+            'admin',
+          ]
+        }
+      },
+    ]
+  },
+  {
     path: '/case',
     component: Layout,
     redirect: 'noRedirect',
@@ -237,7 +263,32 @@ export const asyncRoutes = [
       },
     ]
   },
-
+  {
+    path: '/assistApply',
+    component: Layout,
+    redirect: 'noRedirect',
+    // name: '示范小区',
+    meta: {
+      // title: '示范小区',
+      icon: 'iconfont icon-xingxing',
+      roles: [
+        'admin',
+      ]
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/assistApply/list'),
+        name: 'verifyList',
+        meta: {
+          title: '待协办申请',
+          roles: [
+            'admin',
+          ]
+        }
+      },
+    ]
+  },
 ]
 
 const createRouter = () =>

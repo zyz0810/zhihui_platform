@@ -3,8 +3,7 @@
 
     <div class="p20 bg_white">
       <div class="mb_10">
-        <div class="fl monitor_num f14 mr_10">今日立案数：59</div>
-<!--        <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>-->
+        <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">
             <el-input v-model="listQuery.productSn" placeholder="" @change="handleFilter" clearable/>
@@ -16,29 +15,33 @@
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="clickRow" @selection-change="handleSelectionChange">
+        <el-table-column label="" align="center" prop="name">
+          <template slot-scope="scope">
+            <span :class="['inlineBlock',scope.row.type == 0?'red_circle':'yellow_circle']"></span>
+          </template>
+        </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="num"></el-table-column>
+        <el-table-column label="案件编号" align="center" prop="num"></el-table-column>
         <el-table-column label="事件来源" align="center" prop="name">
           <template slot-scope="scope">
             <span>{{scope.row.type | filtersType}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="大类" align="center" prop="source">
+        <el-table-column label="大类" align="center" prop="num"></el-table-column>
+        <el-table-column label="小类" align="center" prop="num"></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="num"></el-table-column>
+        <el-table-column label="派遣时间" align="center" prop="num"></el-table-column>
+        <el-table-column label="剩余时间" align="center" prop="num"></el-table-column>
+        <el-table-column label="申请部门" align="center" prop="source">
           <template slot-scope="scope">
             <span>{{scope.row.source | filtersSource}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="小类" align="center" prop="name"></el-table-column>
-        <el-table-column label="是否紧急事件" align="center" prop="name"></el-table-column>
-        <el-table-column label="上报时间" align="center" prop="">
+        <el-table-column label="申请内容" align="center" prop="name"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="name"></el-table-column>
+        <el-table-column label="问题描述" align="center" prop="">
           <template slot-scope="scope">
             <span>{{scope.row.status | filtersStatus}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="事件位置" align="center" prop="name"></el-table-column>
-        <el-table-column label="问题描述" align="center" prop="time">
-          <template slot-scope="scope">
-            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -333,5 +336,17 @@
 <style lang="scss" scoped>
   .monitor_num{
     line-height: 2.5;
+  }
+  .red_circle{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: red;
+  }
+  .yellow_circle{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: yellow;
   }
 </style>
