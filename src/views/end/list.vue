@@ -35,7 +35,7 @@
           </template>
         </el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="name"></el-table-column>
-        <el-table-column label="派遣事件" align="center" prop="">
+        <el-table-column label="派遣时间" align="center" prop="">
           <template slot-scope="scope">
             <span>{{scope.row.status | filtersStatus}}</span>
           </template>

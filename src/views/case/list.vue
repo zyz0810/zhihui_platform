@@ -17,21 +17,15 @@
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="clickRow" @selection-change="handleSelectionChange">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
         <el-table-column label="案件编号" align="center" prop="num"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="num"></el-table-column>
-        <el-table-column label="事件分类" align="center" prop="name">
-          <template slot-scope="scope">
-            <span>{{scope.row.type | filtersType}}</span>
-          </template>
-        </el-table-column>
-
+        <!--<el-table-column label="任务号" align="center" prop="num"></el-table-column>-->
         <el-table-column label="大类" align="center" prop="source">
           <template slot-scope="scope">
             <span>{{scope.row.source | filtersSource}}</span>
           </template>
         </el-table-column>
         <el-table-column label="小类" align="center" prop="name"></el-table-column>
-        <el-table-column label="立案时间" align="center" prop="num"></el-table-column>
-        <el-table-column label="截止时间" align="center" prop="num"></el-table-column>
+        <el-table-column label="审核时间" align="center" prop="num"></el-table-column>
+        <el-table-column label="剩余时间" align="center" prop="num"></el-table-column>
         <el-table-column label="紧急案件" align="center" prop="">
           <template slot-scope="scope">
             <span>{{scope.row.status | filtersStatus}}</span>
@@ -43,6 +37,11 @@
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center" prop="time">
+          <template slot-scope="scope">
+            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="事件位置" align="center" prop="time">
           <template slot-scope="scope">
             <span @click="handleView(scope.row)">{{scope.row.status}}</span>
           </template>

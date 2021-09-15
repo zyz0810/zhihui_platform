@@ -53,6 +53,7 @@
         <el-table-column label="是否紧急事件" align="center" prop="time"></el-table-column>
         <el-table-column label="登记时间" align="center" prop="time"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="time"></el-table-column>
+        <el-table-column label="问题描述" align="center" prop="time"></el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>
