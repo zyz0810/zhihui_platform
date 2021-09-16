@@ -22,8 +22,6 @@
       <el-button @click="showViewDialog = false">取 消</el-button>
       <el-button type="primary" @click="createData()" :loading="paraLoading">废 弃</el-button>
     </div>
-
-
   </myDialog>
 </template>
 
@@ -71,7 +69,7 @@
           deleted:0
         },
         rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+          name: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
       }
     },

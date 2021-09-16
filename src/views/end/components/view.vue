@@ -4,94 +4,104 @@
     :close-on-click-modal="false"
     width="80%"
     @close="close"
-    top="10vh"
-    title=""
+    top="4vh"
+    title="详情"
     class="dialogContainer"
     @open="open"
   >
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
-
-        <el-descriptions title="用户信息">
-          <el-descriptions-item label="派遣时间">2017-05-06 05:08:30</el-descriptions-item>
-          <el-descriptions-item label="截止时间">2017-06-06 05:08:30</el-descriptions-item>
-          <el-descriptions-item label="剩余处置时间">6小时47分</el-descriptions-item>
-        </el-descriptions>
-        <el-descriptions class="margin-top" title="" :column="2" size="medium" border>
-          <el-descriptions-item>
-            <template slot="label">申请部门</template>
-            乡镇
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">申请人员</template>
-            乡镇
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">申请时间</template>
-            2017-06-06 05:08:30
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">申请类型</template>
-            2017-06-06 05:08:30
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">申请内容</template>
-            2017-06-06 05:08:30
-          </el-descriptions-item>
-        </el-descriptions>
-        <el-descriptions class="margin-top mt_20" title="案件信息" :column="2" size="medium" border>
+        <div class="mb_20">
+          <span>派遣时间：2021-07-09 12：:1:18</span>
+          <span>截止时间：2021-07-09 12：:1:18</span>
+          <span>剩余处理时间：6小时47分钟</span>
+        </div>
+        <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            2021206852510332
+            字段是啥？？
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">立案时间</template>
-            2021-06-22 10:31:23
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">事件大类</template>
-            容貌
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">事件小类</template>
-            公共设施倾斜
+            <template slot="label">审核时间</template>
+            字段是啥？？
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
-            待审核
+            {{formData.status}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">事件大类</template>
+            {{formData.big_category_name}}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">事件小类</template>
+            {{formData.small_category_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">是否紧急事件</template>
-            否
+            {{formData.is_importance}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件来源</template>
-            采集员采集
+            {{formData.source}}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">采集员</template>
-            采集员1
+            <template slot="label">举报人</template>
+            {{formData.report}}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">采集员手机号</template>
-            18963245623
+            <template slot="label">举报电话</template>
+            {{formData.mobile}}
           </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">所属部门</template>
-            采集公司
+          <el-descriptions-item :span="3">
+            <template slot="label">事件位置</template>
+            {{formData.address}}
           </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">位置</template>
-            湖州市德清县5525号
+          <el-descriptions-item :span="3">
+            <template slot="label">情况描述</template>
+            {{formData.description}}
           </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">问题描述</template>
-            湖州市德清县隔离墩倾斜
-          </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            湖州市德清县隔离墩倾斜
+            字段是啥？？
+            <image v-for="item in formData.after_images" :scr="item"></image>
           </el-descriptions-item>
+
+
+          <el-descriptions-item :span="3">
+            <template slot="label">主办部门</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置时间</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置说明</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置图片</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">协办部门</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置时间</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置说明</template>
+            字段是啥？？
+          </el-descriptions-item>
+          <el-descriptions-item :span="3">
+            <template slot="label">处置图片</template>
+            字段是啥？？
+          </el-descriptions-item>
+
+
         </el-descriptions>
       </el-tab-pane>
       <el-tab-pane label="办理进度" name="second">
@@ -99,38 +109,19 @@
                   element-loading-text="拼命加载中" fit ref="tableList">
           <el-table-column label="处置人员" align="center" prop="num" sortable></el-table-column>
           <el-table-column label="处置部门" align="center" prop="num" sortable></el-table-column>
-          <el-table-column label="处置截止时间" align="center" prop="name">
-            <template slot-scope="scope">
-              <span>{{scope.row.type | filtersType}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="对象" align="center" prop="source">
-            <template slot-scope="scope">
-              <span>{{scope.row.source | filtersSource}}</span>
-            </template>
-          </el-table-column>
+          <el-table-column label="对象" align="center" prop="source"></el-table-column>
           <el-table-column label="操作" align="center" prop="name"></el-table-column>
-          <el-table-column label="操作时间" align="center" prop="">
-            <template slot-scope="scope">
-              <span>{{scope.row.status | filtersStatus}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="批转意见" align="center" prop="time">
-            <template slot-scope="scope">
-              <span @click="handleView(scope.row)">{{scope.row.status}}</span>
-            </template>
-          </el-table-column>
+          <el-table-column label="操作时间" align="center" prop=""></el-table-column>
+          <el-table-column label="意见说明" align="center" prop="time"></el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button type="warning" @click="showAbandonedDialog = true" :loading="paraLoading">驳 回</el-button>
-      <el-button type="primary" @click="showAdoptDialog = true" :loading="paraLoading">协 办</el-button>
-      <el-button type="success" @click="" :loading="paraLoading">打 印</el-button>
+      <el-button type="warning" @click="handleOperation(0)">驳回</el-button>
+      <el-button type="primary" @click="handleOperation(1)">结案</el-button>
     </div>
-    <adoptView :showDialog.sync="showAdoptDialog" :paraData="paraData"></adoptView>
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData"></abandonedView>
+    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData"></adoptView>
   </myDialog>
 </template>
 
@@ -143,6 +134,7 @@
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
   import adoptView from "./adopt"; // waves directive
   import abandonedView from "./abandoned"; // waves directive
+  import {collectView} from "@/api/collect"; // waves directive
   export default {
     name: 'parameterView',
     directives: { waves },
@@ -151,7 +143,7 @@
       Pagination,
       SingleImage,
       adoptView,
-      abandonedView
+      abandonedView,
     },
     props: {
       showDialog: {
@@ -171,6 +163,24 @@
     },
     data() {
       return {
+        viewData:{},
+        tableHeight:200,
+        formData:{
+          id:'',
+          order_no:'',
+          create_at:'',
+          status:'',
+          big_category_name:'',
+          small_category_name:'',
+          is_importance:'',
+          source:'',
+          report:'',
+          mobile:'',
+          address:'',
+          description:'',
+          after_images:[],
+        },
+        showDispatchDialog:false,
         listLoading:false,
         list: [{
           num:'AJ5551521133222',
@@ -226,6 +236,19 @@
       }
     },
     methods: {
+      handleOperation(type){
+        this.showAdoptDialog = true
+        this.viewData = {
+          id:this.paraData.id,
+          operatorType:type
+        }
+      },
+      getView(){
+        collectView({id:this.paraData.id}).then(res => {
+          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images} = res.data
+          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images}
+        });
+      },
       handleClick(){},
       onLoad() {
         let T = window.T;
@@ -267,8 +290,25 @@
       },
       open(){
         this.$nextTick(function() {
-          this.onLoad();
-        })
+          // this.$refs.filter-container.offsetHeight
+          let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 390;
+          if(height>100){
+            this.tableHeight = height
+          }else{
+            this.tableHeight = 100
+          }
+          // 监听窗口大小变化
+          const self = this;
+          window.onresize = function() {
+            let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 390;
+            if(height>100){
+              self.tableHeight = height
+            }else{
+              self.tableHeight = 100
+            }
+          };
+        });
+        this.getView();
       },
       close(){},
       resetTemp() {
@@ -296,7 +336,7 @@
               if(res.resp_code == 0) {
                 this.getList();
                 // this.list.unshift(res.data);
-               this.showViewDialog = false;
+                this.showViewDialog = false;
                 // debugger
                 this.getList();
                 this.$message({

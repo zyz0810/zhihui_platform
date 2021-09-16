@@ -16,42 +16,22 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="clickRow" @selection-change="handleSelectionChange">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件编号" align="center" prop="num"></el-table-column>
-        <!--<el-table-column label="任务号" align="center" prop="num"></el-table-column>-->
-        <el-table-column label="大类" align="center" prop="source">
-          <template slot-scope="scope">
-            <span>{{scope.row.source | filtersSource}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="小类" align="center" prop="name"></el-table-column>
-        <el-table-column label="审核时间" align="center" prop="num"></el-table-column>
-        <el-table-column label="剩余时间" align="center" prop="num"></el-table-column>
-        <el-table-column label="紧急案件" align="center" prop="">
-          <template slot-scope="scope">
-            <span>{{scope.row.status | filtersStatus}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="问题描述" align="center" prop="time">
-          <template slot-scope="scope">
-            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" align="center" prop="time">
-          <template slot-scope="scope">
-            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="事件位置" align="center" prop="time">
-          <template slot-scope="scope">
-            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="案件编号字段是啥？" align="center" prop=""></el-table-column>
+        <el-table-column label="任务号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
+        <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
+        <el-table-column label="审核时间"字段是啥 align="center" prop="num"></el-table-column>
+        <el-table-column label="剩余时间字段是啥" align="center" prop="num"></el-table-column>
+        <el-table-column label="紧急案件" align="center" prop="is_importance"></el-table-column>
+        <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
+        <el-table-column label="状态" align="center" prop="status"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
       </el-table>
-      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="paraData"></paraView>
+<!--    <paraView :showDialog.sync="showViewDialog" :paraData="paraData"></paraView>-->
 
   </div>
 </template>
@@ -63,6 +43,7 @@
   import { mapState } from 'vuex'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import paraView from "./components/view";
+  import {collectList} from "@/api/collect";
   export default {
     name: 'parameterList',
     directives: {waves},
@@ -82,157 +63,13 @@
         disableBtn: true,
         total: 16,
         parameterValueList: [{name: ''}],
-        list: [{
-          num:'AJ5551521133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:1,
-          time:'2021-8-9 23:22:01',
-          address:'文一路300号',
-          source:1,
-          name:'ST123456',
-          status:1
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:0,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:2,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:3,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:1,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ5551521133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:1,
-          time:'2021-8-9 23:22:01',
-          address:'文一路300号',
-          source:1,
-          name:'ST123456',
-          status:1
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:0,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:2,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:3,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:1,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ5551521133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:1,
-          time:'2021-8-9 23:22:01',
-          address:'文一路300号',
-          source:1,
-          name:'ST123456',
-          status:1
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:0,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:2,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:3,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:1,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ5551521133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:1,
-          time:'2021-8-9 23:22:01',
-          address:'文一路300号',
-          source:1,
-          name:'ST123456',
-          status:1
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:0,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:2,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:3,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:1,
-          name:'ST1234312',
-          status:0
-        },],
+        list: [],
         listLoading: false,
         listQuery: {
           name: '',
           status: undefined,
           page: 1,
-          limit: 10
+          pageSize: 10
         },
         tableHeight:'100'
       }
@@ -276,7 +113,7 @@
           }
         };
       });
-      // this.getList();
+      this.getList();
     },
     methods: {
 
@@ -285,9 +122,9 @@
         this.getList()
       },
       getList() {
-        paraList(this.listQuery).then(res => {
+        collectList(this.listQuery).then(res => {
           this.list = res.data.data
-          this.total = res.data.count
+          this.total = res.data.total
         });
       },
 

@@ -4,13 +4,19 @@
     :close-on-click-modal="false"
     width="50%"
     @close="close"
-    top="15vh"
-    :title="titleTxt"
+    top="10vh"
+    title="申请协办"
     class="dialogContainer"
     :append-to-body="true"
     @open="open"
   >
-    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mt_20">
+    <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
+      <el-form-item label="大类" prop="name">
+        <el-input v-model="temp.productSn" placeholder="" :disabled="true" clearable/>
+      </el-form-item>
+      <el-form-item label="小类" prop="name">
+        <el-input v-model="temp.productSn" placeholder="" :disabled="true" clearable/>
+      </el-form-item>
       <el-form-item label="说明" prop="name">
         <el-select v-model="temp.status">
           <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
@@ -18,18 +24,18 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="showViewDialog = false">取 消</el-button>
-      <el-button type="primary" @click="onSubmit(paraData.operatorType)" :loading="paraLoading">{{titleTxt}}(没接口)</el-button>
+      <el-button @click="showViewDialog = false">取消</el-button>
+      <el-button type="primary" @click="onSubmit()" :loading="paraLoading">确定</el-button>
     </div>
   </myDialog>
 </template>
 
 <script>
-  import {languageList,} from '@/api/system'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
+  import {languageList,departmentList} from "@/api/system"; // waves directive
   export default {
-    name: 'adoptView',
+    name: 'jointlyView',
     directives: { waves },
     components: {
       draggable,
@@ -45,23 +51,24 @@
         type: Object,
         default: {
           option: {},
-          operatorType: 1,
+          operatorType: "view",
           id: ""
         }
       }
     },
     data() {
       return {
-        paraLoading:false,
-        titleTxt:'',
         languageList:[],
+        departmentList:[],
+        paraLoading:false,
         temp: {
-          id:'',
+          name:'',
+          departmentId:23,
           parameterId:undefined,
           deleted:0
         },
         rules: {
-          name: [{ required: true, message: '请输入说明', trigger: 'change' }],
+          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
         },
       }
     },
@@ -75,18 +82,32 @@
         }
       },
     },
+
     methods: {
       open(){
-        this.titleTxt = this.paraData.operatorType==1?'结案':'驳回'
         this.getLanguage();
+        this.getDepartment();
       },
       close(){},
+      getDepartment() {
+        departmentList({page:1,pageSize:9999}).then(res => {
+          let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
+          departmentList = Array.prototype.concat.apply([],departmentList);
+           this.departmentList= departmentList.filter(item=>{
+             if(item.id != this.temp.departmentId){
+               return item;
+             }
+           });
+          console.log( this.departmentList)
+        });
+      },
       getLanguage() {
         languageList({page:1,pageSize:99999}).then(res => {
           this.languageList = res.data.data
         });
       },
       onSubmit(type){},
+
     }
   }
 </script>

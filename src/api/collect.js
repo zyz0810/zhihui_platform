@@ -22,6 +22,16 @@ export function collectList(data) {
     data: Qs.stringify(data)
   })
 }
+/* 案件详情
+ * id
+ */
+export function collectView(data) {
+  return request({
+    url:'/admin/collect/detailCollect',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
 /* 添加案件
  */
 export function collectAdd(data) {

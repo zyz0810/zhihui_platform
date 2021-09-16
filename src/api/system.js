@@ -1,67 +1,26 @@
 import request from '@/utils/request'
 import Qs from 'qs'
-/* 字典列表
- * parent_id
- * pageSize
+/* 案件表达语列表
+ * type type==allList 返回不分页列表
+ * status  1、正常 2、禁用
  * page
+ * pageSize
  */
-export function dicList(data) {
+export function languageList(data) {
   return request({
-    url: `api/dictionary/dicList`,
-    method: 'get',
-    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
-  })
-}
-/* 保存/修改/删除
- * content 内容
- * isDelete 0有效1无效
- * operatorType 操作类型add新增update编辑delete删除
- * title 标题
- */
-export function sysSave(data) {
-  return request({
-    url: `api-user/setting/modifySysSetting`,
+    url: `/admin/language/languageList`,
     method: 'post',
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })
 }
-
-/* 公告新增、编辑、删除
- * content 内容
- * isDelete 0有效1无效
- * operatorType 操作类型add新增update编辑delete删除
- * title 标题
+/* 组织架构列表
+ * department_name
+ *
  */
-export function tipUpdate(data) {
+export function departmentList(data) {
   return request({
-    url: `api-user/warm-remind/update`,
+    url: `/admin/department/list`,
     method: 'post',
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })
-}
-
-
-
-
-/* 查询公告明细
- * id
- */
-export function tipView(query) {
-  return request({
-    url: `api-user/warm-remind/detail`,
-    method: 'get',
-    params: query
-  })
-}
-
-
-
-/* 意见反馈列表
- */
-export function selectFeedBackList(data) {
- return request({
-   url: `api-user/helpCenter/selectFeedBackList`,
-   method: 'post',
-   data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
- })
 }

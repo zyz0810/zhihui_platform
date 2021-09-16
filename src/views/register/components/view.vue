@@ -18,7 +18,7 @@
           <el-option label="AI识别" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="案件类别" prop="big_category">
+      <el-form-item label="案件大类" prop="big_category">
         <el-select v-model="temp.big_category" @change="changeCategory">
           <el-option v-for="item in categoryOption" :label="item.department_name" :value="item.id" :key="item.id"></el-option>
         </el-select>
@@ -32,41 +32,41 @@
 <!--                     :disabled="isEdit"-->
 <!--                     placeholder="请选择商品分类"></el-cascader>-->
       </el-form-item>
-      <el-form-item label="案件小类" prop="name">
+      <el-form-item label="案件小类" prop="small_category">
         <el-select v-model="temp.small_category">
           <el-option v-for="item in smallCategory" :label="item.department_name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
     <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mb_20">
-      <el-form-item label="事件位置" prop="name">
+      <el-form-item label="事件位置" prop="address">
         <el-input v-model.trim="temp.address" placeholder="请在地图上选择" autocomplete="off" @input="getAddress" clearable/>
         <div id='mapDiv' class="mapDiv mt_10" style="width: 100%;height: 200px"></div>
       </el-form-item>
-      <el-form-item label="问题描述" prop="name">
-        <el-input type="textarea" v-model.trim="temp.name" placeholder="故障详情……500字以内" clearable></el-input>
+      <el-form-item label="问题描述" prop="description">
+        <el-input type="textarea" v-model.trim="temp.description" placeholder="故障详情……500字以内" clearable></el-input>
       </el-form-item>
-      <el-form-item label="问题图片" prop="name">
-        <SingleImage :tempUrl="temp.imgUrl" v-on:imgSrc="hasImgSrc"></SingleImage>
+      <el-form-item label="问题图片" prop="question_images">
+        <SingleImage :tempUrl="temp.question_images" v-on:imgSrc="hasImgSrc"></SingleImage>
       </el-form-item>
     </el-form>
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="举报人" prop="name">
-        <el-input v-model.trim="temp.name" placeholder="请输入规格值" autocomplete="off" clearable/>
+      <el-form-item label="举报人" prop="report">
+        <el-input v-model.trim="temp.report" placeholder="请输入规格值" autocomplete="off" clearable/>
       </el-form-item>
-      <el-form-item label="举报人电话" prop="name">
-        <el-input v-model.trim="temp.name" placeholder="请输入规格值" autocomplete="off" clearable/>
+      <el-form-item label="举报人电话" prop="mobile">
+        <el-input v-model.trim="temp.mobile" placeholder="请输入规格值" autocomplete="off" clearable/>
       </el-form-item>
-      <el-form-item label="是否为紧急案件" prop="name">
-        <el-radio-group v-model="temp.radio">
-          <el-radio :label="3">是</el-radio>
-          <el-radio :label="6">否</el-radio>
+      <el-form-item label="是否为紧急案件" prop="is_importance">
+        <el-radio-group v-model="temp.is_importance">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="2">否</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
     <p class="f14 baseColor el-dialog__body_title">受理信息</p>
     <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="p20">
-      <el-form-item label="承办部门" prop="name">
+      <el-form-item label="111承办部门" prop="">
         <el-select v-model="temp.status">
           <el-option label="启用" value="1"></el-option>
           <el-option label="禁用" value="0"></el-option>
@@ -89,8 +89,9 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
+  let markerTool;
   export default {
-    name: 'parameterView',
+    name: 'registerView',
     directives: { waves },
     components: {
       draggable,
@@ -123,6 +124,7 @@
           disabled: false,
         },
         categoryOption:[],
+          smallCategory:[],
         map: '', // 对象
         zoom: 12, // 地图的初始化级别，及放大比例
         centerLatitude:'30.20835',//中心纬度

@@ -5,22 +5,25 @@
     width="50%"
     @close="close"
     top="10vh"
-    title="驳回"
+    title="处置"
     class="dialogContainer"
     :append-to-body="true"
     @open="open"
   >
-    <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
+    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mt_20">
       <el-form-item label="说明" prop="name">
         <el-select v-model="temp.status">
           <el-option label="这是一条惯用语" value="1"></el-option>
           <el-option label="测试" value="0"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="处置图片" prop="name">
+        <SingleImage :tempUrl="temp.dept_img" v-on:imgSrc="hasImgSrc"></SingleImage>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="showViewDialog = false">取 消</el-button>
-      <el-button type="primary" @click="createData()" :loading="paraLoading">驳 回</el-button>
+      <el-button @click="showViewDialog = false">取消</el-button>
+      <el-button type="primary" @click="createData()" :loading="paraLoading">确定</el-button>
     </div>
   </myDialog>
 </template>
@@ -130,7 +133,7 @@
       },
       open(){
         this.$nextTick(function() {
-          this.onLoad();
+          // this.onLoad();
         })
       },
       close(){},
