@@ -147,7 +147,6 @@
           question_images:'',
           report:'',
           mobile:'',
-          question_images:'',
           is_importance:'',
           add_department:'',
           log:'120.21194',
@@ -467,8 +466,8 @@
 
             console.log(data.data.result)
             that.temp.address = data.data.result.addressComponent.address
-            that.temp.longitude = data.data.result.location.lon
-            that.temp.latitude = data.data.result.location.lat
+            that.temp.log = data.data.result.location.lon
+            that.temp.lat = data.data.result.location.lat
             console.log(that.temp)
             // alert(addressdata.result.formatted_address);
             // if(addressdata.msg =="ok" && addressdata.status ==0){

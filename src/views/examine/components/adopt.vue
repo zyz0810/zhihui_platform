@@ -47,7 +47,8 @@
         default: {
           option: {},
           operatorType: 1,
-          id: ""
+          id: "",
+          status:'',
         }
       }
     },
@@ -78,7 +79,9 @@
     },
     methods: {
       open(){
-        this.titleTxt = this.paraData.operatorType==1?'通过':'废弃'
+        console.log(this.paraData)
+        this.titleTxt = this.paraData.operatorType==1?'通过':'废弃';
+        this.temp.id = this.paraData.id;
         this.getLanguage();
       },
       close(){
@@ -102,7 +105,21 @@
             this.paraLoading = true;
             // 通过
             if(type==1){
-              this.status = 3;
+              // 1、待审核  2、待派遣 3、待协办申请  4、待协办 5、待处置  6、待结案  7、结案  0、废弃
+              if(this.paraData.status == 1){
+                this.temp.status = 2;
+              }else if(this.paraData.status == 2){
+                this.temp.status = 3;
+              }else if(this.paraData.status == 3){
+                this.temp.status = 4;
+              }else if(this.paraData.status == 4){
+                this.temp.status = 5;
+              }else if(this.paraData.status == 5){
+                this.temp.status = 6;
+              }else if(this.paraData.status == 6){
+                this.temp.status = 7;
+              }
+              console.log('111')
               collectEdit(this.temp).then((res) => {
                 setTimeout(()=>{
                   this.paraLoading = false
@@ -119,7 +136,8 @@
                 this.paraLoading = false;
               });
             }else{//没通过
-              this.status = 0;
+              console.log('444')
+              this.temp.status = 0;
               collectEdit(this.temp).then((res) => {
                 setTimeout(()=>{
                   this.paraLoading = false

@@ -11,8 +11,8 @@
     @open="open"
   >
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="说明" prop="name">
-        <el-select v-model="temp.status">
+      <el-form-item label="说明" prop="language_id">
+        <el-select v-model="temp.language_id">
           <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
@@ -26,6 +26,7 @@
 
 <script>
   import draggable from 'vuedraggable'
+  import {collectEdit,} from '@/api/collect'
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
@@ -59,12 +60,12 @@
         languageList:[],
         paraLoading:false,
         temp: {
-          name:'',
-          parameterId:undefined,
-          deleted:0
+          id:'',
+          status:0,//1、待审核  2、待派遣 3、待协办 4、待处置  5、待结案  6、结案  0、废弃
+          language_id:''
         },
         rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+          language_id: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
       }
     },
@@ -78,9 +79,9 @@
         }
       },
     },
-
     methods: {
       open(){
+        this.temp.id = this.paraData.id;
         this.getLanguage();
       },
       close(){},
@@ -89,7 +90,23 @@
           this.languageList = res.data.data
         });
       },
-      onSubmit(type){},
+      onSubmit(){
+        collectEdit(this.temp).then((res) => {
+          setTimeout(()=>{
+            this.paraLoading = false
+          },1000)
+          if(res.code == 1) {
+            this.$emit('updateView');
+            this.showViewDialog = false;
+            this.$message({
+              message: res.message,
+              type: 'success'
+            });
+          }
+        }).catch(() => {
+          this.paraLoading = false;
+        });
+      },
 
     }
   }

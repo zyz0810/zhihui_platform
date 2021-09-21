@@ -156,7 +156,8 @@
         this.showAdoptDialog = true
         this.viewData = {
           id:this.paraData.id,
-          operatorType:type
+          operatorType:type,
+          status:this.formData.status
         }
       },
       open(){

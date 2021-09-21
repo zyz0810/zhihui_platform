@@ -22,7 +22,7 @@
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance"></el-table-column>
-        <el-table-column label="上报时间字段是啥？" align="center" prop=""></el-table-column>
+        <el-table-column label="上报时间" align="center" prop="create_at"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>

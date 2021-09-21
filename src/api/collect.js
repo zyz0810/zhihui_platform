@@ -50,3 +50,22 @@ export function collectEdit(data) {
     data: Qs.stringify(data)
   })
 }
+/* 待协办申请列表
+ */
+export function sendCollectList(data) {
+  return request({
+    url:'/admin/collect/sendCollectList',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+/* 获取案件所有步骤
+ * order_no  案件编号
+ */
+export function stepLog(data) {
+  return request({
+    url:'/admin/collect/stepLog',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

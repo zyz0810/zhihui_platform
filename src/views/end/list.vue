@@ -22,32 +22,16 @@
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件编号" align="center" prop="num"></el-table-column>
-        <el-table-column label="事件来源" align="center" prop="name">
-          <template slot-scope="scope">
-            <span>{{scope.row.type | filtersType}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="大类" align="center" prop="num"></el-table-column>
-        <el-table-column label="小类" align="center" prop="source">
-          <template slot-scope="scope">
-            <span>{{scope.row.source | filtersSource}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="是否紧急事件" align="center" prop="name"></el-table-column>
-        <el-table-column label="派遣时间" align="center" prop="">
-          <template slot-scope="scope">
-            <span>{{scope.row.status | filtersStatus}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="剩余时间" align="center" prop="name"></el-table-column>
-        <el-table-column label="处置部门" align="center" prop="name"></el-table-column>
-        <el-table-column label="事件位置" align="center" prop="name"></el-table-column>
-        <el-table-column label="问题描述" align="center" prop="time">
-          <template slot-scope="scope">
-            <span @click="handleView(scope.row)">{{scope.row.status}}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="案件编号" align="center" prop="number_no"></el-table-column>
+        <el-table-column label="事件来源" align="center" prop="source"></el-table-column>
+        <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
+        <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="is_importance"></el-table-column>
+        <el-table-column label="派遣时间没字段？？" align="center" prop=""></el-table-column>
+        <el-table-column label="剩余时间没字段？？" align="center" prop="name"></el-table-column>
+        <el-table-column label="处置部门没字段？？" align="center" prop="name"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
+        <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>

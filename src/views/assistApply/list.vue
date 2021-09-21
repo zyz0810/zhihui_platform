@@ -48,7 +48,7 @@
   import { mapState } from 'vuex'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import paraView from "./components/view";
-  import {collectList} from "@/api/collect";
+  import {sendCollectList} from "@/api/collect";
   export default {
     name: 'parameterList',
     directives: {waves},
@@ -121,7 +121,7 @@
         this.getList()
       },
       getList() {
-        collectList(this.listQuery).then(res => {
+        sendCollectList(this.listQuery).then(res => {
           this.list = res.data.data
           this.total = res.data.total
         });

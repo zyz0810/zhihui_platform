@@ -14,7 +14,7 @@
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            字段是啥？？
+            {{formData.number_no}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
@@ -66,38 +66,38 @@
       <el-tab-pane label="办理进度（没接口）" name="second">
         <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                   element-loading-text="拼命加载中" fit ref="tableList">
-          <el-table-column label="处置人员" align="center" prop="num" sortable></el-table-column>
-          <el-table-column label="处置部门" align="center" prop="num" sortable></el-table-column>
-          <el-table-column label="对象" align="center" prop="source"></el-table-column>
-          <el-table-column label="操作" align="center" prop="name"></el-table-column>
-          <el-table-column label="操作时间" align="center" prop="">
-            <template slot-scope="scope">
-              <span>{{scope.row.status | filtersStatus}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="意见说明" align="center" prop="time"></el-table-column>
+          <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
+          <el-table-column label="处置部门" align="center" prop="depart_name" sortable></el-table-column>
+          <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
+          <el-table-column label="操作" align="center" prop="status_name"></el-table-column>
+          <el-table-column label="操作时间" align="center" prop="create_at"></el-table-column>
+          <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button @click="showAbandonedDialog = true">废弃（没接口）</el-button>
-      <el-button type="warning" @click="showTransferDialog = true">转办（没接口）</el-button>
-      <el-button type="info" @click="showJointlyDialog = true">申请协办（没接口）</el-button>
-      <el-button type="primary" @click="showDispatchDialog = true" >派遣（没接口）</el-button>
+      <el-button @click="handleAbandoned">废弃</el-button>
+      <el-button type="warning" @click="handleTransfer">转办（没接口）</el-button>
+      <el-button type="info" @click="handleJointly">申请协办（没接口）</el-button>
+      <el-button type="primary" @click="handleDispatch">派遣（没接口）</el-button>
       <el-button type="success" @click="">打 印</el-button>
     </div>
-    <adoptView :showDialog.sync="showAdoptDialog" :paraData="paraData"></adoptView>
-    <transferView :showDialog.sync="showTransferDialog" :paraData="paraData"></transferView>
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData"></abandonedView>
-    <jointlyView :showDialog.sync="showJointlyDialog" :paraData="paraData"></jointlyView>
-    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="paraData"></dispatchView>
+    <!--废弃-->
+    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData"></abandonedView>
+    <!--转办-->
+    <transferView :showDialog.sync="showTransferDialog" :paraData="viewData"></transferView>
+    <!--申请协办-->
+    <jointlyView :showDialog.sync="showJointlyDialog" :paraData="viewData"></jointlyView>
+    <!--派遣-->
+    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="viewData"></dispatchView>
   </myDialog>
 </template>
 
 <script>
   import map from '@/components/Map/map' // 引入刚才的map.js 注意路径
   import {paraValueList,paraValueSave,paraValueUpdate,paraValueDelete} from '@/api/parameter'
+  import { collectView,stepLog} from '@/api/collect'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
@@ -130,6 +130,7 @@
         required: true,
         type: Object,
         default: {
+          order_no:'',
           option: {},
           operatorType: "view",
           id: ""
@@ -138,12 +139,12 @@
     },
     data() {
       return {
+        viewData:{},
         formData:{},
         listLoading:false,
         tableHeight:200,
         list: [],
         activeName:'first',
-        showAdoptDialog:false,
         showAbandonedDialog:false,
         showTransferDialog:false,
         showJointlyDialog:false,
@@ -167,12 +168,70 @@
       }
     },
     methods: {
+      handleAbandoned(){
+        this.showAbandonedDialog = true;
+        this.viewData = {
+          id:this.paraData.id,
+          // operatorType:type,
+          status:this.formData.status,
+          option:{
+            big_category_name:'',
+            small_category_name:'',
+          }
+        }
+      },
+      handleTransfer(){
+        this.showTransferDialog = true;
+        this.viewData = {
+          id:this.paraData.id,
+          // operatorType:type,
+          status:this.formData.status,
+          option:{
+            big_category_name:'',
+            small_category_name:'',
+          }
+        }
+      },
+      handleJointly(){
+        this.showJointlyDialog = true;
+        this.viewData = {
+          id:this.paraData.id,
+          operatorType:type,
+          status:this.formData.status,
+          option:{
+            big_category_name:'',
+            small_category_name:'',
+          }
+        }
+      },
+      handleDispatch(){
+        this.showDispatchDialog = true;
+        this.viewData = {
+          id:this.paraData.id,
+          operatorType:type,
+          status:this.formData.status,
+          option:{
+            big_category_name:'',
+            small_category_name:'',
+          }
+        }
+      },
       handleClick(){},
-
+      getView(){
+        collectView({id:this.paraData.id}).then(res => {
+          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
+          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
+        });
+      },
+      getStepLog(){
+        stepLog({order_no:this.paraData.order_no}).then(res => {
+          this.list=rea.data
+        });
+      },
       open(){
         this.$nextTick(function() {
           // this.$refs.filter-container.offsetHeight
-          let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
+          let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 390;
           if(height>100){
             this.tableHeight = height
           }else{
@@ -181,7 +240,7 @@
           // 监听窗口大小变化
           const self = this;
           window.onresize = function() {
-            let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
+            let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 390;
             if(height>100){
               self.tableHeight = height
             }else{
@@ -189,6 +248,8 @@
             }
           };
         });
+        this.getView();
+        this.getStepLog();
       },
       close(){},
 
