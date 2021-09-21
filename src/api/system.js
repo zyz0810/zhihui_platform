@@ -24,3 +24,15 @@ export function departmentList(data) {
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })
 }
+/* 类别列表
+ * parent_id
+ * type   =  allList 没有分页
+ */
+export function categoryList(data) {
+  return request({
+    url: `/admin/category/categoryList`,
+    method: 'post',
+    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
+  })
+}
+

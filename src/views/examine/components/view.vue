@@ -9,7 +9,6 @@
     class="dialogContainer"
     @open="open"
   >
-<!--    id,,,, ,,,,,,,,-->
     <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
       <el-descriptions-item>
         <template slot="label">任务号</template>
@@ -21,7 +20,7 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件状态</template>
-        {{formData.status}}
+        {{formData.status | filtersStatus}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件大类</template>
@@ -33,11 +32,11 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">是否紧急事件</template>
-        {{formData.is_importance}}
+        {{formData.is_importance | filtersImportant}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件来源</template>
-        {{formData.source}}
+        {{formData.source | filtersSource}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">举报人</template>
@@ -57,8 +56,7 @@
       </el-descriptions-item>
       <el-descriptions-item :span="3">
         <template slot="label">问题图片</template>
-        字段是啥？？
-        <image v-for="item in formData.after_images" :scr="item"></image>
+        <image v-for="item in formData.before_images" :scr="item" class="my_img"></image>
       </el-descriptions-item>
     </el-descriptions>
     <div slot="footer" class="dialog-footer">
@@ -66,7 +64,7 @@
       <el-button type="warning" @click="handleOperation(2)">废 弃</el-button>
       <el-button type="primary" @click="handleOperation(1)">通 过</el-button>
     </div>
-    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData"></adoptView>
+    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="getView"></adoptView>
   </myDialog>
 </template>
 
@@ -122,7 +120,7 @@
           mobile:'',
           address:'',
           description:'',
-          after_images:[],
+          before_images:[],
         },
       }
     },
@@ -138,9 +136,20 @@
     },
     filters:{
       filtersStatus: function(value) {
-        let StatusArr = {0:'禁用', 1:'启用'}
+        // 1、待审核  2、待派遣 3、待协办申请  4、待协办 5、待处置  6、待结案  7、结案  0、废弃
+        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'待协办', 5:'待处置',6:'待结案', 7:'结案'};
         return StatusArr[value]
-      }
+      },
+      filtersSource: function(value) {
+        // 1、问题登记 2、AI识别
+        let StatusArr = {1:'问题登记',2:'AI识别',};
+        return StatusArr[value]
+      },
+      filtersImportant: function(value) {
+        // 1、是 2、否
+        let StatusArr = {1:'是',2:'否',};
+        return StatusArr[value]
+      },
     },
     methods: {
       handleOperation(type){
@@ -155,8 +164,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images}
+          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
+          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
         });
       },
       close(){

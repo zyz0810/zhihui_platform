@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import Qs from 'qs'
-/* 事件大小类
+/* 部门
  */
 export function departTree(data) {
   return request({
@@ -37,6 +37,15 @@ export function collectView(data) {
 export function collectAdd(data) {
   return request({
     url:'/admin/collect/addCollect',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+/* 编辑案件
+ */
+export function collectEdit(data) {
+  return request({
+    url:'/admin/collect/editCollect',
     method: 'post',
     data: Qs.stringify(data)
   })

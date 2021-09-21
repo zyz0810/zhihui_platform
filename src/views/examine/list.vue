@@ -26,7 +26,7 @@
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
-      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>
     </div>
 
@@ -66,9 +66,9 @@
         listLoading: false,
         listQuery: {
           name: '',
-          status: undefined,
+          status: 1,
           page: 1,
-          limit: 10
+          pageSize: 10
         },
         tableHeight:'100'
       }
@@ -115,6 +115,7 @@
       this.getList();
     },
     methods: {
+      // fomatterSource(){},
       getList() {
         collectList(this.listQuery).then(res => {
           this.list = res.data.data

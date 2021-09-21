@@ -15,12 +15,12 @@
         <el-select v-model="temp.source">
 <!--          问题登记，AI识别-->
           <el-option label="问题登记" value="1"></el-option>
-          <el-option label="AI识别" value="0"></el-option>
+          <el-option label="AI识别" value="2"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="案件大类" prop="big_category">
         <el-select v-model="temp.big_category" @change="changeCategory">
-          <el-option v-for="item in categoryOption" :label="item.department_name" :value="item.id" :key="item.id"></el-option>
+          <el-option v-for="item in categoryOption" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
 <!--        <el-cascader ref="cascaderPublish"-->
 <!--                     v-model="temp.big_category"-->
@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item label="案件小类" prop="small_category">
         <el-select v-model="temp.small_category">
-          <el-option v-for="item in smallCategory" :label="item.department_name" :value="item.id" :key="item.id"></el-option>
+          <el-option v-for="item in smallCategory" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -66,11 +66,14 @@
     </el-form>
     <p class="f14 baseColor el-dialog__body_title">受理信息</p>
     <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="p20">
-      <el-form-item label="111承办部门" prop="">
-        <el-select v-model="temp.status">
-          <el-option label="启用" value="1"></el-option>
-          <el-option label="禁用" value="0"></el-option>
-        </el-select>
+      <el-form-item label="承办部门" prop="add_department">
+        <el-cascader ref="cascaderPublish"
+                     v-model="temp.add_department"
+                     :options="departOption"
+                     :show-all-levels="false"
+                     filterable
+                     :props="props"
+                     placeholder="请选择承办部门"></el-cascader>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -84,6 +87,7 @@
 
 <script>
   import axios from 'axios'
+  import {categoryList} from '@/api/system'
   import {departTree,collectAdd} from '@/api/collect'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
@@ -117,12 +121,14 @@
     data() {
       return {
         props: {
+          checkStrictly: true,
           expandTrigger: "hover",
           value: "id",
           label: "department_name",
           children: "child",
           disabled: false,
         },
+        departOption:[],
         categoryOption:[],
           smallCategory:[],
         map: '', // 对象
@@ -130,10 +136,22 @@
         centerLatitude:'30.20835',//中心纬度
         centerLongitude:'120.21194',//中心经度
         paraLoading:false,
+        images:'',
+        // source、big_category、small_category、address、description、question_images、report、mobile、is_importance、add_department
         temp: {
-          name:'',
-          parameterId:undefined,
-          deleted:0
+          source:'',
+          big_category:'',
+          small_category:'',
+          address:'',
+          description:'',
+          question_images:'',
+          report:'',
+          mobile:'',
+          question_images:'',
+          is_importance:'',
+          add_department:'',
+          log:'120.21194',
+          lat:'30.20835'
         },
         rules: {
           name: [{ required: true, message: '请输入名称', trigger: 'change' }],
@@ -157,11 +175,23 @@
       }
     },
     methods: {
+      getDepartTree(){
+        departTree().then((res) => {
+          // this.departOption= res.data;
+          this.departOption = this.getTreeData(res.data);
+          console.log(this.departOption)
+        });
+      },
+      getSmallCategory(id){
+        categoryList({type:'allList',parent_id:id}).then((res) => {
+          this.smallCategory= res.data;
+        });
+      },
       changeCategory(val){
-
+        this.getSmallCategory(val)
       },
       getCategory () {
-        departTree().then((res) => {
+        categoryList({type:'allList'}).then((res) => {
           this.categoryOption= res.data
           // this.categoryOption = this.getTreeData(res.data);
         });
@@ -225,8 +255,8 @@
                   let lnglat = new T.LngLat(lnglatArr[0], lnglatArr[1]);
                   console.log('haodehaode ')
                   console.log(lnglat)
-                  that.temp.latitude = lnglatArr[0];
-                  that.temp.longitude = lnglatArr[1];
+                  that.temp.lat = lnglatArr[0];
+                  that.temp.log = lnglatArr[1];
 
                   let winHtml = "名称:" + name + "<br/>地址:" + address;
 
@@ -407,7 +437,7 @@
         //创建标注工具对象
         markerTool = new T.MarkTool(this.map, {follow: true});
         // lnglat
-        let lnglat = new T.LngLat(this.temp.longitude,this.temp.latitude);
+        let lnglat = new T.LngLat(this.temp.log,this.temp.lat);
         this.positionBtn(lnglat);
       },
       positionBtn(lnglat) {
@@ -453,23 +483,29 @@
         }
       },
       hasImgSrc(val) {
-        this.temp.imgUrl = val;
+        this.temp.question_images = val.url;
+        this.images = val.images;
       },
       open(){
         this.$nextTick(function() {
           this.onLoad();
-        })
+        });
         this.getCategory();
+        this.getDepartTree();
       },
       close(){},
       resetTemp() {
         this.temp = {
-          // parameterId:undefined,
-          name:'',
-          parameterId:undefined,
-          deleted:0
-          // orders:'',
-          // isSystem:1,
+          source:'',
+          big_category:'',
+          small_category:'',
+          address:'',
+          description:'',
+          question_images:'',
+          report:'',
+          mobile:'',
+          is_importance:'',
+          add_department:''
         }
       },
 
@@ -478,20 +514,19 @@
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            this.paraLoading = true
-            this.temp.parameterId = this.paraData.id
-            collectAdd(this.temp).then((res) => {
+            this.paraLoading = true;
+            let temp = JSON.parse(JSON.stringify(this.temp));
+            temp.question_images =  this.images;
+            temp.add_department =  temp.add_department[temp.add_department.length-1];
+            collectAdd(temp).then((res) => {
               setTimeout(()=>{
                 this.paraLoading = false
               },1000)
-              if(res.resp_code == 0) {
-                this.getList();
-                // this.list.unshift(res.data);
+              if(res.code == 1) {
+                this.$emit('insetList');
                this.showViewDialog = false;
-                // debugger
-                this.getList();
                 this.$message({
-                  message: '增加成功',
+                  message: res.message,
                   type: 'success'
                 });
               }

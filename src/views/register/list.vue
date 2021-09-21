@@ -3,9 +3,9 @@
     <div class="filter-container">
       <el-form :inline="true" :model="listQuery" class="search_form">
         <el-form-item label="案件来源">
-          <el-select v-model="listQuery.status" placeholder="选择巡查来源" @change="handleFilter">
-            <el-option label="启用" value="1"></el-option>
-            <el-option label="禁用" value="0"></el-option>
+          <el-select v-model="listQuery.source" placeholder="选择巡查来源" @change="handleFilter">
+            <el-option label="问题登记" value="1"></el-option>
+            <el-option label="AI识别" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="案件小类">
@@ -51,7 +51,7 @@
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="paraData"></paraView>
+    <paraView :showDialog.sync="showViewDialog" :paraData="paraData" @insetList="getList"></paraView>
 
   </div>
 </template>
@@ -84,6 +84,7 @@
         list: [],
         listLoading: false,
         listQuery: {
+          source:'',
           page: 1,
           pageSize: 10
         },
