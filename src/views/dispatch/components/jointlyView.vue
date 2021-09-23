@@ -85,6 +85,7 @@
 
     methods: {
       open(){
+        this.temp.id = this.paraData.id;
         this.getLanguage();
         this.getDepartment();
       },

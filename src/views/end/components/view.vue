@@ -19,15 +19,15 @@
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            字段是啥？？
+            {{formData.order_no}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
-            字段是啥？？
+            {{ $moment(formData.check_time).format("YYYY-MM-DD HH:mm:ss")}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
-            {{formData.status}}
+            {{formData.status | filtersStatus}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件大类</template>
@@ -39,19 +39,29 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">是否紧急事件</template>
-            {{formData.is_importance}}
+            {{formData.is_importance | filtersImportant}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件来源</template>
-            {{formData.source}}
+            {{formData.source | filtersSource}}
           </el-descriptions-item>
-          <el-descriptions-item>
+
+          <el-descriptions-item v-if="formData.source == 1">
             <template slot="label">举报人</template>
             {{formData.report}}
           </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">举报电话</template>
+          <el-descriptions-item v-if="formData.source == 1">
+            <template slot="label">联系电话</template>
             {{formData.mobile}}
+          </el-descriptions-item>
+
+          <el-descriptions-item v-if="formData.source == 2">
+            <template slot="label">设备名称</template>
+            {{formData.facility_name}}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="formData.source == 2">
+            <template slot="label">所属中队</template>
+            {{formData.ai_depart_name}}
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">事件位置</template>
@@ -63,8 +73,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            字段是啥？？
-            <image v-for="item in formData.after_images" :scr="item"></image>
+            <image v-for="item in formData.before_images" :scr="item"></image>
           </el-descriptions-item>
 
 
@@ -107,12 +116,12 @@
       <el-tab-pane label="办理进度" name="second">
         <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                   element-loading-text="拼命加载中" fit ref="tableList">
-          <el-table-column label="处置人员" align="center" prop="num" sortable></el-table-column>
-          <el-table-column label="处置部门" align="center" prop="num" sortable></el-table-column>
-          <el-table-column label="对象" align="center" prop="source"></el-table-column>
-          <el-table-column label="操作" align="center" prop="name"></el-table-column>
-          <el-table-column label="操作时间" align="center" prop=""></el-table-column>
-          <el-table-column label="意见说明" align="center" prop="time"></el-table-column>
+          <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
+          <el-table-column label="处置部门" align="center" prop="depart_name" sortable></el-table-column>
+          <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
+          <el-table-column label="操作" align="center" prop="status_name"></el-table-column>
+          <el-table-column label="操作时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
+          <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -126,7 +135,6 @@
 </template>
 
 <script>
-  import map from '@/components/Map/map' // 引入刚才的map.js 注意路径
   import {paraValueList,paraValueSave,paraValueUpdate,paraValueDelete} from '@/api/parameter'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
@@ -134,7 +142,7 @@
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
   import adoptView from "./adopt"; // waves directive
   import abandonedView from "./abandoned"; // waves directive
-  import {collectView} from "@/api/collect"; // waves directive
+  import {collectView, stepLog} from "@/api/collect"; // waves directive
   export default {
     name: 'parameterView',
     directives: { waves },
@@ -157,7 +165,8 @@
         default: {
           option: {},
           operatorType: "view",
-          id: ""
+          id: "",
+          order_no:''
         }
       }
     },
@@ -182,32 +191,10 @@
         },
         showDispatchDialog:false,
         listLoading:false,
-        list: [{
-          num:'AJ5551521133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:1,
-          time:'2021-8-9 23:22:01',
-          address:'文一路300号',
-          source:1,
-          name:'ST123456',
-          status:1
-        },{
-          num:'AJ3542221133222',
-          image:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic18.nipic.com%2F20111226%2F6647776_214907087000_2.jpg',
-          type:0,
-          time:'2021-6-12 13:22:01',
-          address:'文一路356号',
-          source:0,
-          name:'ST1234312',
-          status:0
-        },],
+        list: [],
         activeName:'first',
         showAdoptDialog:false,
         showAbandonedDialog:false,
-        map: '', // 对象
-        zoom: 12, // 地图的初始化级别，及放大比例
-        centerLatitude:'30.20835',//中心纬度
-        centerLongitude:'120.21194',//中心经度
         paraLoading:false,
         temp: {
           name:'',
@@ -231,11 +218,30 @@
     },
     filters:{
       filtersStatus: function(value) {
-        let StatusArr = {0:'禁用', 1:'启用'}
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'转办', 5:'待协办',6:'协办', 7:'待处置',8:'待结案', 9:'结案'};
         return StatusArr[value]
-      }
+      },
+      filtersImportant: function(value) {
+        let StatusArr = { 1:'是',2:'否',};
+        return StatusArr[value]
+      },
+      filtersSource: function(value) {
+        let StatusArr = { 1:'问题登记',2:'AI识别',};
+        return StatusArr[value]
+      },
     },
     methods: {
+      formatTime(row, column, cellValue, index) {
+        return cellValue
+          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          : "暂无";
+      },
+      getStepLog(){
+        stepLog({order_no:this.paraData.order_no}).then(res => {
+          this.list=res.data
+        });
+      },
       handleOperation(type){
         this.showAdoptDialog = true
         this.viewData = {
@@ -250,44 +256,7 @@
         });
       },
       handleClick(){},
-      onLoad() {
-        let T = window.T;
-        let map = new T.Map('mapDiv');
-        map.centerAndZoom(new T.LngLat(this.centerLongitude, this.centerLatitude), this.zoom); // 设置显示地图的中心点和级别
-        // 普通标注
-        document.getElementsByClassName("tdt-control-copyright tdt-control")[0].style.display = 'none';
-        //创建标注工具对象
-        let markerTool = new T.MarkTool(map, {follow: true});
 
-        function endeditMarker() {
-          let markers = markerTool.getMarkers();
-          for (let i = 0; i < markers.length; i++) {
-            markers[i].disableDragging();
-          }
-        }
-        var cp = new T.CoordinatePickup(map, {callback: this.getLngLat})
-        cp.addEvent();
-        function editMarker() {
-          let markers = markerTool.getMarkers()
-          console.log(markers)
-          for (let i = 0; i < markers.length; i++) {
-            markers[i].enableDragging();
-          }
-
-        }
-        // endeditMarker();
-        editMarker();
-        markerTool.open();
-
-      },
-      getLngLat(lnglat) {
-        this.temp.address  = lnglat.lng.toFixed(6) + "," + lnglat.lat.toFixed(6);
-        this.temp.log = lnglat.lng.toFixed(6)
-        this.temp.lat = lnglat.lat.toFixed(6)
-      },
-      hasImgSrc(val) {
-        this.temp.imgUrl = val;
-      },
       open(){
         this.$nextTick(function() {
           // this.$refs.filter-container.offsetHeight
@@ -309,6 +278,7 @@
           };
         });
         this.getView();
+        this.getStepLog();
       },
       close(){},
       resetTemp() {

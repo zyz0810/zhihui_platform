@@ -11,9 +11,9 @@
     @open="open"
   >
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="说明" prop="language_id">
-        <el-select v-model="temp.language_id">
-          <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
+      <el-form-item label="说明" prop="language_desc">
+        <el-select v-model="temp.language_desc" filterable allow-create>
+          <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -26,7 +26,7 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import {collectEdit,} from '@/api/collect'
+  import {collectEdit,collectStatus} from '@/api/collect'
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
@@ -62,10 +62,10 @@
         temp: {
           id:'',
           status:0,//1、待审核  2、待派遣 3、待协办 4、待处置  5、待结案  6、结案  0、废弃
-          language_id:''
+          language_desc:''
         },
         rules: {
-          language_id: [{ required: true, message: '请输入说明', trigger: 'change' }],
+          language_desc: [{ required: true, message: '请选择说明', trigger: 'change' }],
         },
       }
     },
@@ -84,28 +84,41 @@
         this.temp.id = this.paraData.id;
         this.getLanguage();
       },
-      close(){},
+      close(){
+        this.languageList=[];
+        this.paraLoading=false;
+        this.temp= {
+          id:'',
+          status:0,//1、待审核  2、待派遣 3、待协办 4、待处置  5、待结案  6、结案  0、废弃
+          language_desc:''
+        };
+      },
       getLanguage() {
         languageList({page:1,pageSize:99999}).then(res => {
           this.languageList = res.data.data
         });
       },
       onSubmit(){
-        collectEdit(this.temp).then((res) => {
-          setTimeout(()=>{
-            this.paraLoading = false
-          },1000)
-          if(res.code == 1) {
-            this.$emit('updateView');
-            this.showViewDialog = false;
-            this.$message({
-              message: res.message,
-              type: 'success'
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.paraLoading = true;
+            collectStatus(this.temp).then((res) => {
+              setTimeout(() => {
+                this.paraLoading = false
+              }, 1000)
+              if (res.code == 1) {
+                this.$emit('updateView');
+                this.showViewDialog = false;
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            }).catch(() => {
+              this.paraLoading = false;
             });
           }
-        }).catch(() => {
-          this.paraLoading = false;
-        });
+        })
       },
 
     }

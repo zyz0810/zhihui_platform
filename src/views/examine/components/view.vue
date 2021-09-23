@@ -16,7 +16,7 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">上报时间</template>
-        {{formData.create_at}}
+        {{ $moment(formData.create_at).format("YYYY-MM-DD HH:mm:ss")}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件状态</template>
@@ -38,13 +38,22 @@
         <template slot="label">事件来源</template>
         {{formData.source | filtersSource}}
       </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item v-if="formData.source == 1">
         <template slot="label">举报人</template>
         {{formData.report}}
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template slot="label">举报电话</template>
+      <el-descriptions-item v-if="formData.source == 1">
+        <template slot="label">联系电话</template>
         {{formData.mobile}}
+      </el-descriptions-item>
+
+      <el-descriptions-item v-if="formData.source == 2">
+        <template slot="label">设备名称</template>
+        {{formData.facility_name}}
+      </el-descriptions-item>
+      <el-descriptions-item v-if="formData.source == 2">
+        <template slot="label">所属中队</template>
+        {{formData.ai_depart_name}}
       </el-descriptions-item>
       <el-descriptions-item :span="3">
         <template slot="label">事件位置</template>
@@ -69,14 +78,14 @@
 </template>
 
 <script>
-  import { collectView,} from '@/api/collect'
+  import { collectView,collectStatus} from '@/api/collect'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
   import adoptView from "./adopt"; // waves directive
   export default {
-    name: 'parameterView',
+    name: 'examineView',
     directives: { waves },
     components: {
       draggable,
@@ -136,8 +145,8 @@
     },
     filters:{
       filtersStatus: function(value) {
-        // 1、待审核  2、待派遣 3、待协办申请  4、待协办 5、待处置  6、待结案  7、结案  0、废弃
-        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'待协办', 5:'待处置',6:'待结案', 7:'结案'};
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'转办', 5:'待协办',6:'协办', 7:'待处置',8:'待结案', 9:'结案'};
         return StatusArr[value]
       },
       filtersSource: function(value) {

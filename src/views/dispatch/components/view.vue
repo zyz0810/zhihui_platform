@@ -14,15 +14,15 @@
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            {{formData.number_no}}
+            {{formData.order_no}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
-            字段是啥？？
+            {{ $moment(formData.check_time).format("YYYY-MM-DD HH:mm:ss")}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
-            {{formData.status}}
+            {{formData.status | filtersStatus}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件大类</template>
@@ -34,19 +34,29 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">是否紧急事件</template>
-            {{formData.is_importance}}
+            {{formData.is_importance | filtersImportant}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件来源</template>
-            {{formData.source}}
+            {{formData.source | filtersSource}}
           </el-descriptions-item>
-          <el-descriptions-item>
+
+          <el-descriptions-item v-if="formData.source == 1">
+            <template slot="label">举报人</template>
+            {{formData.report}}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="formData.source == 1">
+            <template slot="label">联系电话</template>
+            {{formData.mobile}}
+          </el-descriptions-item>
+
+          <el-descriptions-item v-if="formData.source == 2">
             <template slot="label">设备名称</template>
-            字段是啥？？
+            {{formData.facility_name}}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item v-if="formData.source == 2">
             <template slot="label">所属中队</template>
-            字段是啥？？
+            {{formData.ai_depart_name}}
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">情况描述</template>
@@ -58,19 +68,18 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            字段是啥？？
-            <image v-for="item in formData.after_images" :scr="item"></image>
+            <image v-for="item in formData.before_images" :scr="item"></image>
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
-      <el-tab-pane label="办理进度（没接口）" name="second">
+      <el-tab-pane label="办理进度" name="second">
         <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                   element-loading-text="拼命加载中" fit ref="tableList">
           <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
           <el-table-column label="处置部门" align="center" prop="depart_name" sortable></el-table-column>
           <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
           <el-table-column label="操作" align="center" prop="status_name"></el-table-column>
-          <el-table-column label="操作时间" align="center" prop="create_at"></el-table-column>
+          <el-table-column label="操作时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
           <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>
       </el-tab-pane>
@@ -78,19 +87,19 @@
 
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleAbandoned">废弃</el-button>
-      <el-button type="warning" @click="handleTransfer">转办（没接口）</el-button>
+      <el-button type="warning" @click="handleTransfer">转办（对接一半）</el-button>
       <el-button type="info" @click="handleJointly">申请协办（没接口）</el-button>
       <el-button type="primary" @click="handleDispatch">派遣（没接口）</el-button>
       <el-button type="success" @click="">打 印</el-button>
     </div>
     <!--废弃-->
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData"></abandonedView>
+    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData" @updateView="getView"></abandonedView>
     <!--转办-->
     <transferView :showDialog.sync="showTransferDialog" :paraData="viewData"></transferView>
     <!--申请协办-->
     <jointlyView :showDialog.sync="showJointlyDialog" :paraData="viewData"></jointlyView>
     <!--派遣-->
-    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="viewData"></dispatchView>
+    <dispatchViewDialog :showDialog.sync="showDispatchDialog" :paraData="viewData"></dispatchViewDialog>
   </myDialog>
 </template>
 
@@ -106,9 +115,9 @@
   import abandonedView from "./abandoned"; // waves directive
   import transferView from "./transferView"; // waves directive
   import jointlyView from "./jointlyView"; // waves directive
-  import dispatchView from "./dispatchView"; // waves directive
+  import dispatchViewDialog from "./dispatchView"; // waves directive
   export default {
-    name: 'parameterView',
+    name: 'dispatchView',
     directives: { waves },
     components: {
       draggable,
@@ -118,7 +127,7 @@
       abandonedView,
       transferView,
       jointlyView,
-      dispatchView
+      dispatchViewDialog
     },
     props: {
       showDialog: {
@@ -131,7 +140,10 @@
         type: Object,
         default: {
           order_no:'',
-          option: {},
+          option: {
+            big_category_name:'',
+            small_category_name:'',
+          },
           operatorType: "view",
           id: ""
         }
@@ -163,11 +175,25 @@
     },
     filters:{
       filtersStatus: function(value) {
-        let StatusArr = {0:'禁用', 1:'启用'}
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'转办', 5:'待协办',6:'协办', 7:'待处置',8:'待结案', 9:'结案'};
         return StatusArr[value]
-      }
+      },
+      filtersImportant: function(value) {
+        let StatusArr = { 1:'是',2:'否',};
+        return StatusArr[value]
+      },
+      filtersSource: function(value) {
+        let StatusArr = { 1:'问题登记',2:'AI识别',};
+        return StatusArr[value]
+      },
     },
     methods: {
+      formatTime(row, column, cellValue, index) {
+        return cellValue
+          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          : "暂无";
+      },
       handleAbandoned(){
         this.showAbandonedDialog = true;
         this.viewData = {
@@ -175,8 +201,8 @@
           // operatorType:type,
           status:this.formData.status,
           option:{
-            big_category_name:'',
-            small_category_name:'',
+            big_category_name:this.paraData.option.big_category_name,
+            small_category_name:this.paraData.option.small_category_name,
           }
         }
       },
@@ -187,8 +213,8 @@
           // operatorType:type,
           status:this.formData.status,
           option:{
-            big_category_name:'',
-            small_category_name:'',
+            big_category_name:this.paraData.option.big_category_name,
+            small_category_name:this.paraData.option.small_category_name,
           }
         }
       },
@@ -196,11 +222,10 @@
         this.showJointlyDialog = true;
         this.viewData = {
           id:this.paraData.id,
-          operatorType:type,
           status:this.formData.status,
           option:{
-            big_category_name:'',
-            small_category_name:'',
+            big_category_name:this.paraData.option.big_category_name,
+            small_category_name:this.paraData.option.small_category_name,
           }
         }
       },
@@ -208,11 +233,10 @@
         this.showDispatchDialog = true;
         this.viewData = {
           id:this.paraData.id,
-          operatorType:type,
           status:this.formData.status,
           option:{
-            big_category_name:'',
-            small_category_name:'',
+            big_category_name:this.paraData.option.big_category_name,
+            small_category_name:this.paraData.option.small_category_name,
           }
         }
       },
@@ -225,7 +249,7 @@
       },
       getStepLog(){
         stepLog({order_no:this.paraData.order_no}).then(res => {
-          this.list=rea.data
+          this.list=res.data
         });
       },
       open(){

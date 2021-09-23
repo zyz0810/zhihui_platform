@@ -53,6 +53,8 @@ const actions = {
       login({ mobile: mobile.trim(), password: password }).then(response => {
         const { data } = response;
         // token_type  access_token
+        console.log('获取')
+        console.log(data)
         commit('SET_TOKEN', data.token);
         // commit('SET_ID', response.data.id);
         // console.log(response.data.city_list);
@@ -75,55 +77,58 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      let role = ['admin']
-      commit('SET_ROLES', role);
-      resolve(role);
-      // getInfo().then(response => {
-      //   if(response.resp_code == 0){
-      //     // commit('SET_ID', response.data.id);
-      //     commit('SET_NAME', response.data.nickname);
-      //     commit('SET_MOBILE', response.data.mobile);
-      //     // setId(response.data.id);
-      //     setName(response.data.nickname);
-      //     setMobile(response.data.mobile)
-      //     let role = []
-      //     if(response.data.username == 'admin'){
-      //       role = ['admin']
-      //     }else{
-      //       if(response.data.permissions == null){
-      //         role = ['index']
-      //       }else{
-      //         role = response.data.permissions
-      //       }
-      //     }
-      //     commit('SET_ROLES', role);
-      //     resolve( role);
-      //   }else{
-      //     commit('SET_ID', '');
-      //     commit('SET_TOKEN', '');
-      //     commit('SET_ROLES', []);
-      //     commit('SET_NAME', '');
-      //     commit('SET_MOBILE', '');
-      //     removeToken();
-      //     resetRouter();
-      //     // removeId();
-      //     removeName();
-      //     removeMobile();
-      //   }
-      // }).catch(error => {
-      //   commit('SET_ID', '');
-      //   commit('SET_TOKEN', '');
-      //   commit('SET_ROLES', []);
-      //   commit('SET_NAME', '');
-      //   commit('SET_MOBILE', '');
-      //   removeToken();
-      //   sessionStorage.setItem("Admin-Token", '');
-      //   resetRouter();
-      //   // removeId();
-      //   removeName();
-      //   removeMobile();
-      //   reject(error)
-      // })
+      // let role = ['admin']
+      // commit('SET_ROLES', role);
+      // resolve(role);
+      console.log('获取权限')
+      getInfo().then(response => {
+        console.log('权限获取成功')
+        if(response.code == 1){
+          // commit('SET_ID', response.data.id);
+          commit('SET_NAME', response.data.nickname);
+          commit('SET_MOBILE', response.data.mobile);
+          // setId(response.data.id);
+          setName(response.data.nickname);
+          setMobile(response.data.mobile)
+          let role = []
+          if(response.data.user_name == 'admin'){
+            role = ['admin']
+          }else{
+            if(response.data.permissions == null){
+              role = ['index']
+            }else{
+              role = response.data.permissions
+            }
+          }
+          commit('SET_ROLES', role);
+          resolve( role);
+        }else{
+          commit('SET_ID', '');
+          commit('SET_TOKEN', '');
+          commit('SET_ROLES', []);
+          commit('SET_NAME', '');
+          commit('SET_MOBILE', '');
+          removeToken();
+          resetRouter();
+          // removeId();
+          removeName();
+          removeMobile();
+        }
+      }).catch(error => {
+        console.log('权限获取失败')
+        commit('SET_ID', '');
+        commit('SET_TOKEN', '');
+        commit('SET_ROLES', []);
+        commit('SET_NAME', '');
+        commit('SET_MOBILE', '');
+        removeToken();
+        sessionStorage.setItem("Admin-Token", '');
+        resetRouter();
+        // removeId();
+        removeName();
+        removeMobile();
+        reject(error)
+      })
     })
   },
 

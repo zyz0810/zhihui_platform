@@ -5,7 +5,7 @@
         <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">
-            <el-input v-model="listQuery.productSn" placeholder="" @change="handleFilter" clearable/>
+            <el-input v-model="listQuery.key_word" placeholder="" clearable/>
           </el-form-item>
           <el-form-item>
             <el-button class="btn_blue02" type="primary" @click="handleFilter">搜索</el-button>
@@ -20,15 +20,12 @@
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件编号（字段？）" align="center" prop="num"></el-table-column>
-        <el-table-column label="事件来源" align="center" prop="source"></el-table-column>
+        <el-table-column label="案件编号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="事件来源" align="center" prop="source" :formatter="formatSource"></el-table-column>
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
-        <el-table-column label="是否紧急事件" align="center" prop="is_importance"></el-table-column>
-        <el-table-column label="派遣时间（字段？）" align="center" prop=""></el-table-column>
-        <el-table-column label="剩余时间（字段？）" align="center" prop=""></el-table-column>
-        <el-table-column label="申请部门（字段？）" align="center" prop=""></el-table-column>
-        <el-table-column label="申请内容（字段？）" align="center" prop=""></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
+        <el-table-column label="申请部门" align="center" prop="apply_depart_name"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
@@ -64,8 +61,7 @@
         list: [],
         listLoading: false,
         listQuery: {
-          name: '',
-          status: undefined,
+          key_word: '',
           page: 1,
           pageSize: 10
         },
@@ -115,7 +111,20 @@
       this.getList();
     },
     methods: {
-
+      formatSource(row, column, cellValue, index) {
+        return cellValue == 1
+          ? "问题登记"
+          : cellValue == 2
+            ? "AI识别"
+            : "--";
+      },
+      formatImportant(row, column, cellValue, index) {
+        return cellValue == 1
+          ? "是"
+          : cellValue == 2
+            ? "否"
+            : "--";
+      },
       handleFilter() {
         this.listQuery.page = 1;
         this.getList()
@@ -132,11 +141,9 @@
       handleView(row, column, event){
         this.showViewDialog = true
         this.viewData = {
-          id:row.id
+          id:row.id,
+          order_no:row.order_no
         }
-        // console.log(row)
-        // console.log(column)
-        // console.log(event)
       },
 
 

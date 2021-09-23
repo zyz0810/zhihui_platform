@@ -21,12 +21,13 @@ export function logout(data) {
     data: Qs.stringify(data)
   })
 }
-// export function getInfo(account_id) {
-//   return request({
-//     url: `/api/account/${account_id}/permissions`,
-//     method: 'get'
-//   })
-// }
+export function getInfo(data) {
+  return request({
+    url: `/admin/user/detail`,
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
 // export function getInfo() {
 //   return request({
 //     url:'api-user/users/current',

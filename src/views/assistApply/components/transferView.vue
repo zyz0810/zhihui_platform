@@ -17,11 +17,11 @@
       <el-form-item label="小类" prop="name">
         <el-input v-model="temp.productSn" placeholder="" :disabled="true" clearable/>
       </el-form-item>
-      <el-form-item label="所属区块" prop="name">
-        <el-select v-model="temp.status">
-          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="所属区块" prop="name">-->
+<!--        <el-select v-model="temp.status">-->
+<!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item label="协力部门" prop="name">
         <el-select v-model="temp.status">
           <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
@@ -102,6 +102,7 @@
 
     methods: {
       open(){
+        this.temp.id = this.paraData.id;
         this.getLanguage();
         this.getDepartment();
       },

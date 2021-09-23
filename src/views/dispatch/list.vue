@@ -6,7 +6,7 @@
         <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">
-            <el-input v-model="listQuery.productSn" placeholder="" @change="handleFilter" clearable/>
+            <el-input v-model="listQuery.key_word" placeholder="" clearable/>
           </el-form-item>
           <el-form-item>
             <el-button class="btn_blue02" type="primary" @click="handleFilter">搜索</el-button>
@@ -16,12 +16,12 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件编号" align="center" prop="number_no"></el-table-column>
-        <el-table-column label="事件来源" align="center" prop="source"></el-table-column>
+        <el-table-column label="案件编号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="事件来源" align="center" prop="source" :formatter="formatSource"></el-table-column>
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
-        <el-table-column label="是否紧急事件" align="center" prop="is_importance"></el-table-column>
-        <el-table-column label="审核时间" align="center" prop="check_time"></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
+        <el-table-column label="审核时间" align="center" prop="check_time" :formatter="formatTime"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
@@ -43,7 +43,7 @@
   import paraView from "./components/view";
   import {collectList} from "@/api/collect";
   export default {
-    name: 'parameterList',
+    name: 'dispatchList',
     directives: {waves},
     components: {
       draggable,
@@ -60,27 +60,12 @@
         list: [],
         listLoading: false,
         listQuery: {
-          name: '',
-          status: undefined,
+          key_word: '',
           page: 1,
           pageSize: 10
         },
         tableHeight:'100'
       }
-    },
-    filters: {
-      filtersStatus: function (value) {
-        let StatusArr = {0: '未审核', 1: '已审核'}
-        return StatusArr[value]
-      },
-      filtersType: function (value) {
-        let StatusArr = {0: '店外经营', 1: '违规撑伞', 2: '流动摊点', 3: '沿街晾晒'}
-        return StatusArr[value]
-      },
-      filtersSource: function (value) {
-        let StatusArr = {0: '其它', 1: '滨康二区',}
-        return StatusArr[value]
-      },
     },
     computed: {
       ...mapState({
@@ -110,7 +95,25 @@
       this.getList();
     },
     methods: {
-
+      formatSource(row, column, cellValue, index) {
+        return cellValue == 1
+          ? "问题登记"
+          : cellValue == 2
+            ? "AI识别"
+            : "--";
+      },
+      formatImportant(row, column, cellValue, index) {
+        return cellValue == 1
+          ? "是"
+          : cellValue == 2
+            ? "否"
+            : "--";
+      },
+      formatTime(row, column, cellValue, index) {
+        return cellValue
+          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          : "暂无";
+      },
       handleFilter() {
         this.listQuery.page = 1;
         this.getList()
@@ -126,14 +129,13 @@
         this.showViewDialog = true
         this.viewData = {
           id:row.id,
-          order_no:row.order_no
+          order_no:row.order_no,
+          option: {
+            big_category_name:row.big_category_name,
+            small_category_name:row.small_category_name,
+          },
         }
-        // console.log(row)
-        // console.log(column)
-        // console.log(event)
       },
-
-
     }
   }
 </script>

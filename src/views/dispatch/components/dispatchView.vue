@@ -2,7 +2,7 @@
   <myDialog
     :visible.sync="showViewDialog"
     :close-on-click-modal="false"
-    width="50%"
+    width="52%"
     @close="close"
     top="10vh"
     title="派遣"
@@ -10,30 +10,30 @@
     :append-to-body="true"
     @open="open"
   >
-    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mt_20">
+    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="150px" class="mt_20 dialog_form">
       <el-form-item label="大类" prop="big_category_name">
         <el-input v-model="temp.big_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
       <el-form-item label="小类" prop="small_category_name">
         <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
-      <el-form-item label="主办部门" prop="main">
-        <el-select v-model="temp.main">
+      <el-form-item label="主办部门" prop="add_department">
+        <el-select v-model="temp.add_department">
           <el-option label="本单位" value="1"></el-option>
         </el-select>
-        <el-select v-model="temp.main_people">
+        <el-select v-model="temp.create_people">
           <el-option label="处置员" value="1"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="协办部门" prop="assist">
-        <el-select v-model="temp.assist">
+      <el-form-item label="协办部门" prop="assist_department">
+        <el-select v-model="temp.assist_department">
           <el-option v-for="item in departmentList" :label="item.language" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="处理时限">4小时</el-form-item>
-      <el-form-item label="说明" prop="language_id">
-        <el-select v-model="temp.language_id">
-          <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
+      <el-form-item label="说明" prop="language_desc">
+        <el-select v-model="temp.language_desc">
+          <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="是否为紧急案件" prop="is_importance">
@@ -54,10 +54,10 @@
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import {languageList,departmentList} from "@/api/system"; // waves directive
-  import {sendCollectList} from "@/api/system"; // waves directive
+  import {sendCollectList} from "@/api/collect"; // waves directive
 
   export default {
-    name: 'dispatchView.vue',
+    name: 'dispatchViewDialog',
     directives: { waves },
     components: {
       draggable,
@@ -72,7 +72,10 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            big_category_name:'',
+            small_category_name:'',
+          },
           operatorType: "view",
           id: ""
         }
@@ -86,13 +89,13 @@
         // main、main_people、assist、language_id、is_importance
         temp: {
           id:'',
-          main:'',
-          main_people:23,
-          assist:undefined,
-          language_id:0,
-          is_importance:1,
           big_category_name:'',
           small_category_name:'',
+          add_department:'',
+          create_people:'',
+          assist_department:'',
+          language_desc:'',
+          is_importance:1
         },
         rules: {
           name: [{ required: true, message: '请输入名称', trigger: 'change' }],
@@ -114,6 +117,7 @@
       open(){
         this.getLanguage();
         this.getDepartment();
+        this.temp.id = this.paraData.id;
         this.temp.big_category_name = this.paraData.option.big_category_name;
         this.temp.small_category_name = this.paraData.option.small_category_name;
       },
