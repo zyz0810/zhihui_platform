@@ -1,5 +1,16 @@
 import request from '@/utils/request'
 import Qs from 'qs'
+
+/* 树形权限列表
+ */
+export function treeList(data) {
+  return request({
+    url: `/admin/auth/treeList`,
+    method: 'post',
+    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
+  })
+}
+
 /* 案件表达语列表
  * type type==allList 返回不分页列表
  * status  1、正常 2、禁用

@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
-import { findMenuByRole } from '@/api/menu'
+import { treeList } from '@/api/system'
 import { getToken, setToken, removeToken,getId,setId,removeId,getName,setName,removeName,getMobile,setMobile,removeMobile,setCity,removeCity,setCitySelected,removeCitySelected} from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -81,7 +81,7 @@ const actions = {
       // commit('SET_ROLES', role);
       // resolve(role);
       console.log('获取权限')
-      getInfo().then(response => {
+      treeList().then(response => {
         console.log('权限获取成功')
         if(response.code == 1){
           // commit('SET_ID', response.data.id);
@@ -91,15 +91,16 @@ const actions = {
           setName(response.data.nickname);
           setMobile(response.data.mobile)
           let role = []
-          if(response.data.user_name == 'admin'){
-            role = ['admin']
-          }else{
-            if(response.data.permissions == null){
-              role = ['index']
-            }else{
-              role = response.data.permissions
-            }
-          }
+          role = ['admin']
+          // if(response.data.user_name == 'admin'){
+          //   role = ['admin']
+          // }else{
+          //   if(response.data.permissions == null){
+          //     role = ['index']
+          //   }else{
+          //     role = response.data.permissions
+          //   }
+          // }
           commit('SET_ROLES', role);
           resolve( role);
         }else{
