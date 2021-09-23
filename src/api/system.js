@@ -5,7 +5,7 @@ import Qs from 'qs'
  */
 export function treeList(data) {
   return request({
-    url: `/admin/auth/treeList`,
+    url: `/admin/menu/treeList`,
     method: 'post',
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })

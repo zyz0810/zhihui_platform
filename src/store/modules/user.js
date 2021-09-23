@@ -81,7 +81,7 @@ const actions = {
       // commit('SET_ROLES', role);
       // resolve(role);
       console.log('获取权限')
-      treeList().then(response => {
+      treeList({app_type: 1}).then(response => {
         console.log('权限获取成功')
         if(response.code == 1){
           // commit('SET_ID', response.data.id);
