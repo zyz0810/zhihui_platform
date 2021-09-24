@@ -66,26 +66,13 @@
         list: [],
         listLoading: false,
         listQuery: {
+          // status:1,
           key_word:'',
           page: 1,
           pageSize: 10
         },
         tableHeight:'100'
       }
-    },
-    filters: {
-      filtersStatus: function (value) {
-        let StatusArr = {0: '未审核', 1: '已审核'}
-        return StatusArr[value]
-      },
-      filtersType: function (value) {
-        let StatusArr = {0: '店外经营', 1: '违规撑伞', 2: '流动摊点', 3: '沿街晾晒'}
-        return StatusArr[value]
-      },
-      filtersSource: function (value) {
-        let StatusArr = {0: '其它', 1: '滨康二区',}
-        return StatusArr[value]
-      },
     },
     computed: {
       ...mapState({

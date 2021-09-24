@@ -18,21 +18,21 @@
         <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
       <el-form-item label="主办部门" prop="add_department">
-        <el-select v-model="temp.add_department">
-          <el-option label="本单位" value="1"></el-option>
+        <el-select v-model="temp.add_department" @change="changeDepartment">
+          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
         </el-select>
         <el-select v-model="temp.create_people">
-          <el-option label="处置员" value="1"></el-option>
+          <el-option v-for="item in userList" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="协办部门" prop="assist_department">
         <el-select v-model="temp.assist_department">
-          <el-option v-for="item in departmentList" :label="item.language" :value="item.id"></el-option>
+          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="处理时限">4小时</el-form-item>
+      <el-form-item label="处理时限">4小时？？</el-form-item>
       <el-form-item label="说明" prop="language_desc">
-        <el-select v-model="temp.language_desc">
+        <el-select v-model="temp.language_desc" filterable allow-create>
           <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
         </el-select>
       </el-form-item>
@@ -53,8 +53,8 @@
 <script>
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
-  import {languageList,departmentList} from "@/api/system"; // waves directive
-  import {sendCollectList} from "@/api/collect"; // waves directive
+  import {languageList,departmentList,departmentUserList} from "@/api/system"; // waves directive
+  import {collectAssist, sendCollectList} from "@/api/collect"; // waves directive
 
   export default {
     name: 'dispatchViewDialog',
@@ -85,6 +85,7 @@
       return {
         languageList:[],
         departmentList:[],
+        userList:[],
         paraLoading:false,
         // main、main_people、assist、language_id、is_importance
         temp: {
@@ -98,7 +99,7 @@
           is_importance:1
         },
         rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+          language_desc: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
       }
     },
@@ -121,7 +122,26 @@
         this.temp.big_category_name = this.paraData.option.big_category_name;
         this.temp.small_category_name = this.paraData.option.small_category_name;
       },
-      close(){},
+      close(){
+        this.languageList=[];
+        this.departmentList=[];
+        this.userList=[];
+        this.paraLoading=false;
+        // main、main_people、assist、language_id、is_importance
+        this.temp= {
+          id:'',
+          big_category_name:'',
+          small_category_name:'',
+          add_department:'',
+          create_people:'',
+          assist_department:'',
+          language_desc:'',
+          is_importance:1
+        };
+      },
+      changeDepartment(val){
+        this.getUser(val)
+      },
       getDepartment() {
         departmentList({page:1,pageSize:9999}).then(res => {
           let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
@@ -134,12 +154,38 @@
           console.log( this.departmentList)
         });
       },
+      getUser(id){
+        departmentUserList({department_id:id,}).then(res => {
+          this.userList = res.data;
+        });
+      },
       getLanguage() {
         languageList({page:1,pageSize:99999}).then(res => {
           this.languageList = res.data.data
         });
       },
-      onSubmit(type){},
+      onSubmit(){
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.paraLoading = true;
+            sendCollectList(this.temp).then((res) => {
+              setTimeout(() => {
+                this.paraLoading = false
+              }, 1000)
+              if (res.code == 1) {
+                this.$emit('updateView');
+                this.showViewDialog = false;
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            }).catch(() => {
+              this.paraLoading = false;
+            });
+          }
+        })
+      },
 
     }
   }

@@ -47,3 +47,13 @@ export function categoryList(data) {
   })
 }
 
+/* 获取部门的用户列表
+ * department_id 部门id
+ */
+export function departmentUserList(data) {
+  return request({
+    url: `/admin/user/departmentUserList`,
+    method: 'post',
+    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
+  })
+}

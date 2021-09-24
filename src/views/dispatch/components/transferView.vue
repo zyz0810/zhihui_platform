@@ -80,6 +80,7 @@
           small_category_name:'',
           depart_id:'',
           language_desc:'',
+          status:4
         },
         rules: {
           name: [{ required: true, message: '请输入名称', trigger: 'change' }],
@@ -106,7 +107,16 @@
         this.temp.small_category_name = this.paraData.option.small_category_name;
       },
       close(){
-
+        this.languageList=[];
+        this.departmentList=[];
+        this.paraLoading=false;
+        this.temp= {
+          big_category_name:'',
+          small_category_name:'',
+          depart_id:'',
+          language_desc:'',
+          status:4
+        };
       },
       getDepartment() {
         departmentList({page:1,pageSize:9999}).then(res => {

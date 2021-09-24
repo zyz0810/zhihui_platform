@@ -78,6 +78,23 @@ export function collectTurnDeal(data) {
   })
 }
 
+/* 协办案件
+ * id ID
+ * big_category 大类
+ * small_category 小类
+ * language_desc 	建议说明
+ * assist_depart 	协办部门
+ * time 时间 例如 14小时 4天 3天8小时 等
+ */
+export function collectAssist(data) {
+  return request({
+    url:'/admin/collect/assist',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+
 
 /* 待协办申请列表
  */

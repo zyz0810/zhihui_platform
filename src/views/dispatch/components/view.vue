@@ -87,9 +87,9 @@
 
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleAbandoned">废弃</el-button>
-      <el-button type="warning" @click="handleTransfer">转办（对接一半）</el-button>
-      <el-button type="info" @click="handleJointly">申请协办（没接口）</el-button>
-      <el-button type="primary" @click="handleDispatch">派遣（没接口）</el-button>
+      <el-button type="warning" @click="handleTransfer">转办</el-button>
+      <el-button type="info" @click="handleJointly">申请协办</el-button>
+      <el-button type="primary" @click="handleDispatch">派遣</el-button>
       <el-button type="success" @click="">打 印</el-button>
     </div>
     <!--废弃-->
@@ -175,8 +175,9 @@
     },
     filters:{
       filtersStatus: function(value) {
-        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
-        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待协办申请',4:'转办', 5:'待协办',6:'协办', 7:'待处置',8:'待结案', 9:'结案'};
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
+        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
         return StatusArr[value]
       },
       filtersImportant: function(value) {

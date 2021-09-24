@@ -143,6 +143,9 @@
             : "--";
       },
       formatStatus(row, column, cellValue, index) {
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
+        // let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
         return cellValue == 0
           ? "废弃"
           : cellValue == 1
@@ -150,19 +153,11 @@
           : cellValue == 2
             ? "待派遣"
               : cellValue == 3
-                ? "待协办申请"
+                ? "待处置"
                 : cellValue == 4
-                  ? "转办"
+                  ? "待结案"
                   : cellValue == 5
-                    ? "待协办"
-                    : cellValue == 6
-                      ? "协办"
-                      : cellValue == 7
-                        ? "待处置"
-                        : cellValue == 8
-                          ? "待结案"
-                          : cellValue == 9
-                            ? "结案"
+                    ? "结案"
             : "--";
       },
       handleFilter() {

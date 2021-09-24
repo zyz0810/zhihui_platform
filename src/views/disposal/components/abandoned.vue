@@ -138,7 +138,6 @@
         this.dialogVisible = true;
       },
       open(){
-        this.temp.id = this.paraData.id;
         this.getLanguage();
         this.temp.id = this.paraData.id;
         this.$nextTick(function() {
@@ -152,7 +151,7 @@
             this.paraLoading = true;
               //1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
             //0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案
-              this.temp.status = 4;
+              this.temp.status = 7;
               collectStatus(this.temp).then((res) => {
                 setTimeout(()=>{
                   this.paraLoading = false
