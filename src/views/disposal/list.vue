@@ -3,7 +3,7 @@
 
     <div class="p20 bg_white">
       <div class="mb_10">
-        <div class="fl monitor_num f14 mr_10">今日处置数：59</div>
+        <div class="fl monitor_num f14 mr_10">今日处置数：{{total}}</div>
         <!--        <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>-->
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">

@@ -11,28 +11,35 @@
     @open="open"
   >
     <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mt_20 dialog_form">
-      <el-form-item label="大类" prop="name">
-        <el-input v-model="temp.productSn" placeholder="" :disabled="true" clearable/>
+      <el-form-item label="大类" prop="big_category_name">
+        <el-input v-model="temp.big_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
-      <el-form-item label="小类" prop="name">
-        <el-input v-model="temp.productSn" placeholder="" :disabled="true" clearable/>
+      <el-form-item label="小类" prop="small_category_name">
+        <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
 <!--      <el-form-item label="所属区块" prop="name">-->
 <!--        <el-select v-model="temp.status">-->
 <!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
 <!--        </el-select>-->
 <!--      </el-form-item>-->
-      <el-form-item label="协力部门" prop="name">
-        <el-select v-model="temp.status">
-          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
-        </el-select>
+      <el-form-item label="协力部门" prop="assist_depart">
+<!--        <el-select v-model="temp.assist_depart">-->
+<!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
+<!--        </el-select>-->
+        <el-cascader ref="cascaderPublish"
+                     v-model="temp.assist_depart"
+                     :options="departmentList"
+                     :show-all-levels="false"
+                     filterable
+                     :props="props"
+                     placeholder="请选择"></el-cascader>
       </el-form-item>
-      <el-form-item label="处理时限" prop="name">
+      <el-form-item label="处理时限" prop="time">
         4小时
       </el-form-item>
-      <el-form-item label="说明" prop="name">
-        <el-select v-model="temp.status">
-          <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
+      <el-form-item label="说明" prop="language_desc">
+        <el-select v-model="temp.language_desc" filterable allow-create>
+          <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -48,7 +55,8 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
-  import {languageList,departmentList} from "@/api/system"; // waves directive
+  import {languageList,departmentList} from "@/api/system";
+  import {collectStatus,collectAssist} from "@/api/collect"; // waves directive
   export default {
     name: 'abandonedView',
     directives: { waves },
@@ -67,7 +75,10 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            big_category_name:'',
+            small_category_name:'',
+          },
           operatorType: "view",
           id: ""
         }
@@ -75,17 +86,27 @@
     },
     data() {
       return {
+        props: {
+          checkStrictly: true,
+          expandTrigger: "hover",
+          value: "id",
+          label: "department_name",
+          children: "list",
+          disabled: false,
+        },
         languageList:[],
         departmentList:[],
         paraLoading:false,
         temp: {
-          name:'',
-          departmentId:23,
-          parameterId:undefined,
-          deleted:0
+          id:'',
+          big_category_name:'',
+          small_category_name:23,
+          language_desc:'',
+          assist_depart:[],
+          time:''
         },
         rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+          language_desc: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
       }
     },
@@ -103,19 +124,34 @@
     methods: {
       open(){
         this.temp.id = this.paraData.id;
+        this.temp.big_category_name = this.paraData.option.big_category_name;
+        this.temp.small_category_name = this.paraData.option.small_category_name;
         this.getLanguage();
         this.getDepartment();
       },
-      close(){},
+      close(){
+        this.languageList=[];
+        this.departmentList=[];
+        this.paraLoading=false;
+        this.temp= {
+          id:'',
+          big_category_name:'',
+          small_category_name:23,
+          language_desc:'',
+          assist_depart:'',
+          time:''
+        };
+      },
       getDepartment() {
         departmentList({page:1,pageSize:9999}).then(res => {
-          let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
-          departmentList = Array.prototype.concat.apply([],departmentList);
-           this.departmentList= departmentList.filter(item=>{
-             if(item.id != this.temp.departmentId){
-               return item;
-             }
-           });
+          // let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
+          // departmentList = Array.prototype.concat.apply([],departmentList);
+          //  this.departmentList= departmentList.filter(item=>{
+          //    if(item.id != this.temp.departmentId){
+          //      return item;
+          //    }
+          //  });
+          this.departmentList = res.data
           console.log( this.departmentList)
         });
       },
@@ -124,7 +160,30 @@
           this.languageList = res.data.data
         });
       },
-      onSubmit(type){},
+      onSubmit(){
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.paraLoading = true;
+            let temp = JSON.parse(JSON.stringify(this.temp));
+            temp.assist_depart =  temp.assist_depart[temp.assist_depart.length - 1];
+            collectAssist(temp).then((res) => {
+              setTimeout(() => {
+                this.paraLoading = false
+              }, 1000)
+              if (res.code == 1) {
+                this.$emit('updateView');
+                this.showViewDialog = false;
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            }).catch(() => {
+              this.paraLoading = false;
+            });
+          }
+        })
+      },
 
     }
   }

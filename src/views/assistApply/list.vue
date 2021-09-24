@@ -16,7 +16,9 @@
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
         <el-table-column label="" align="center" prop="name">
           <template slot-scope="scope">
-            <span :class="['inlineBlock',scope.row.type == 0?'red_circle':'yellow_circle']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
@@ -45,7 +47,7 @@
   import { mapState } from 'vuex'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import paraView from "./components/view";
-  import {sendCollectList} from "@/api/collect";
+  import {collectList, sendCollectList} from "@/api/collect";
   export default {
     name: 'parameterList',
     directives: {waves},
@@ -130,23 +132,22 @@
         this.getList()
       },
       getList() {
-        sendCollectList(this.listQuery).then(res => {
+        collectList(this.listQuery).then(res => {
           this.list = res.data.data
           this.total = res.data.total
         });
       },
-
-
-
       handleView(row, column, event){
         this.showViewDialog = true
         this.viewData = {
           id:row.id,
-          order_no:row.order_no
+          order_no:row.order_no,
+          option: {
+            big_category_name:row.big_category_name,
+            small_category_name:row.small_category_name,
+          },
         }
       },
-
-
     }
   }
 </script>

@@ -117,8 +117,8 @@
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button type="warning" @click="showAbandonedDialog = true">驳回</el-button>
-      <el-button type="primary" @click="showTransferDialog = true">协办</el-button>
+      <el-button type="warning" @click="handleOperation()">驳回</el-button>
+      <el-button type="primary" @click="handleTransfer()">协办</el-button>
       <el-button type="success" @click="">打印</el-button>
     </div>
     <dispatchView :showDialog.sync="showDispatchDialog" :paraData="paraData"></dispatchView>
@@ -231,6 +231,26 @@
       },
     },
     methods: {
+      handleOperation(){
+        this.showAbandonedDialog = true
+        this.viewData = {
+          id:this.paraData.id,
+          option: {
+            big_category_name:this.paraData.big_category_name,
+            small_category_name:this.paraData.small_category_name,
+          },
+        }
+      },
+      handleTransfer(){
+        this.showTransferDialog = true
+        this.viewData = {
+          id:this.paraData.id,
+          option: {
+            big_category_name:this.paraData.big_category_name,
+            small_category_name:this.paraData.small_category_name,
+          },
+        }
+      },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
           const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images} = res.data

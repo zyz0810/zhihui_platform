@@ -18,17 +18,34 @@
         <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
       <el-form-item label="主办部门" prop="add_department">
-        <el-select v-model="temp.add_department" @change="changeDepartment">
-          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
-        </el-select>
+<!--        <el-select v-model="temp.add_department" @change="changeDepartment">-->
+<!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
+<!--        </el-select>-->
+        <el-cascader ref="cascaderPublish"
+                     v-model="temp.add_department"
+                     :options="departmentList"
+                     :show-all-levels="false"
+                     filterable
+                     :props="props"
+                     @change="changeDepartment"
+                     placeholder="请选择"></el-cascader>
         <el-select v-model="temp.create_people">
           <el-option v-for="item in userList" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="协办部门" prop="assist_department">
-        <el-select v-model="temp.assist_department">
-          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
-        </el-select>
+<!--        <el-select v-model="temp.assist_department">-->
+<!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
+<!--        </el-select>-->
+
+        <el-cascader ref="cascaderPublish"
+                     v-model="temp.assist_department"
+                     :options="departmentList"
+                     :show-all-levels="false"
+                     filterable
+                     :props="props"
+                     placeholder="请选择"></el-cascader>
+
       </el-form-item>
       <el-form-item label="处理时限">4小时？？</el-form-item>
       <el-form-item label="说明" prop="language_desc">
@@ -83,6 +100,14 @@
     },
     data() {
       return {
+        props: {
+          checkStrictly: true,
+          expandTrigger: "hover",
+          value: "id",
+          label: "department_name",
+          children: "list",
+          disabled: false,
+        },
         languageList:[],
         departmentList:[],
         userList:[],
@@ -140,17 +165,18 @@
         };
       },
       changeDepartment(val){
-        this.getUser(val)
+        this.getUser(val[val.length-1])
       },
       getDepartment() {
         departmentList({page:1,pageSize:9999}).then(res => {
-          let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
-          departmentList = Array.prototype.concat.apply([],departmentList);
-           this.departmentList= departmentList.filter(item=>{
-             if(item.id != this.temp.departmentId){
-               return item;
-             }
-           });
+          // let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
+          // departmentList = Array.prototype.concat.apply([],departmentList);
+          //  this.departmentList= departmentList.filter(item=>{
+          //    if(item.id != this.temp.departmentId){
+          //      return item;
+          //    }
+          //  });
+          this.departmentList = res.data
           console.log( this.departmentList)
         });
       },

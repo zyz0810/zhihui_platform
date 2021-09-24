@@ -5,15 +5,15 @@
     width="50%"
     @close="close"
     top="10vh"
-    title="废弃"
+    title="驳回"
     class="dialogContainer"
     :append-to-body="true"
     @open="open"
   >
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="说明" prop="name">
-        <el-select v-model="temp.status">
-          <el-option v-for="item in languageList" :label="item.language" :value="item.id"></el-option>
+      <el-form-item label="说明" prop="language_desc">
+        <el-select v-model="temp.language_desc" filterable allow-create>
+          <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -29,7 +29,8 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
-  import {languageList} from "@/api/system"; // waves directive
+  import {languageList} from "@/api/system";
+  import {collectStatus} from "@/api/collect"; // waves directive
   export default {
     name: 'abandonedView',
     directives: { waves },
@@ -59,12 +60,12 @@
         languageList:[],
         paraLoading:false,
         temp: {
-          name:'',
-          parameterId:undefined,
-          deleted:0
+          language_desc:'',
+          id:'',
+          status:2
         },
         rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+          language_desc: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
       }
     },
@@ -90,7 +91,28 @@
           this.languageList = res.data.data
         });
       },
-      onSubmit(type){},
+      onSubmit(){
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.paraLoading = true;
+            collectStatus(this.temp).then((res) => {
+              setTimeout(() => {
+                this.paraLoading = false
+              }, 1000)
+              if (res.code == 1) {
+                this.$emit('updateView');
+                this.showViewDialog = false;
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            }).catch(() => {
+              this.paraLoading = false;
+            });
+          }
+        })
+      },
 
     }
   }
