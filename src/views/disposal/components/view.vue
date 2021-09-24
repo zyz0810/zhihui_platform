@@ -12,9 +12,9 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
         <div class="mb_20">
-          <span>派遣时间：2021-07-09 12：:1:18</span>
-          <span>截止时间：2021-07-09 12：:1:18</span>
-          <span>剩余处理时间：6小时47分钟</span>
+          <span>派遣时间：{{formData.send_check_time}}</span>
+          <span>截止时间：字段是啥？？</span>
+          <span>剩余处理时间：字段是啥？？</span>
         </div>
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>

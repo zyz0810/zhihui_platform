@@ -172,31 +172,27 @@
       },
       handleView(row, column, event){
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
         // this.showViewDialog = true
         if(row.status == 1){
           this.showExamineDialog = true;
         }else if(row.status == 2){
           this.showDispatchDialog = true;
         }else if(row.status == 3){
-          this.showAssistApplyDialog = true;
-        }else if(row.status == 4){
-
-        }else if(row.status == 5){
-          this.showAssistDialog = true;
-        }else if(row.status == 6){
-
-        }else if(row.status == 7){
           this.showDisposalDialog = true;
-        }else if(row.status == 8){
+        }else if(row.status == 4){
           this.showEndDialog = true;
-        }else if(row.status == 9){
+        }else if(row.status == 5){
           this.showEndDialog = true;
         }
-
 
         this.viewData = {
           id:row.id,
           order_no:row.order_no,
+          option: {
+            big_category_name:row.big_category_name,
+            small_category_name:row.small_category_name,
+          },
         }
       },
     }
