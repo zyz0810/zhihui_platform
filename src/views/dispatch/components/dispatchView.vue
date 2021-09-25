@@ -17,7 +17,7 @@
       <el-form-item label="小类" prop="small_category_name">
         <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
-      <el-form-item label="主办部门" prop="add_department">
+      <el-form-item label="主办部门" prop="main_department">
 <!--        <el-select v-model="temp.add_department" @change="changeDepartment">-->
 <!--          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>-->
 <!--        </el-select>-->
@@ -29,8 +29,8 @@
                      :props="props"
                      @change="changeDepartment"
                      placeholder="请选择"></el-cascader>
-        <el-select v-model="temp.create_people">
-          <el-option v-for="item in userList" :label="item.name" :value="item.id"></el-option>
+        <el-select v-model="temp.main_people">
+          <el-option v-for="item in userList" :label="item.real_name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="协办部门" prop="assist_department">
@@ -45,9 +45,12 @@
                      filterable
                      :props="props"
                      placeholder="请选择"></el-cascader>
+        <el-select v-model="temp.assist_people">
+          <el-option v-for="item in userList" :label="item.real_name" :value="item.id"></el-option>
+        </el-select>
 
       </el-form-item>
-      <el-form-item label="处理时限">4小时？？</el-form-item>
+      <el-form-item label="处理时限">{{temp.send_time}}秒</el-form-item>
       <el-form-item label="说明" prop="language_desc">
         <el-select v-model="temp.language_desc" filterable allow-create>
           <el-option v-for="item in languageList" :label="item.language" :value="item.language"></el-option>
@@ -70,9 +73,9 @@
 <script>
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
-  import {languageList,departmentList,departmentUserList} from "@/api/system"; // waves directive
+  import {languageList,allDepartmentTreeList,departmentUserList,categoryDetail} from "@/api/system"; // waves directive
   import {collectAssist, sendCollectList} from "@/api/collect"; // waves directive
-
+  import {getInfo, } from "@/api/user"; // waves directive
   export default {
     name: 'dispatchViewDialog',
     directives: { waves },
@@ -113,16 +116,25 @@
         userList:[],
         paraLoading:false,
         // main、main_people、assist、language_id、is_importance
+        // 'assist_people' => '协办人',
+        // 'assist_department' => '协办部门',
+        // 'main_people' => '主办人',
+        // 'main_department' => '主办部门',
         temp: {
           id:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
-          add_department:'',
-          create_people:'',
+          assist_people:'',
           assist_department:'',
+          main_people:'',
+          main_department:'',
           language_desc:'',
-          is_importance:1
+          is_importance:1,
+          time:''
         },
+        myDepartment_id:'',
         rules: {
           language_desc: [{ required: true, message: '请输入说明', trigger: 'change' }],
         },
@@ -142,10 +154,15 @@
     methods: {
       open(){
         this.getLanguage();
-        this.getDepartment();
+
+        this.getMyDepart();
+
         this.temp.id = this.paraData.id;
         this.temp.big_category_name = this.paraData.option.big_category_name;
         this.temp.small_category_name = this.paraData.option.small_category_name;
+        this.temp.big_category = this.paraData.option.big_category;
+        this.temp.small_category = this.paraData.option.small_category;
+        this.getTime();
       },
       close(){
         this.languageList=[];
@@ -164,11 +181,27 @@
           is_importance:1
         };
       },
+      getMyDepart(){
+        getInfo().then(res => {
+          this.myDepartment_id = res.data.department_id;
+          // this.departmentList = res.data;
+          // console.log( this.departmentList)
+          this.getDepartment(res.data.department_id)
+        });
+      },
       changeDepartment(val){
         this.getUser(val[val.length-1])
       },
-      getDepartment() {
-        departmentList({page:1,pageSize:9999}).then(res => {
+      getTime(val){
+        categoryDetail({id:this.temp.small_category}).then(res => {
+          this.temp.time = res.data.send_time;
+          // this.departmentList = res.data;
+          // console.log( this.departmentList)
+        });
+      },
+
+      getDepartment(id) {
+        allDepartmentTreeList({parent_id:id}).then(res => {
           // let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
           // departmentList = Array.prototype.concat.apply([],departmentList);
           //  this.departmentList= departmentList.filter(item=>{

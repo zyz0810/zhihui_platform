@@ -13,9 +13,8 @@
       <el-tab-pane label="详细信息" name="first">
         <div class="mb_20">
           <span>派遣时间：{{ $moment(formData.send_check_time).format("YYYY-MM-DD HH:mm:ss")}}</span>
-          <span>截止时间：{{ $moment(formData.send_check_time+formData.send_time).format("YYYY-MM-DD HH:mm:ss")}}</span>
-          <span>剩余处理时间：字段是啥？？</span>
-<!--          剩余时间  就是  （send_check_time  +send_time）减去 当前时间-->
+          <span class="ml_30">截止时间：{{ $moment(formData.expire_time).format("YYYY-MM-DD HH:mm:ss")}}</span>
+          <span class="ml_30">剩余处理时间：{{formData.residue_time}}</span>
         </div>
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
@@ -220,8 +219,8 @@
     filters:{
       filtersStatus: function(value) {
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
-        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待协办申请  5  待结案 6、 结案  7、废弃 （事件状态）
+        let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         return StatusArr[value]
       },
       filtersImportant: function(value) {

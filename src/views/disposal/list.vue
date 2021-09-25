@@ -30,7 +30,7 @@
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
         <el-table-column label="派遣时间" align="center" prop="send_check_time"></el-table-column>
-        <el-table-column label="剩余时间没有字段？？" align="center" prop=""></el-table-column>
+        <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
@@ -66,6 +66,7 @@
         list: [],
         listLoading: false,
         listQuery: {
+          sgin:3,
           key_word:'',
           page: 1,
           pageSize: 10
@@ -82,19 +83,19 @@
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
-        if(height>100){
+        if(height>300){
           this.tableHeight = height
         }else{
-          this.tableHeight = 100
+          this.tableHeight = 300
         }
         // 监听窗口大小变化
         const self = this;
         window.onresize = function() {
           let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
-          if(height>100){
+          if(height>300){
             self.tableHeight = height
           }else{
-            self.tableHeight = 100
+            self.tableHeight = 300
           }
         };
       });

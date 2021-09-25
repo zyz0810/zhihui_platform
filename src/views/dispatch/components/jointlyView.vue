@@ -34,7 +34,7 @@
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import {languageList,departmentList} from "@/api/system"; // waves directive
-  import {collectAssist, collectTurnDeal} from '@/api/collect'
+  import {collectApplyAssist, collectTurnDeal} from '@/api/collect'
   export default {
     name: 'jointlyView',
     directives: { waves },
@@ -64,10 +64,11 @@
         paraLoading:false,
         temp: {
           id:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           language_desc:'',
-          // status:3
         },
         rules: {
           language_desc: [{ required: true, message: '请输入说明', trigger: 'change' }],
@@ -87,9 +88,12 @@
 
     methods: {
       open(){
+        console.log( this.paraData)
         this.temp.id = this.paraData.id;
         this.temp.big_category_name = this.paraData.option.big_category_name;
         this.temp.small_category_name = this.paraData.option.small_category_name;
+        this.temp.big_category = this.paraData.option.big_category;
+        this.temp.small_category = this.paraData.option.small_category;
         this.getLanguage();
         this.getDepartment();
       },
@@ -99,6 +103,8 @@
         this.paraLoading=false;
         this.temp= {
           id:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           language_desc:'',
@@ -126,7 +132,17 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.paraLoading = true;
-            collectAssist(this.temp).then((res) => {
+            // let temp = JSON.parse(JSON.stringify(this.temp));
+            // id:'',
+            //   big_category:'',
+            //   small_category:'',
+            //   big_category_name:'',
+            //   small_category_name:'',
+            //   language_desc:'',
+            console.log(this.temp)
+            let {id,big_category,small_category,language_desc} = this.temp;
+            let temp = {id,big_category,small_category,language_desc};
+            collectApplyAssist(temp).then((res) => {
               setTimeout(() => {
                 this.paraLoading = false
               }, 1000)

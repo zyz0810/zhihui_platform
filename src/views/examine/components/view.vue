@@ -12,11 +12,11 @@
     <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
       <el-descriptions-item>
         <template slot="label">任务号</template>
-        {{formData.order_no}}
+        {{formData.number_no}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">上报时间</template>
-        {{ $moment(formData.create_at).format("YYYY-MM-DD HH:mm:ss")}}
+        {{ formData.create_at?$moment(formData.create_at).format("YYYY-MM-DD HH:mm:ss"):''}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件状态</template>
@@ -119,6 +119,7 @@
         formData:{
           id:'',
           order_no:'',
+          number_no:'',
           create_at:'',
           status:'',
           big_category_name:'',
@@ -146,8 +147,8 @@
     filters:{
       filtersStatus: function(value) {
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
-        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待协办申请  5  待结案 6、 结案  7、废弃 （事件状态）
+        let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         return StatusArr[value]
       },
       filtersSource: function(value) {
@@ -175,8 +176,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
+          const {id,order_no,number_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
+          this.formData = {id,order_no,number_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
         });
       },
       close(){

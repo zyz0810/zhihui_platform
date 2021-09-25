@@ -16,12 +16,12 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="案件编号" align="center" prop="id"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="案件编号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="审核时间" align="center" prop="check_time" :formatter="formatTime"></el-table-column>
-        <el-table-column label="剩余时间字段是啥" align="center" prop=""></el-table-column>
+        <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="紧急案件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
         <el-table-column label="状态" align="center" prop="status" :formatter="formatStatus"></el-table-column>
@@ -104,19 +104,19 @@
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
-        if(height>100){
+        if(height>300){
           this.tableHeight = height
         }else{
-          this.tableHeight = 100
+          this.tableHeight = 300
         }
         // 监听窗口大小变化
         const self = this;
         window.onresize = function() {
           let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
-          if(height>100){
+          if(height>300){
             self.tableHeight = height
           }else{
-            self.tableHeight = 100
+            self.tableHeight = 300
           }
         };
       });
@@ -144,9 +144,9 @@
       },
       formatStatus(row, column, cellValue, index) {
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
-        // let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
-        return cellValue == 0
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待协办申请  5  待结案 6、 结案  7、废弃 （事件状态）
+        // let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
+        return cellValue == 7
           ? "废弃"
           : cellValue == 1
           ? "待审核"
@@ -155,9 +155,11 @@
               : cellValue == 3
                 ? "待处置"
                 : cellValue == 4
-                  ? "待结案"
+                  ? "待协办申请"
                   : cellValue == 5
-                    ? "结案"
+                    ? "待结案"
+                    : cellValue == 6
+                      ? "结案"
             : "--";
       },
       handleFilter() {

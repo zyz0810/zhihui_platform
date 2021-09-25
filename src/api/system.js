@@ -35,6 +35,18 @@ export function departmentList(data) {
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })
 }
+/* 组织架构列表
+ * department_name
+ *
+ */
+export function allDepartmentTreeList(data) {
+  return request({
+    url: `/admin/department/allDepartmentTreeList`,
+    method: 'post',
+    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
+  })
+}
+
 /* 类别列表
  * parent_id
  * type   =  allList 没有分页
@@ -53,6 +65,17 @@ export function categoryList(data) {
 export function departmentUserList(data) {
   return request({
     url: `/admin/user/departmentUserList`,
+    method: 'post',
+    data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
+  })
+}
+
+/* 获取分类详情
+ * id
+ */
+export function categoryDetail(data) {
+  return request({
+    url: `/admin/category/detailCategory`,
     method: 'post',
     data: Qs.stringify(data,{ arrayFormat: 'indices', allowDots: true })
   })

@@ -60,7 +60,7 @@
         list: [],
         listLoading: false,
         listQuery: {
-          status:2,
+          sgin:2,
           key_word: '',
           page: 1,
           pageSize: 10

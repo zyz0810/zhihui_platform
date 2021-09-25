@@ -176,8 +176,8 @@
     filters:{
       filtersStatus: function(value) {
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
-        let StatusArr = {0:'废弃', 1:'待审核',2:'待派遣', 3:'待处置',4:'待结案', 5:'结案',};
+        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待协办申请  5  待结案 6、 结案  7、废弃 （事件状态）
+        let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         return StatusArr[value]
       },
       filtersImportant: function(value) {
@@ -204,6 +204,8 @@
           option:{
             big_category_name:this.paraData.option.big_category_name,
             small_category_name:this.paraData.option.small_category_name,
+            big_category:this.formData.big_category,
+            small_category:this.formData.small_category,
           }
         }
       },
@@ -216,6 +218,8 @@
           option:{
             big_category_name:this.paraData.option.big_category_name,
             small_category_name:this.paraData.option.small_category_name,
+            big_category:this.formData.big_category,
+            small_category:this.formData.small_category,
           }
         }
       },
@@ -227,6 +231,8 @@
           option:{
             big_category_name:this.paraData.option.big_category_name,
             small_category_name:this.paraData.option.small_category_name,
+            big_category:this.formData.big_category,
+            small_category:this.formData.small_category,
           }
         }
       },
@@ -238,14 +244,16 @@
           option:{
             big_category_name:this.paraData.option.big_category_name,
             small_category_name:this.paraData.option.small_category_name,
+            big_category:this.formData.big_category,
+            small_category:this.formData.small_category,
           }
         }
       },
       handleClick(){},
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
+          const {id,order_no,create_at,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
+          this.formData = {id,order_no,create_at,status, big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
         });
       },
       getStepLog(){

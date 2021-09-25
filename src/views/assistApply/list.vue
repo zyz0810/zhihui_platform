@@ -63,6 +63,7 @@
         list: [],
         listLoading: false,
         listQuery: {
+          sgin:4,
           key_word: '',
           page: 1,
           pageSize: 10
@@ -94,19 +95,19 @@
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
-        if(height>100){
+        if(height>300){
           this.tableHeight = height
         }else{
-          this.tableHeight = 100
+          this.tableHeight = 300
         }
         // 监听窗口大小变化
         const self = this;
         window.onresize = function() {
           let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
-          if(height>100){
+          if(height>300){
             self.tableHeight = height
           }else{
-            self.tableHeight = 100
+            self.tableHeight = 300
           }
         };
       });

@@ -17,7 +17,7 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="事件来源" align="center" prop="source" :formatter="formatSource"></el-table-column>
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
@@ -57,7 +57,7 @@
         list: [],
         listLoading: false,
         listQuery: {
-          status:1,
+          sgin:1,
           key_word: '',
           page: 1,
           pageSize: 10
@@ -74,19 +74,19 @@
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
-        if(height>100){
+        if(height>300){
           this.tableHeight = height
         }else{
-          this.tableHeight = 100
+          this.tableHeight = 300
         }
         // 监听窗口大小变化
         const self = this;
         window.onresize = function() {
           let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
-          if(height>100){
+          if(height>300){
             self.tableHeight = height
           }else{
-            self.tableHeight = 100
+            self.tableHeight = 300
           }
         };
       });

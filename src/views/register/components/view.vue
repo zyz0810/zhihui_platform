@@ -47,7 +47,16 @@
         <el-input type="textarea" v-model.trim="temp.description" placeholder="故障详情……500字以内" clearable></el-input>
       </el-form-item>
       <el-form-item label="问题图片" prop="question_images">
-        <SingleImage :tempUrl="temp.question_images" v-on:imgSrc="hasImgSrc"></SingleImage>
+        <!--<SingleImage :tempUrl="temp.question_images" v-on:imgSrc="hasImgSrc"></SingleImage>-->
+        <el-upload action
+                   :http-request="uploadSectionFile"
+                   list-type="picture-card"
+                   :on-remove="handleRemove"
+                   :on-preview="handlePictureCardPreview"
+                   :file-list="imageList"
+                   :limit="200">
+          <i class="el-icon-plus"></i>
+        </el-upload>
       </el-form-item>
     </el-form>
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
@@ -81,7 +90,13 @@
       <el-button @click="showViewDialog = false">取 消</el-button>
     </div>
 
-
+    <my-dialog :visible.sync="dialogVisible"
+               title="查看图片"
+               :append-to-body="true">
+      <img width="100%"
+           :src="dialogImageUrl"
+           alt />
+    </my-dialog>
   </myDialog>
 </template>
 
@@ -93,6 +108,7 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
+  import {uploadImg} from "@/api/upload"; // waves directive
   let markerTool;
   export default {
     name: 'registerView',
@@ -128,6 +144,9 @@
           children: "child",
           disabled: false,
         },
+        dialogVisible:false,
+        dialogImageUrl:'',
+        imageList:[],
         departOption:[],
         categoryOption:[],
           smallCategory:[],
@@ -174,6 +193,37 @@
       }
     },
     methods: {
+      uploadSectionFile (e) {
+        const file = e.file;
+        uploadImg(file)
+          .then((res) => {
+            this.imageList.push({ uid: file.uid, url: res.url ,images: res.images });
+            // this.temp.deal_images=this.imageList.
+            let imgArr = this.imageList.map(item=>{return item.images})
+            this.temp.question_images = imgArr.join(',')
+          })
+          .catch((e) => {
+            this.$message({ message: "添加图片失败", type: "warning" });
+          });
+      },
+      handleRemove (file, fileList) {
+        this.temp.question_images = '';
+        this.imageList = [];
+        fileList.map((item) => {
+          let json = {
+            url: item.url,
+            images: item.images,
+          };
+          this.imageList.push({ uid: item.uid, url: item.url,images: item.images });
+        });
+        let imgArr = this.imageList.map(item=>{return item.images});
+        this.temp.question_images = imgArr.join(',');
+        console.log(this.temp.question_images)
+      },
+      handlePictureCardPreview (file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
       getDepartTree(){
         departTree().then((res) => {
           // this.departOption= res.data;
@@ -515,7 +565,6 @@
           if (valid) {
             this.paraLoading = true;
             let temp = JSON.parse(JSON.stringify(this.temp));
-            temp.question_images =  this.images;
             temp.add_department =  temp.add_department[temp.add_department.length-1];
             collectAdd(temp).then((res) => {
               setTimeout(()=>{

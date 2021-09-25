@@ -78,6 +78,20 @@ export function collectTurnDeal(data) {
   })
 }
 
+/* 案件申请协办
+ * id ID
+ * big_category 大类
+ * small_category 小类
+ * language_desc 	建议说明
+ */
+export function collectApplyAssist(data) {
+  return request({
+    url:'/admin/collect/applyAssist',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
 /* 协办案件
  * id ID
  * big_category 大类

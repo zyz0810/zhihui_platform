@@ -40,10 +40,10 @@
         <el-table-column label="任务号" align="center" prop="order_no"></el-table-column>
         <el-table-column label="案件大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="案件小类" align="center" prop="small_category_name"></el-table-column>
-        <el-table-column label="举报人" align="center" prop=" report"></el-table-column>
+        <el-table-column label="举报人" align="center" prop="report"></el-table-column>
         <el-table-column label="举报人电话" align="center" prop="mobile"></el-table-column>
-        <el-table-column label="是否紧急事件" align="center" prop="is_importance"></el-table-column>
-        <el-table-column label="登记时间" align="center" prop="create_at"></el-table-column>
+        <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
+        <el-table-column label="登记时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
       </el-table>
@@ -77,33 +77,17 @@
         paraData:{
           id:''
         },
-        updateBtn: true,
-        enableBtn: true,
-        disableBtn: true,
         total: 0,
         list: [],
         listLoading: false,
         listQuery: {
           source:'',
+          status:1,
           page: 1,
           pageSize: 10
         },
         tableHeight:'100'
       }
-    },
-    filters: {
-      filtersStatus: function (value) {
-        let StatusArr = {0: '未审核', 1: '已审核'}
-        return StatusArr[value]
-      },
-      filtersType: function (value) {
-        let StatusArr = {0: '店外经营', 1: '违规撑伞', 2: '流动摊点', 3: '沿街晾晒'}
-        return StatusArr[value]
-      },
-      filtersSource: function (value) {
-        let StatusArr = {0: '其它', 1: '滨康二区',}
-        return StatusArr[value]
-      },
     },
     computed: {
       ...mapState({
@@ -114,26 +98,37 @@
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
-        if(height>100){
+        if(height>300){
           this.tableHeight = height
         }else{
-          this.tableHeight = 100
+          this.tableHeight = 300
         }
         // 监听窗口大小变化
         const self = this;
         window.onresize = function() {
           let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 190;
-          if(height>100){
+          if(height>300){
             self.tableHeight = height
           }else{
-            self.tableHeight = 100
+            self.tableHeight =300
           }
         };
       });
       this.getList();
     },
     methods: {
-
+      formatImportant(row, column, cellValue, index) {
+        return cellValue == 1
+          ? "是"
+          : cellValue == 2
+            ? "否"
+            : "--";
+      },
+      formatTime(row, column, cellValue, index) {
+        return cellValue
+          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          : "暂无";
+      },
       handleFilter() {
         this.listQuery.page = 1;
         this.getList()
@@ -145,46 +140,12 @@
         });
       },
 
-      resetList() {
-        this.listQuery = {
-          name: '',
-          status: undefined,
-          page: 1,
-          pageSize: 10
-        }
-        this.getList();
-      },
-      clickRow(row){
-        this.$refs.tableList.toggleRowSelection(row)
-      },
-      handleSelectionChange(val) {
-        console.log(val)
-        this.rowInfo = val;
-        if (val.length == 1) {
-          this.updateBtn = false
-          this.deleteBtn = false
-          if(val[0].status == 0){
-            this.enableBtn = false
-            this.disableBtn = true
-          }else{
-            this.enableBtn = true
-            this.disableBtn = false
-          }
-        } else {
-          this.updateBtn = true
-          this.deleteBtn = true
-          this.enableBtn = true
-          this.disableBtn = true
-        }
-      },
-
       handleView(row){
-        this.showViewDialog = true
+        this.showViewDialog = true;
         this.paraData = {
           // id:row.id
         }
       },
-
 
     }
   }
