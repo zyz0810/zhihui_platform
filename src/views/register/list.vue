@@ -37,7 +37,7 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList">
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-        <el-table-column label="任务号" align="center" prop="order_no"></el-table-column>
+        <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="案件大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="案件小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="举报人" align="center" prop="report"></el-table-column>

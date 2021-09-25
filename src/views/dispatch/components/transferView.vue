@@ -92,6 +92,8 @@
         departmentList:[],
         paraLoading:false,
         temp: {
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           depart_id:[],
@@ -124,15 +126,19 @@
         this.temp.id = this.paraData.id;
         this.temp.big_category_name = this.paraData.option.big_category_name;
         this.temp.small_category_name = this.paraData.option.small_category_name;
+        this.temp.big_category = this.paraData.option.big_category;
+        this.temp.small_category = this.paraData.option.small_category;
       },
       close(){
         this.languageList=[];
         this.departmentList=[];
         this.paraLoading=false;
         this.temp= {
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
-          depart_id:'',
+          depart_id:[],
           language_desc:'',
           status:4
         };

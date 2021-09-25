@@ -129,3 +129,13 @@ export function stepLog(data) {
     data: Qs.stringify(data)
   })
 }
+/* 案件派遣
+ *
+ */
+export function sendCollect(data) {
+  return request({
+    url:'/admin/collect/sendCollect',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

@@ -65,7 +65,7 @@
       </el-descriptions-item>
       <el-descriptions-item :span="3">
         <template slot="label">问题图片</template>
-        <image v-for="item in formData.before_images" :scr="item" class="my_img"></image>
+        <img v-for="item in formData.before_images" :src="item" class="my_img"/>
       </el-descriptions-item>
     </el-descriptions>
     <div slot="footer" class="dialog-footer">
@@ -116,9 +116,9 @@
           operatorType:'',
         },
         showAdoptDialog:false,
+        // ,,,,,,,,,,,address,description,before_images
         formData:{
           id:'',
-          order_no:'',
           number_no:'',
           create_at:'',
           status:'',
@@ -128,6 +128,8 @@
           source:'',
           report:'',
           mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
           address:'',
           description:'',
           before_images:[],
@@ -176,11 +178,12 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,number_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
-          this.formData = {id,order_no,number_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
+          const {id,number_no,create_at,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images} = res.data
+          this.formData = {id,number_no,create_at,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images}
         });
       },
       close(){
+        this.$emit('updateList');
         this.viewData={
           id:'',
           operatorType:'',
@@ -188,7 +191,7 @@
         this.showAdoptDialog=false;
         this.formData={
           id:'',
-          order_no:'',
+          number_no:'',
           create_at:'',
           status:'',
           big_category_name:'',
@@ -197,9 +200,11 @@
           source:'',
           report:'',
           mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
           address:'',
           description:'',
-          after_images:[],
+          before_images:[],
         };
       },
     }

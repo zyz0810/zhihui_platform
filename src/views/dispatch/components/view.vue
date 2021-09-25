@@ -68,7 +68,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <image v-for="item in formData.before_images" :scr="item"></image>
+            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
@@ -152,7 +152,23 @@
     data() {
       return {
         viewData:{},
-        formData:{},
+        formData:{
+          id:'',
+          order_no:'',
+          check_time:'',
+          status:'',
+          big_category_name:'',
+          small_category_name:'',
+          is_importance:'',
+          source:'',
+          report:'',
+          mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
+          description:'',
+          address:'',
+          before_images:[]
+        },
         listLoading:false,
         tableHeight:200,
         list: [],
@@ -252,8 +268,8 @@
       handleClick(){},
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,address,description,before_images}
+          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
+          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
         });
       },
       getStepLog(){
@@ -265,28 +281,54 @@
         this.$nextTick(function() {
           // this.$refs.filter-container.offsetHeight
           let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 390;
-          if(height>100){
+          if(height>300){
             this.tableHeight = height
           }else{
-            this.tableHeight = 100
+            this.tableHeight = 300
           }
           // 监听窗口大小变化
           const self = this;
           window.onresize = function() {
             let height = window.innerHeight - self.$refs.tableList.$el.offsetTop - 390;
-            if(height>100){
+            if(height>300){
               self.tableHeight = height
             }else{
-              self.tableHeight = 100
+              self.tableHeight = 300
             }
           };
         });
         this.getView();
         this.getStepLog();
       },
-      close(){},
-
-
+      close(){
+        this.$emit('updateList');
+        this.viewData={};
+        this.formData={
+          id:'',
+          order_no:'',
+          check_time:'',
+          status:'',
+          big_category_name:'',
+          small_category_name:'',
+          is_importance:'',
+          source:'',
+          report:'',
+          mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
+          description:'',
+          address:'',
+          before_images:[]
+        };
+        this.listLoading=false;
+        this.tableHeight=200;
+        this.list= [];
+        this.activeName='first';
+        this.showAbandonedDialog=false;
+        this.showTransferDialog=false;
+        this.showJointlyDialog=false;
+        this.showDispatchDialog=false;
+      },
     }
   }
 </script>

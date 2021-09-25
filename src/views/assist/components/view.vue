@@ -67,11 +67,11 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <image v-for="item in formData.before_images" :scr="item"></image>
+            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">主办单位</template>
-            字段是啥？？
+            {{formData.main_department}}
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
@@ -146,7 +146,7 @@
         formData:{
           id:'',
           order_no:'',
-          create_at:'',
+          check_time:'',
           status:'',
           big_category_name:'',
           small_category_name:'',
@@ -154,25 +154,17 @@
           source:'',
           report:'',
           mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
           address:'',
           description:'',
-          after_images:[],
+          before_images:[],
+          main_department:''
         },
         showDispatchDialog:false,
         listLoading:false,
         list: [],
         activeName:'first',
-        showAdoptDialog:false,
-        showAbandonedDialog:false,
-        paraLoading:false,
-        temp: {
-          name:'',
-          parameterId:undefined,
-          deleted:0
-        },
-        rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
-        },
       }
     },
     computed: {
@@ -220,8 +212,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images}
+          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department} = res.data
+          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department}
         });
       },
       getStepLog(){
@@ -257,7 +249,33 @@
         this.getView();
         this.getStepLog();
       },
-      close(){},
+      close(){
+        this.$emit('updateList');
+        this.viewData={};
+        this.tableHeight=200;
+        this.formData={
+          id:'',
+          order_no:'',
+          check_time:'',
+          status:'',
+          big_category_name:'',
+          small_category_name:'',
+          is_importance:'',
+          source:'',
+          report:'',
+          mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
+          address:'',
+          description:'',
+          before_images:[],
+          main_department:''
+        };
+        this.showDispatchDialog=false;
+        this.listLoading=false;
+        this.list= [];
+        this.activeName='first';
+      },
 
 
     }

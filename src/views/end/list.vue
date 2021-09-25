@@ -37,7 +37,7 @@
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="viewData"></paraView>
+    <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getList"></paraView>
 
   </div>
 </template>

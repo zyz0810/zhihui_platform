@@ -73,7 +73,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <image v-for="item in formData.before_images" :scr="item"></image>
+            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
           </el-descriptions-item>
 
 
@@ -177,7 +177,7 @@
         formData:{
           id:'',
           order_no:'',
-          create_at:'',
+          check_time:'',
           status:'',
           big_category_name:'',
           small_category_name:'',
@@ -185,9 +185,14 @@
           source:'',
           report:'',
           mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
           address:'',
           description:'',
-          after_images:[],
+          before_images:[],
+          send_check_time:'',
+          expire_time:'',
+          residue_time:''
         },
         showDispatchDialog:false,
         listLoading:false,
@@ -195,15 +200,6 @@
         activeName:'first',
         showAdoptDialog:false,
         showAbandonedDialog:false,
-        paraLoading:false,
-        temp: {
-          name:'',
-          parameterId:undefined,
-          deleted:0
-        },
-        rules: {
-          name: [{ required: true, message: '请输入名称', trigger: 'change' }],
-        },
       }
     },
     computed: {
@@ -252,8 +248,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images} = res.data
-          this.formData = {id,order_no,create_at,status, big_category_name,small_category_name,is_importance,source,report,mobile,address,description,after_images}
+          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time} = res.data
+          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time}
         });
       },
       handleClick(){},
@@ -281,48 +277,37 @@
         this.getView();
         this.getStepLog();
       },
-      close(){},
-      resetTemp() {
-        this.temp = {
-          // parameterId:undefined,
-          name:'',
-          parameterId:undefined,
-          deleted:0
-          // orders:'',
-          // isSystem:1,
-        }
+      close(){
+        this.$emit('updateList');
+        this.viewData={};
+        this.tableHeight=200;
+        this.formData={
+          id:'',
+          order_no:'',
+          check_time:'',
+          status:'',
+          big_category_name:'',
+          small_category_name:'',
+          is_importance:'',
+          source:'',
+          report:'',
+          mobile:'',
+          facility_name:'',
+          ai_depart_name:'',
+          address:'',
+          description:'',
+          before_images:[],
+          send_check_time:'',
+          expire_time:'',
+          residue_time:''
+        };
+        this.showDispatchDialog=false;
+        this.listLoading=false;
+        this.list= [];
+        this.activeName='first';
+        this.showAdoptDialog=false;
+        this.showAbandonedDialog=false;
       },
-
-
-
-      createData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.paraLoading = true
-            this.temp.parameterId = this.paraData.id
-            paraValueSave(this.temp).then((res) => {
-              setTimeout(()=>{
-                this.paraLoading = false
-              },1000)
-              if(res.resp_code == 0) {
-                this.getList();
-                // this.list.unshift(res.data);
-                this.showViewDialog = false;
-                // debugger
-                this.getList();
-                this.$message({
-                  message: '增加成功',
-                  type: 'success'
-                });
-              }
-            }).catch(() => {
-              this.paraLoading = false;
-            });
-          }
-        })
-      },
-
-
     }
   }
 </script>
