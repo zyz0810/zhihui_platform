@@ -35,7 +35,7 @@
                      placeholder="请选择"></el-cascader>
       </el-form-item>
       <el-form-item label="处理时限" prop="time">
-        4小时
+        {{temp.time}}小时
       </el-form-item>
       <el-form-item label="说明" prop="language_desc">
         <el-select v-model="temp.language_desc" filterable allow-create>
@@ -55,7 +55,7 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
-  import {languageList,departmentList} from "@/api/system";
+  import {languageList,departmentList,categoryDetail} from "@/api/system";
   import {collectStatus,collectAssist} from "@/api/collect"; // waves directive
   export default {
     name: 'abandonedView',
@@ -78,6 +78,8 @@
           option: {
             big_category_name:'',
             small_category_name:'',
+            big_category:'',
+            small_category:'',
           },
           operatorType: "view",
           id: ""
@@ -100,7 +102,9 @@
         temp: {
           id:'',
           big_category_name:'',
-          small_category_name:23,
+          small_category_name:'',
+          big_category:'',
+          small_category:'',
           language_desc:'',
           assist_depart:[],
           time:''
@@ -128,6 +132,16 @@
         this.temp.small_category_name = this.paraData.option.small_category_name;
         this.getLanguage();
         this.getDepartment();
+        this.temp.big_category = this.paraData.option.big_category;
+        this.temp.small_category = this.paraData.option.small_category;
+        this.getTime();
+      },
+      getTime(val){
+        categoryDetail({id:this.temp.small_category}).then(res => {
+          this.temp.time = res.data.send_time;
+          // this.departmentList = res.data;
+          // console.log( this.departmentList)
+        });
       },
       close(){
         this.languageList=[];
@@ -136,9 +150,11 @@
         this.temp= {
           id:'',
           big_category_name:'',
-          small_category_name:23,
+          small_category_name:'',
+          big_category:'',
+          small_category:'',
           language_desc:'',
-          assist_depart:'',
+          assist_depart:[],
           time:''
         };
       },
@@ -166,6 +182,7 @@
             this.paraLoading = true;
             let temp = JSON.parse(JSON.stringify(this.temp));
             temp.assist_depart =  temp.assist_depart[temp.assist_depart.length - 1];
+            temp.time = Number(this.temp.time*3600);
             collectAssist(temp).then((res) => {
               setTimeout(() => {
                 this.paraLoading = false

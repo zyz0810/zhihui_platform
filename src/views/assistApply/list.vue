@@ -146,6 +146,8 @@
           option: {
             big_category_name:row.big_category_name,
             small_category_name:row.small_category_name,
+            big_category:row.big_category,
+            small_category:row.small_category,
           },
         }
       },
