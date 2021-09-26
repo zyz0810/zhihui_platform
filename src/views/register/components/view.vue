@@ -108,7 +108,8 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
-  import {uploadImg} from "@/api/upload"; // waves directive
+  import {uploadImg} from "@/api/upload";
+  import {getInfo} from "@/api/user"; // waves directive
   let markerTool;
   export default {
     name: 'registerView',
@@ -193,6 +194,16 @@
       }
     },
     methods: {
+      getMyDepart(){
+        getInfo().then(res => {
+          if(res.data.department_id != 1){
+            this.temp.add_department = [1,res.data.department_id];
+          }else{
+            this.temp.add_department = [res.data.department_id];
+          }
+          // this.temp.add_department = [1,20];
+        });
+      },
       uploadSectionFile (e) {
         const file = e.file;
         uploadImg(file)
@@ -229,6 +240,7 @@
           // this.departOption= res.data;
           this.departOption = this.getTreeData(res.data);
           console.log(this.departOption)
+          this.getMyDepart();
         });
       },
       getSmallCategory(id){

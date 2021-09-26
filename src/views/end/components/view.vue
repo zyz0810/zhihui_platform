@@ -12,8 +12,8 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
         <div class="mb_20">
-          <span>派遣时间：{{ $moment(formData.send_check_time).format("YYYY-MM-DD HH:mm:ss")}}</span>
-          <span class="ml_30">截止时间：{{ $moment(formData.expire_time).format("YYYY-MM-DD HH:mm:ss")}}</span>
+          <span>派遣时间：{{formData.send_check_time ? $moment(Number(formData.send_check_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
+          <span class="ml_30">截止时间：{{formData.expire_time ? $moment(Number(formData.expire_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
           <span class="ml_30">剩余处理时间：{{formData.residue_time}}</span>
         </div>
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
@@ -23,7 +23,7 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
-            {{ $moment(formData.check_time).format("YYYY-MM-DD HH:mm:ss")}}
+            {{formData.check_time ? $moment(Number(formData.check_time)).format("YYYY-MM-DD HH:mm:ss"):'--'}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
@@ -73,7 +73,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
+            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
           </el-descriptions-item>
 
 

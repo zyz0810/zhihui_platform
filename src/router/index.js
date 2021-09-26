@@ -159,32 +159,32 @@ export const asyncRoutes = [
       },
     ]
   },
-  {
-    path: '/assist',
-    component: Layout,
-    redirect: 'noRedirect',
-    // name: '示范小区',
-    meta: {
-      // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
-      roles: [
-        'admin',
-      ]
-    },
-    children: [
-      {
-        path: 'verify',
-        component: () => import('@/views/assist/list'),
-        name: 'verifyList',
-        meta: {
-          title: '待协办',
-          roles: [
-            'admin',
-          ]
-        }
-      },
-    ]
-  },
+  // {
+  //   path: '/assist',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   // name: '示范小区',
+  //   meta: {
+  //     // title: '示范小区',
+  //     icon: 'iconfont icon-xingxing',
+  //     roles: [
+  //       'admin',
+  //     ]
+  //   },
+  //   children: [
+  //     {
+  //       path: 'verify',
+  //       component: () => import('@/views/assist/list'),
+  //       name: 'verifyList',
+  //       meta: {
+  //         title: '待协办',
+  //         roles: [
+  //           'admin',
+  //         ]
+  //       }
+  //     },
+  //   ]
+  // },
   {
     path: '/end',
     component: Layout,

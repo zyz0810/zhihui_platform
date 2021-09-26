@@ -18,7 +18,7 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
-            {{ $moment(formData.check_time).format("YYYY-MM-DD HH:mm:ss")}}
+            {{formData.check_time ? $moment(Number(formData.check_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
@@ -68,7 +68,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
+            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
@@ -104,8 +104,6 @@
 </template>
 
 <script>
-  import map from '@/components/Map/map' // 引入刚才的map.js 注意路径
-  import {paraValueList,paraValueSave,paraValueUpdate,paraValueDelete} from '@/api/parameter'
   import { collectView,stepLog} from '@/api/collect'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
@@ -157,6 +155,8 @@
           order_no:'',
           check_time:'',
           status:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           is_importance:'',
@@ -268,8 +268,8 @@
       handleClick(){},
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
-          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
+          const {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
+          this.formData = {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
         });
       },
       getStepLog(){

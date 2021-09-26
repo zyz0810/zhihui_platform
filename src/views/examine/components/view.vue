@@ -16,7 +16,7 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">上报时间</template>
-        {{ formData.create_at?$moment(formData.create_at).format("YYYY-MM-DD HH:mm:ss"):''}}
+        {{ formData.create_at?$moment(Number(formData.create_at)*1000).format("YYYY-MM-DD HH:mm:ss"):''}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件状态</template>
@@ -65,7 +65,7 @@
       </el-descriptions-item>
       <el-descriptions-item :span="3">
         <template slot="label">问题图片</template>
-        <img v-for="item in formData.before_images" :src="item" class="my_img"/>
+        <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
       </el-descriptions-item>
     </el-descriptions>
     <div slot="footer" class="dialog-footer">

@@ -174,7 +174,7 @@
         this.temp.small_category_name = this.paraData.option.small_category_name;
         this.temp.big_category = this.paraData.option.big_category;
         this.temp.small_category = this.paraData.option.small_category;
-        this.getTime();
+        this.getTime(this.paraData.option.small_category);
       },
       close(){
         this.firstUserList=[];
@@ -238,7 +238,7 @@
         this.firstUserList = this.userList.filter(item=>{ return item.id!=val})
       },
       getTime(val){
-        categoryDetail({id:this.temp.small_category}).then(res => {
+        categoryDetail({id:val}).then(res => {
           this.temp.time = res.data.send_time;
           // this.departmentList = res.data;
           // console.log( this.departmentList)

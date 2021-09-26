@@ -125,7 +125,7 @@
     methods: {
       formatTime(row, column, cellValue, index) {
         return cellValue
-          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
           : "暂无";
       },
       formatSource(row, column, cellValue, index) {
@@ -174,7 +174,7 @@
       },
       handleView(row, column, event){
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待结案  5  结案 （事件状态）
+        // let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         // this.showViewDialog = true
         if(row.status == 1){
           this.showExamineDialog = true;
@@ -183,7 +183,7 @@
         }else if(row.status == 3){
           this.showDisposalDialog = true;
         }else if(row.status == 4){
-          this.showEndDialog = true;
+          this.showAssistApplyDialog = true;
         }else if(row.status == 5){
           this.showEndDialog = true;
         }

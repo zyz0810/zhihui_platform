@@ -67,7 +67,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <img v-for="item in formData.before_images" :src="item" class="my_img"/>
+            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">主办单位</template>
@@ -148,6 +148,8 @@
           order_no:'',
           check_time:'',
           status:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           is_importance:'',
@@ -202,6 +204,8 @@
           option:{
             big_category_name:this.formData.big_category_name,
             small_category_name:this.formData.small_category_name,
+            big_category:this.formData.big_category,
+            small_category:this.formData.small_category,
           }
         }
       },
@@ -212,8 +216,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department} = res.data
-          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department}
+          const {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department} = res.data
+          this.formData = {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images,main_department}
         });
       },
       getStepLog(){
@@ -258,6 +262,8 @@
           order_no:'',
           check_time:'',
           status:'',
+          big_category:'',
+          small_category:'',
           big_category_name:'',
           small_category_name:'',
           is_importance:'',

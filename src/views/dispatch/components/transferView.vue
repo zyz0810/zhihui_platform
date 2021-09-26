@@ -18,17 +18,17 @@
         <el-input v-model="temp.small_category_name" placeholder="" :disabled="true" clearable/>
       </el-form-item>
       <el-form-item label="转办部门" prop="depart_id">
-<!--        <el-select v-model="temp.depart_id">-->
-<!--&lt;!&ndash;          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>&ndash;&gt;-->
-<!--        </el-select>-->
-                <el-cascader ref="cascaderPublish"
-                             v-model="temp.depart_id"
-                             :options="departmentList"
-                             :show-all-levels="false"
-                             filterable
-                             :props="props"
-                             @change="categoryChange"
-                             placeholder="请选择"></el-cascader>
+        <el-select v-model="temp.depart_id">
+          <el-option v-for="item in departmentList" :label="item.department_name" :value="item.id"></el-option>
+        </el-select>
+<!--                <el-cascader ref="cascaderPublish"-->
+<!--                             v-model="temp.depart_id"-->
+<!--                             :options="departmentList"-->
+<!--                             :show-all-levels="false"-->
+<!--                             filterable-->
+<!--                             :props="props"-->
+<!--                             @change="categoryChange"-->
+<!--                             placeholder="请选择"></el-cascader>-->
       </el-form-item>
       <el-form-item label="说明" prop="language_desc">
         <el-select v-model="temp.language_desc" filterable allow-create>
@@ -48,7 +48,7 @@
   import waves from '@/directive/waves'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
-  import {languageList,departmentList} from "@/api/system"; // waves directive
+  import {languageList, departmentList, allDepartmentTreeList} from "@/api/system"; // waves directive
   import {collectStatus, collectTurnDeal} from "@/api/collect"; // waves directive
 
   export default {
@@ -144,17 +144,21 @@
         };
       },
       getDepartment() {
-        departmentList({page:1,pageSize:9999}).then(res => {
-          // let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
-          // departmentList = Array.prototype.concat.apply([],departmentList);
-          //  this.departmentList= departmentList.filter(item=>{
-          //    if(item.id != this.temp.departmentId){
-          //      return item;
-          //    }
-          //  });
-          // console.log( this.departmentList)
-          this.departmentList = res.data
+        // departmentList({page:1,pageSize:9999}).then(res => {
+        //   // let departmentList = res.data.filter(item=>item.list.length>0).map(item=>{return item.list});
+        //   // departmentList = Array.prototype.concat.apply([],departmentList);
+        //   //  this.departmentList= departmentList.filter(item=>{
+        //   //    if(item.id != this.temp.departmentId){
+        //   //      return item;
+        //   //    }
+        //   //  });
+        //   // console.log( this.departmentList)
+        //   this.departmentList = res.data
+        // });
+        allDepartmentTreeList({parent_id:1}).then(res => {
+          this.departmentList = res.data;
         });
+
       },
       getLanguage() {
         languageList({page:1,pageSize:99999}).then(res => {
@@ -167,7 +171,7 @@
             this.paraLoading = true;
             // depart_id
             let temp = JSON.parse(JSON.stringify(this.temp));
-            temp.depart_id =  temp.depart_id[temp.depart_id.length - 1];
+            // temp.depart_id =  temp.depart_id[temp.depart_id.length - 1];
             collectTurnDeal(temp).then((res) => {
               setTimeout(() => {
                 this.paraLoading = false

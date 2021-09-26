@@ -9,10 +9,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="案件小类">
-          <el-select v-model="listQuery.status" placeholder="选择设备名称" @change="handleFilter">
-            <el-option label="启用" value="1"></el-option>
-            <el-option label="禁用" value="0"></el-option>
-          </el-select>
+          <el-cascader ref="cascaderPublish" clearable v-model="listQuery.category_small" :options="categoryList" @change="changeCategory" :show-all-levels="false" filterable :props="props" placeholder="请选择违规类型"></el-cascader>
         </el-form-item>
         <el-form-item label="时间：" prop="name">
           <el-date-picker
@@ -58,6 +55,7 @@
 
 <script>
   import {collectList} from '@/api/collect'
+  import {categoryList} from '@/api/system'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import { mapState } from 'vuex'
@@ -73,6 +71,13 @@
     },
     data() {
       return {
+        props: {
+          expandTrigger: "click",
+          value: "id",
+          label: "name",
+          children: "parent_list",
+          disabled: false,
+        },
         showViewDialog:false,
         paraData:{
           id:''
@@ -80,7 +85,10 @@
         total: 0,
         list: [],
         listLoading: false,
+        categoryList:[],
         listQuery: {
+          category_big:'',
+          category_small:'',
           source:'',
           status:1,
           page: 1,
@@ -115,8 +123,39 @@
         };
       });
       this.getList();
+      this.getCategory();
     },
     methods: {
+      changeCategory(val){
+        this.listQuery.category_big = val[0];
+        this.listQuery.category_small = val[1];
+      },
+      getCategory() {
+        // departTree().then(res => {
+        //   this.categoryList = this.getTreeData(res.data);
+        // });
+        categoryList({page:1,pageSize:99999}).then(res=>{
+          this.categoryList = res.data.data
+
+        });
+      },
+      getTreeData (data) {
+        if (data != "" || data != null) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].child.length < 1) {
+              // children若为空数组，则将children设为undefined
+              // if (data[i].grade == 3) {
+              //   data[i].childrens = undefined;
+              // }
+              data[i].child = undefined;
+            } else {
+              // children若不为空数组，则继续 递归调用 本方法
+              this.getTreeData(data[i].child);
+            }
+          }
+          return data;
+        }
+      },
       formatImportant(row, column, cellValue, index) {
         return cellValue == 1
           ? "是"
@@ -126,7 +165,7 @@
       },
       formatTime(row, column, cellValue, index) {
         return cellValue
-          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
           : "暂无";
       },
       handleFilter() {

@@ -29,7 +29,7 @@
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
-        <el-table-column label="派遣时间" align="center" prop="send_check_time"></el-table-column>
+        <el-table-column label="派遣时间" align="center" prop="send_check_time" :formatter="formatTime"></el-table-column>
         <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
@@ -108,6 +108,11 @@
           : cellValue == 2
             ? "AI识别"
             : "--";
+      },
+      formatTime(row, column, cellValue, index) {
+        return cellValue
+          ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
+          : "暂无";
       },
       formatImportant(row, column, cellValue, index) {
         return cellValue == 1

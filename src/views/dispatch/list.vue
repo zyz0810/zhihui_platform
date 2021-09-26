@@ -112,7 +112,7 @@
       },
       formatTime(row, column, cellValue, index) {
         return cellValue
-          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
           : "暂无";
       },
       handleFilter() {

@@ -142,7 +142,7 @@ service.interceptors.response.use(
     } else {
       console.log('错误')
       Message({
-        message: res.resp_msg || '获取数据失败',
+        message: res.message || '获取数据失败',
         type: 'error',
         duration: 5 * 1000
       })

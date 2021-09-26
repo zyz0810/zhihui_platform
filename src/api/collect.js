@@ -58,11 +58,26 @@ export function collectEdit(data) {
  */
 export function collectStatus(data) {
   return request({
-    url:'/admin/collect/editCollect',
+    // url:'/admin/collect/editCollect',
+    url:'/admin/collect/checkStatusCollect',
     method: 'post',
     data: Qs.stringify(data)
   })
 }
+/* 废弃 驳回 待审核 待处置 待结案 状态修改
+ * id ID
+ * status 只能是0、1、7、8  （1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃）
+ * language_desc 描述
+ * deal_images 处理后图片 多个用,拼接
+ */
+export function checkStatusCollect(data) {
+  return request({
+    url:'/admin/collect/checkStatusCollect',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
 /* 案件转办
  * id ID
  * big_category 大类
