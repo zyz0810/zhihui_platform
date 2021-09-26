@@ -96,7 +96,7 @@
             // 结案
             if(type==1){
               // 1、待审核  2、待派遣 3、待协办申请  4、待协办 5、待处置  6、待结案  7、结案  0、废弃
-              this.temp.status = 8;
+              this.temp.status = 9;
               console.log('111')
               collectStatus(this.temp).then((res) => {
                 setTimeout(()=>{

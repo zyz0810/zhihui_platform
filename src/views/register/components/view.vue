@@ -60,11 +60,11 @@
       </el-form-item>
     </el-form>
     <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="举报人" prop="report">
-        <el-input v-model.trim="temp.report" placeholder="请输入举报人" autocomplete="off" clearable/>
+      <el-form-item label="上报人" prop="report">
+        <el-input v-model.trim="temp.report" placeholder="请输入上报人" autocomplete="off" clearable/>
       </el-form-item>
-      <el-form-item label="举报人电话" prop="mobile">
-        <el-input v-model.trim="temp.mobile" placeholder="请输入举报人电话" autocomplete="off" clearable/>
+      <el-form-item label="上报人电话" prop="mobile">
+        <el-input v-model.trim="temp.mobile" placeholder="请输入上报人电话" autocomplete="off" clearable/>
       </el-form-item>
       <el-form-item label="是否为紧急案件" prop="is_importance">
         <el-radio-group v-model="temp.is_importance">

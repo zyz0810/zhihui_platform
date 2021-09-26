@@ -20,24 +20,24 @@
 
           <el-descriptions-item>
             <template slot="label">申请部门</template>
-            字段是啥？？
+
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">申请人员</template>
-            字段是啥？？
+
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">申请时间</template>
-            字段是啥？？
+
           </el-descriptions-item>
 
           <el-descriptions-item>
             <template slot="label">申请类型</template>
-            字段是啥？？
+            {{formData.sgin_name}}
           </el-descriptions-item>
           <el-descriptions-item :span="2">
             <template slot="label">申请内容</template>
-            字段是啥？？
+
           </el-descriptions-item>
 
 
@@ -53,7 +53,7 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
-            {{formData.status | filtersStatus}}
+            {{formData.sgin_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件大类</template>
@@ -176,6 +176,7 @@
           order_no:'',
           check_time:'',
           status:'',
+          sgin_name:'',
           big_category:'',
           small_category:'',
           big_category_name:'',
@@ -214,9 +215,9 @@
     },
     filters:{
       filtersStatus: function(value) {
-        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃（操作状态）
-        // 0、废弃    1、待审核   2、待派遣  （3、4、5、6） 3、待处置  4、待协办申请  5  待结案 6、 结案  7、废弃 （事件状态）
-        let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
+        // 过程
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        let StatusArr = { 1:'待审核',2:'待派遣', 3:'待协办申请',4:'转办', 5:'待协办',6:'协办', 7:'待处置', 8:'待结案',9:'结案', 0:'废弃'};
         return StatusArr[value]
       },
       filtersImportant: function(value) {
@@ -255,8 +256,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time} = res.data
-          this.formData = {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time}
+          const {id,order_no,check_time,status,sgin_name,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time} = res.data
+          this.formData = {id,order_no,check_time,status,sgin_name,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time}
         });
       },
       getStepLog(){
@@ -301,6 +302,7 @@
           order_no:'',
           check_time:'',
           status:'',
+          sgin_name:'',
           big_category:'',
           small_category:'',
           big_category_name:'',

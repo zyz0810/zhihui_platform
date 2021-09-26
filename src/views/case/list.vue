@@ -24,7 +24,7 @@
         <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="紧急案件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
-        <el-table-column label="状态" align="center" prop="status" :formatter="formatStatus"></el-table-column>
+        <el-table-column label="状态" align="center" prop="sgin_name"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
@@ -176,16 +176,20 @@
         // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
         // let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         // this.showViewDialog = true
-        if(row.status == 1){
+        if(row.sgin_name == '待审核'){
           this.showExamineDialog = true;
-        }else if(row.status == 2){
+        }else if(row.sgin_name == '待派遣'){
           this.showDispatchDialog = true;
-        }else if(row.status == 3){
+        }else if(row.sgin_name == '待处置'){
           this.showDisposalDialog = true;
-        }else if(row.status == 4){
+        }else if(row.sgin_name == '待协办申请'){
           this.showAssistApplyDialog = true;
-        }else if(row.status == 5){
+        }else if(row.sgin_name == '待结案'){
           this.showEndDialog = true;
+        }else if(row.sgin_name == '结案'){
+          this.showEndDialog = true;
+        }else if(row.sgin_name == '废弃'){
+          this.showExamineDialog = true;
         }
 
         this.viewData = {

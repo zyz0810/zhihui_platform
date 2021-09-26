@@ -37,8 +37,8 @@
         <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="案件大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="案件小类" align="center" prop="small_category_name"></el-table-column>
-        <el-table-column label="举报人" align="center" prop="report"></el-table-column>
-        <el-table-column label="举报人电话" align="center" prop="mobile"></el-table-column>
+        <el-table-column label="上报人" align="center" prop="report"></el-table-column>
+        <el-table-column label="上报人电话" align="center" prop="mobile"></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
         <el-table-column label="登记时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
