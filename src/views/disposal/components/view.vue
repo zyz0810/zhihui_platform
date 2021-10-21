@@ -92,7 +92,7 @@
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="handleDisposal">处置</el-button>
     </div>
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData"></abandonedView>
+    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData" @updateView="showViewDialog = false"></abandonedView>
   </myDialog>
 </template>
 
@@ -210,8 +210,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time} = res.data
-          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time}
+          const {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time} = res.data
+          this.formData = {id,order_no,check_time,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time}
         });
       },
       getStepLog(){

@@ -87,19 +87,19 @@
 
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleAbandoned">废弃</el-button>
-      <el-button type="warning" @click="handleTransfer">转办</el-button>
+      <el-button type="warning" @click="handleTransfer" v-if="formData.status != 4">转办</el-button>
       <el-button type="info" @click="handleJointly">申请协办</el-button>
       <el-button type="primary" @click="handleDispatch">派遣</el-button>
       <el-button type="success" @click="">打 印</el-button>
     </div>
     <!--废弃-->
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData" @updateView="getView"></abandonedView>
+    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData" @updateView="showViewDialog = false"></abandonedView>
     <!--转办-->
-    <transferView :showDialog.sync="showTransferDialog" :paraData="viewData"></transferView>
+    <transferView :showDialog.sync="showTransferDialog" :paraData="viewData" @updateView="showViewDialog = false"></transferView>
     <!--申请协办-->
-    <jointlyView :showDialog.sync="showJointlyDialog" :paraData="viewData"></jointlyView>
+    <jointlyView :showDialog.sync="showJointlyDialog" :paraData="viewData" @updateView="showViewDialog = false"></jointlyView>
     <!--派遣-->
-    <dispatchViewDialog :showDialog.sync="showDispatchDialog" :paraData="viewData"></dispatchViewDialog>
+    <dispatchViewDialog :showDialog.sync="showDispatchDialog" :paraData="viewData" @updateView="showViewDialog = false"></dispatchViewDialog>
   </myDialog>
 </template>
 

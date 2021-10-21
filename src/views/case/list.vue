@@ -159,7 +159,7 @@
                   : cellValue == 5
                     ? "待结案"
                     : cellValue == 6
-                      ? "结案"
+                      ? "已结案"
             : "--";
       },
       handleFilter() {

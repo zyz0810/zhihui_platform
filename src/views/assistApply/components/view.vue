@@ -121,9 +121,9 @@
       <el-button type="primary" @click="handleTransfer()">协办</el-button>
       <el-button type="success" @click="">打印</el-button>
     </div>
-    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="paraData"></dispatchView>
-    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData"></abandonedView>
-    <transferView :showDialog.sync="showTransferDialog" :paraData="paraData"></transferView>
+    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="paraData" @updateView="showViewDialog = false"></dispatchView>
+    <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData" @updateView="showViewDialog = false"></abandonedView>
+    <transferView :showDialog.sync="showTransferDialog" :paraData="paraData" @updateView="showViewDialog = false"></transferView>
   </myDialog>
 </template>
 

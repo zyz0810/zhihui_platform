@@ -130,7 +130,7 @@
       <el-button type="warning" @click="handleOperation(0)">驳回</el-button>
       <el-button type="primary" @click="handleOperation(1)">结案</el-button>
     </div>
-    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData"></adoptView>
+    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
   </myDialog>
 </template>
 
@@ -250,8 +250,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time} = res.data
-          this.formData = {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_imagessend_check_time,expire_time,residue_time}
+          const {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time} = res.data
+          this.formData = {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time}
         });
       },
       handleClick(){},

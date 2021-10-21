@@ -16,7 +16,7 @@
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
-        <el-table-column label="" align="center" prop="is_red">
+        <el-table-column label="案件标识" align="center" prop="is_red">
           <template slot-scope="scope">
             <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>
             <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>

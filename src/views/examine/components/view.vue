@@ -73,7 +73,7 @@
       <el-button type="warning" @click="handleOperation(2)">废 弃</el-button>
       <el-button type="primary" @click="handleOperation(1)">通 过</el-button>
     </div>
-    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="getView"></adoptView>
+    <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
   </myDialog>
 </template>
 

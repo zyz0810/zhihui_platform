@@ -554,9 +554,21 @@
         this.getCategory();
         this.getDepartTree();
       },
-      close(){},
-      resetTemp() {
-        this.temp = {
+      close(){
+        this.dialogVisible=false;
+        this.dialogImageUrl='';
+        this.imageList=[];
+        this.departOption=[];
+        this.categoryOption=[];
+        this.smallCategory=[];
+        this.map= ''; // 对象
+        this.zoom= 12; // 地图的初始化级别，及放大比例
+          this.centerLatitude='30.20835';//中心纬度
+        this.centerLongitude='120.21194';//中心经度
+        this.paraLoading=false;
+        this.images='';
+        // source、big_category、small_category、address、description、question_images、report、mobile、is_importance、add_department
+        this.temp= {
           source:'',
           big_category:'',
           small_category:'',
@@ -565,12 +577,12 @@
           question_images:'',
           report:'',
           mobile:'',
-          is_importance:'',
-          add_department:''
-        }
+          is_importance:1,
+          add_department:'',
+          log:'120.21194',
+          lat:'30.20835'
+        };
       },
-
-
 
       createData() {
         this.$refs['dataForm'].validate((valid) => {
