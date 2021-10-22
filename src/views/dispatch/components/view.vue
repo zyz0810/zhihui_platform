@@ -9,7 +9,7 @@
     class="dialogContainer"
     @open="open"
   >
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" class="dialog_tab" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
@@ -68,7 +68,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
+            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
@@ -100,6 +100,13 @@
     <jointlyView :showDialog.sync="showJointlyDialog" :paraData="viewData" @updateView="showViewDialog = false"></jointlyView>
     <!--派遣-->
     <dispatchViewDialog :showDialog.sync="showDispatchDialog" :paraData="viewData" @updateView="showViewDialog = false"></dispatchViewDialog>
+    <my-dialog :visible.sync="dialogVisible"
+               title="查看图片"
+               :append-to-body="true">
+      <img width="100%"
+           :src="dialogImageUrl"
+           alt />
+    </my-dialog>
   </myDialog>
 </template>
 
@@ -149,6 +156,8 @@
     },
     data() {
       return {
+        dialogVisible:false,
+        dialogImageUrl:'',
         viewData:{},
         formData:{
           id:'',
@@ -206,6 +215,10 @@
       },
     },
     methods: {
+      handlePictureCardPreview (file) {
+        this.dialogImageUrl = file;
+        this.dialogVisible = true;
+      },
       formatTime(row, column, cellValue, index) {
         return cellValue
           ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")

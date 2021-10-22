@@ -9,82 +9,84 @@
     class="dialogContainer"
     @open="open"
   >
-    <p class="f14 baseColor el-dialog__body_title">问题信息</p>
-    <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="案件来源" prop="source">
-        <el-select v-model="temp.source">
-<!--          问题登记，AI识别-->
-          <el-option label="问题登记" value="1"></el-option>
-          <el-option label="AI识别" value="2"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="案件大类" prop="big_category">
-        <el-select v-model="temp.big_category" @change="changeCategory">
-          <el-option v-for="item in categoryOption" :label="item.name" :value="item.id" :key="item.id"></el-option>
-        </el-select>
-<!--        <el-cascader ref="cascaderPublish"-->
-<!--                     v-model="temp.big_category"-->
-<!--                     :options="categoryOption"-->
-<!--                     :show-all-levels="false"-->
-<!--                     filterable-->
-<!--                     :props="props"-->
-<!--                     @change="categoryChange"-->
-<!--                     :disabled="isEdit"-->
-<!--                     placeholder="请选择商品分类"></el-cascader>-->
-      </el-form-item>
-      <el-form-item label="案件小类" prop="small_category">
-        <el-select v-model="temp.small_category">
-          <el-option v-for="item in smallCategory" :label="item.name" :value="item.id" :key="item.id"></el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mb_20">
-      <el-form-item label="事件位置" prop="address">
-        <el-input v-model.trim="temp.address" placeholder="请在地图上选择" autocomplete="off" @input="getAddress" clearable/>
-        <div id='mapDiv' class="mapDiv mt_10" style="width: 100%;height: 200px"></div>
-      </el-form-item>
-      <el-form-item label="问题描述" prop="description">
-        <el-input type="textarea" v-model.trim="temp.description" placeholder="故障详情……500字以内" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="问题图片" prop="question_images">
-        <!--<SingleImage :tempUrl="temp.question_images" v-on:imgSrc="hasImgSrc"></SingleImage>-->
-        <el-upload action
-                   :http-request="uploadSectionFile"
-                   list-type="picture-card"
-                   :on-remove="handleRemove"
-                   :on-preview="handlePictureCardPreview"
-                   :file-list="imageList"
-                   :limit="200">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-      </el-form-item>
-    </el-form>
-    <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
-      <el-form-item label="上报人" prop="report">
-        <el-input v-model.trim="temp.report" placeholder="请输入上报人" autocomplete="off" clearable/>
-      </el-form-item>
-      <el-form-item label="上报人电话" prop="mobile">
-        <el-input v-model.trim="temp.mobile" placeholder="请输入上报人电话" autocomplete="off" clearable/>
-      </el-form-item>
-      <el-form-item label="是否为紧急案件" prop="is_importance">
-        <el-radio-group v-model="temp.is_importance">
-          <el-radio :label="1">是</el-radio>
-          <el-radio :label="2">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-    </el-form>
-    <p class="f14 baseColor el-dialog__body_title">受理信息</p>
-    <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="p20">
-      <el-form-item label="承办部门" prop="add_department">
-        <el-cascader ref="cascaderPublish"
-                     v-model="temp.add_department"
-                     :options="departOption"
-                     :show-all-levels="false"
-                     filterable
-                     :props="props"
-                     placeholder="请选择承办部门"></el-cascader>
-      </el-form-item>
-    </el-form>
+    <div class="dialog_form">
+      <p class="f14 baseColor el-dialog__body_title">问题信息</p>
+      <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
+        <el-form-item label="案件来源" prop="source">
+          <el-select v-model="temp.source">
+            <!--          问题登记，AI识别-->
+            <el-option label="问题登记" value="1"></el-option>
+            <el-option label="AI识别" value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="案件大类" prop="big_category">
+          <el-select v-model="temp.big_category" @change="changeCategory">
+            <el-option v-for="item in categoryOption" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
+          <!--        <el-cascader ref="cascaderPublish"-->
+          <!--                     v-model="temp.big_category"-->
+          <!--                     :options="categoryOption"-->
+          <!--                     :show-all-levels="false"-->
+          <!--                     filterable-->
+          <!--                     :props="props"-->
+          <!--                     @change="categoryChange"-->
+          <!--                     :disabled="isEdit"-->
+          <!--                     placeholder="请选择商品分类"></el-cascader>-->
+        </el-form-item>
+        <el-form-item label="案件小类" prop="small_category">
+          <el-select v-model="temp.small_category">
+            <el-option v-for="item in smallCategory" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="mb_20">
+        <el-form-item label="事件位置" prop="address">
+          <el-input v-model.trim="temp.address" placeholder="请在地图上选择" autocomplete="off" @input="getAddress" clearable/>
+          <div id='mapDiv' class="mapDiv mt_10" style="width: 100%;height: 200px"></div>
+        </el-form-item>
+        <el-form-item label="问题描述" prop="description">
+          <el-input type="textarea" v-model.trim="temp.description" placeholder="故障详情……500字以内" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="问题图片" prop="question_images">
+          <!--<SingleImage :tempUrl="temp.question_images" v-on:imgSrc="hasImgSrc"></SingleImage>-->
+          <el-upload action
+                     :http-request="uploadSectionFile"
+                     list-type="picture-card"
+                     :on-remove="handleRemove"
+                     :on-preview="handlePictureCardPreview"
+                     :file-list="imageList"
+                     :limit="200">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <el-form ref="dataForm" :rules="rules" :inline="true" :model="temp" label-width="120px" class="mt_20">
+        <el-form-item label="上报人" prop="report">
+          <el-input v-model.trim="temp.report" placeholder="请输入上报人" autocomplete="off" clearable/>
+        </el-form-item>
+        <el-form-item label="上报人电话" prop="mobile">
+          <el-input v-model.trim="temp.mobile" placeholder="请输入上报人电话" autocomplete="off" clearable/>
+        </el-form-item>
+        <el-form-item label="是否为紧急案件" prop="is_importance">
+          <el-radio-group v-model="temp.is_importance">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="2">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <p class="f14 baseColor el-dialog__body_title">受理信息</p>
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-width="120px" class="p20">
+        <el-form-item label="承办部门" prop="add_department">
+          <el-cascader ref="cascaderPublish"
+                       v-model="temp.add_department"
+                       :options="departOption"
+                       :show-all-levels="false"
+                       filterable
+                       :props="props"
+                       placeholder="请选择承办部门"></el-cascader>
+        </el-form-item>
+      </el-form>
+    </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="createData()" :loading="paraLoading">确 定</el-button>
       <el-button @click="showViewDialog = false">取 消</el-button>

@@ -465,7 +465,7 @@ img {
 // 纯form类型弹窗高度
 .dialog_form{
   //margin-left:50px;
-  max-height: 62vh;
+  max-height: 68vh;
   overflow: auto;
   .el-input{
     width: 230px;
@@ -821,7 +821,7 @@ input[type="number"] {
 //}
 .dialog_tab{
   .el-tabs__content{
-    height: 60vh;
+    max-height: 60vh;
     overflow: auto;
   }
 }
@@ -1048,4 +1048,7 @@ input[type="number"] {
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   cursor:pointer;
+}
+.pointer{
+  cursor: pointer;
 }

@@ -9,7 +9,7 @@
     class="dialogContainer"
     @open="open"
   >
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" class="dialog_tab" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
         <div class="mb_20">
           <span>派遣时间：{{formData.send_check_time ? $moment(Number(formData.send_check_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
@@ -73,7 +73,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">问题图片</template>
-            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
+            <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
           </el-descriptions-item>
 
 
@@ -91,7 +91,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">处置图片</template>
-            <img v-for="item in formData.main.after_images" :src="item" class="my_img fl mr_10"/>
+            <img v-for="item in formData.main.after_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">协办部门</template>
@@ -107,7 +107,7 @@
           </el-descriptions-item>
           <el-descriptions-item :span="3">
             <template slot="label">处置图片</template>
-            <img v-for="item in formData.assist.after_images" :src="item" class="my_img fl mr_10"/>
+            <img v-for="item in formData.assist.after_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
           </el-descriptions-item>
 
 
@@ -131,6 +131,13 @@
       <el-button type="primary" @click="handleOperation(1)">结案</el-button>
     </div>
     <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
+    <my-dialog :visible.sync="dialogVisible"
+               title="查看图片"
+               :append-to-body="true">
+      <img width="100%"
+           :src="dialogImageUrl"
+           alt />
+    </my-dialog>
   </myDialog>
 </template>
 
@@ -172,6 +179,8 @@
     },
     data() {
       return {
+        dialogVisible:false,
+        dialogImageUrl:'',
         viewData:{},
         tableHeight:200,
         formData:{
@@ -231,6 +240,10 @@
       },
     },
     methods: {
+      handlePictureCardPreview (file) {
+        this.dialogImageUrl = file;
+        this.dialogVisible = true;
+      },
       formatTime(row, column, cellValue, index) {
         return cellValue
           ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")

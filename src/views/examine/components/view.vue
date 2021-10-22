@@ -9,7 +9,7 @@
     class="dialogContainer"
     @open="open"
   >
-    <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
+    <el-descriptions class="margin-top dialog_form" title="" :column="3" size="medium" border>
       <el-descriptions-item>
         <template slot="label">任务号</template>
         {{formData.number_no}}
@@ -65,7 +65,7 @@
       </el-descriptions-item>
       <el-descriptions-item :span="3">
         <template slot="label">问题图片</template>
-        <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10"/>
+        <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
       </el-descriptions-item>
     </el-descriptions>
     <div slot="footer" class="dialog-footer">
@@ -74,6 +74,13 @@
       <el-button type="primary" @click="handleOperation(1)">通 过</el-button>
     </div>
     <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
+    <my-dialog :visible.sync="dialogVisible"
+               title="查看图片"
+               :append-to-body="true">
+      <img width="100%"
+           :src="dialogImageUrl"
+           alt />
+    </my-dialog>
   </myDialog>
 </template>
 
@@ -111,6 +118,8 @@
     },
     data() {
       return {
+        dialogVisible:false,
+        dialogImageUrl:'',
         viewData:{
           id:'',
           operatorType:'',
@@ -165,6 +174,10 @@
       },
     },
     methods: {
+      handlePictureCardPreview (file) {
+        this.dialogImageUrl = file;
+        this.dialogVisible = true;
+      },
       handleOperation(type){
         this.showAdoptDialog = true
         this.viewData = {
