@@ -84,13 +84,61 @@ const actions = {
       treeList({app_type: 1}).then(response => {
         console.log('权限获取成功')
         if(response.code == 1){
+
+
+          // function getTreeData (data) {
+          //   if (data != "" || data != null) {
+          //     for (let i = 0; i < data.length; i++) {
+          //       if (data[i].child.length < 1) {
+          //         // children若为空数组，则将children设为undefined
+          //         // if (data[i].grade == 3) {
+          //         //   data[i].childrens = undefined;
+          //         // }
+          //         data[i].child = undefined;
+          //       } else {
+          //         // children若不为空数组，则继续 递归调用 本方法
+          //         this.getTreeData(data[i].child);
+          //       }
+          //     }
+          //     return data;
+          //   }
+          // }
+          let roleArr = [];
+          // roleArr = response.data;
+          function getTreeData (data) {
+            if (data != "" || data != null) {
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].child.length < 1) {
+                  // children若为空数组，则将children设为undefined
+                  // if (data[i].grade == 3) {
+                  //   data[i].childrens = undefined;
+                  // }
+                  data[i].child = undefined;
+                } else {
+                  // children若不为空数组，则继续 递归调用 本方法
+                  console.log('全系23333')
+                  getTreeData(data[i].child);
+                  roleArr = roleArr.concat(data[i].child)
+                }
+              }
+              // return data;
+            }
+          }
+
+          getTreeData(response.data);
+
+          roleArr = roleArr.concat(response.data)
+          roleArr = roleArr.map(item=>{return item.url_key})
+          console.log('权限')
+          console.log(roleArr)
+
           // commit('SET_ID', response.data.id);
           commit('SET_NAME', response.data.nickname);
           commit('SET_MOBILE', response.data.mobile);
           // setId(response.data.id);
           setName(response.data.nickname);
           setMobile(response.data.mobile)
-          let role = []
+          let role = roleArr
           role = ['admin']
           // if(response.data.user_name == 'admin'){
           //   role = ['admin']

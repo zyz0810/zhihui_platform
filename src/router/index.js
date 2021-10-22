@@ -102,7 +102,7 @@ export const asyncRoutes = [
         name: 'modelList',
         meta: {
           title: '问题登记',
-          roles: ['admin'],
+          roles: ['admin','admin-centre-register-problem','two-depart-register-problem','centre-register-problem','depart-register-problem'],
         }
       }
     ]
@@ -128,6 +128,15 @@ export const asyncRoutes = [
           title: '待审核',
           roles: [
             'admin',
+            'admin-centre-check',
+            'two-depart-chenck',
+            'centre-cancel-pass-stay-check',
+            'depart-cancel-pass-stay-check',
+            'centre-abandon-pass-stay-check',
+            'depart-pass-stay-check',
+            'centre-pass-stay-check',
+            'depart-pass-stay-check',
+
           ]
         }
       },
@@ -142,7 +151,7 @@ export const asyncRoutes = [
       // title: '示范小区',
       icon: 'iconfont icon-xingxing',
       roles: [
-        'admin',
+        'admin','',''
       ]
     },
     children: [
@@ -154,6 +163,17 @@ export const asyncRoutes = [
           title: '待派遣',
           roles: [
             'admin',
+            'centre-stay-dispatch',
+            'two-depart-stay-dispat',
+            'centre-abandon-stay-dispatch',
+            'depart-abandon-stay-dispatch',
+            'depart-turn-stay-dispatch',
+            'depart-supported-applications-stay-dispatch',
+            'center-dispatch-stay-dispatch',
+            'depart-dispatch-stay-dispatch',
+            'centre-write-stay-dispatch',
+            'depart-write-stay-dispatch',
+
           ]
         }
       },
@@ -206,6 +226,11 @@ export const asyncRoutes = [
           title: '待结案',
           roles: [
             'admin',
+            'centre-reject-stay-end-case',
+            'depart-reject-stay-end-case',
+            'centre-end-case',
+            'depart-end-case',
+
           ]
         }
       },
@@ -232,6 +257,8 @@ export const asyncRoutes = [
           title: '待处置',
           roles: [
             'admin',
+            'depart-stay-disposition',
+
           ]
         }
       },
@@ -284,6 +311,9 @@ export const asyncRoutes = [
           title: '待协办申请',
           roles: [
             'admin',
+            'centre-reject-stay-supported-applications',
+            'centre-stay-supported-applications',
+            'centre-stay-write-applications'
           ]
         }
       },
