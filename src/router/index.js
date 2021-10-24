@@ -102,7 +102,12 @@ export const asyncRoutes = [
         name: 'modelList',
         meta: {
           title: '问题登记',
-          roles: ['admin','admin-centre-register-problem','two-depart-register-problem','centre-register-problem','depart-register-problem'],
+          roles: ['admin',
+            'web-regist-problem',
+            'admin-centre-register-problem',
+            'two-depart-register-problem',
+            'centre-register-problem',
+            'depart-register-problem'],
         }
       }
     ]
@@ -128,6 +133,7 @@ export const asyncRoutes = [
           title: '待审核',
           roles: [
             'admin',
+            'web-stay-check',
             'admin-centre-check',
             'two-depart-chenck',
             'centre-cancel-pass-stay-check',
@@ -163,6 +169,7 @@ export const asyncRoutes = [
           title: '待派遣',
           roles: [
             'admin',
+            'web-stay-dispatch',
             'centre-stay-dispatch',
             'two-depart-stay-dispat',
             'centre-abandon-stay-dispatch',
@@ -226,6 +233,7 @@ export const asyncRoutes = [
           title: '待结案',
           roles: [
             'admin',
+            'web-stay-end',
             'centre-reject-stay-end-case',
             'depart-reject-stay-end-case',
             'centre-end-case',
@@ -257,6 +265,7 @@ export const asyncRoutes = [
           title: '待处置',
           roles: [
             'admin',
+            'web-stay-deal_with',
             'depart-stay-disposition',
 
           ]
@@ -285,6 +294,7 @@ export const asyncRoutes = [
           title: '案件查询',
           roles: [
             'admin',
+            'web-all-query'
           ]
         }
       },
@@ -311,6 +321,7 @@ export const asyncRoutes = [
           title: '待协办申请',
           roles: [
             'admin',
+            'web-stay-supported-applications',
             'centre-reject-stay-supported-applications',
             'centre-stay-supported-applications',
             'centre-stay-write-applications'

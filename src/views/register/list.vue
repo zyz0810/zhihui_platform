@@ -3,17 +3,18 @@
     <div class="filter-container">
       <el-form :inline="true" :model="listQuery" class="search_form">
         <el-form-item label="案件来源">
-          <el-select v-model="listQuery.source" placeholder="选择巡查来源" @change="handleFilter">
+          <el-select v-model="listQuery.source" placeholder="选择巡查来源" clearable>
             <el-option label="问题登记" value="1"></el-option>
             <el-option label="AI识别" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="案件小类">
-          <el-cascader ref="cascaderPublish" clearable v-model="listQuery.category_small" :options="categoryList" @change="changeCategory" :show-all-levels="false" filterable :props="props" placeholder="请选择违规类型"></el-cascader>
+          <el-cascader ref="cascaderPublish" clearable v-model="listQuery.small_category" :options="categoryList" @change="changeCategory" :show-all-levels="false" filterable :props="props" placeholder="请选择违规类型"></el-cascader>
         </el-form-item>
         <el-form-item label="时间：" prop="name">
           <el-date-picker
-            v-model="listQuery.yearChoose"
+            v-model="dateTime"
+            value-format="yyyy-MM-dd"
             clearable
             type="daterange"
             range-separator="至"
@@ -28,7 +29,8 @@
     </div>
     <div class="p20 bg_white">
       <div class="mb_10">
-        <el-button type="primary" icon="iconfont icon-daochu1" @click="handleView">问题登记</el-button>
+        <el-button type="primary" icon="iconfont icon-daochu1" v-if="roles.includes('admin-centre-register-problem') || roles.includes('two-depart-register-problem') ||
+ roles.includes('centre-register-problem') || roles.includes('depart-register-problem')" @click="handleView">问题登记</el-button>
         <el-button type="primary" icon="iconfont icon-daochu1" @click="">导出</el-button>
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
@@ -87,9 +89,11 @@
         listLoading: false,
         categoryList:[],
         listQuery: {
-          category_big:'',
-          category_small:'',
+          big_category:'',
+          small_category:'',
           source:'',
+          start_time:'',
+          end_time:'',
           status:1,
           page: 1,
           pageSize: 10
@@ -101,6 +105,24 @@
       ...mapState({
         roles: state => state.user.roles,
       }),
+      dateTime: {
+        get () {
+          if (this.listQuery.start_time && this.listQuery.end_time) {
+            return [this.listQuery.start_time, this.listQuery.end_time];
+          } else {
+            return [];
+          }
+        },
+        set (v) {
+          if (v) {
+            this.listQuery.start_time = v[0];
+            this.listQuery.end_time = v[1];
+          } else {
+            this.listQuery.start_time = "";
+            this.listQuery.end_time = "";
+          }
+        },
+      },
     },
     mounted() {
       this.$nextTick(function() {
@@ -127,8 +149,8 @@
     },
     methods: {
       changeCategory(val){
-        this.listQuery.category_big = val[0];
-        this.listQuery.category_small = val[1];
+        this.listQuery.big_category = val[0];
+        this.listQuery.small_category = val[1];
       },
       getCategory() {
         // departTree().then(res => {
