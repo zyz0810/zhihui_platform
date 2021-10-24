@@ -93,7 +93,12 @@ export const asyncRoutes = [
     meta: {
       // title: '实时监测',
       icon: 'iconfont icon-hangzhengguanli',
-      roles: ['admin'],
+      roles: ['admin',
+        'web-regist-problem',
+        'admin-centre-register-problem',
+        'two-depart-register-problem',
+        'centre-register-problem',
+        'depart-register-problem'],
     },
     children: [
       {
@@ -122,6 +127,15 @@ export const asyncRoutes = [
       icon: 'iconfont icon-xingxing',
       roles: [
         'admin',
+        'web-stay-check',
+        'admin-centre-check',
+        'two-depart-chenck',
+        'centre-cancel-pass-stay-check',
+        'depart-cancel-pass-stay-check',
+        'centre-abandon-pass-stay-check',
+        'depart-pass-stay-check',
+        'centre-pass-stay-check',
+        'depart-pass-stay-check',
       ]
     },
     children: [
@@ -142,7 +156,6 @@ export const asyncRoutes = [
             'depart-pass-stay-check',
             'centre-pass-stay-check',
             'depart-pass-stay-check',
-
           ]
         }
       },
@@ -157,7 +170,18 @@ export const asyncRoutes = [
       // title: '示范小区',
       icon: 'iconfont icon-xingxing',
       roles: [
-        'admin','',''
+        'admin',
+        'web-stay-dispatch',
+        'centre-stay-dispatch',
+        'two-depart-stay-dispat',
+        'centre-abandon-stay-dispatch',
+        'depart-abandon-stay-dispatch',
+        'depart-turn-stay-dispatch',
+        'depart-supported-applications-stay-dispatch',
+        'center-dispatch-stay-dispatch',
+        'depart-dispatch-stay-dispatch',
+        'centre-write-stay-dispatch',
+        'depart-write-stay-dispatch',
       ]
     },
     children: [
@@ -180,7 +204,6 @@ export const asyncRoutes = [
             'depart-dispatch-stay-dispatch',
             'centre-write-stay-dispatch',
             'depart-write-stay-dispatch',
-
           ]
         }
       },
@@ -222,6 +245,11 @@ export const asyncRoutes = [
       icon: 'iconfont icon-xingxing',
       roles: [
         'admin',
+        'web-stay-end',
+        'centre-reject-stay-end-case',
+        'depart-reject-stay-end-case',
+        'centre-end-case',
+        'depart-end-case',
       ]
     },
     children: [
@@ -238,7 +266,6 @@ export const asyncRoutes = [
             'depart-reject-stay-end-case',
             'centre-end-case',
             'depart-end-case',
-
           ]
         }
       },
@@ -254,6 +281,8 @@ export const asyncRoutes = [
       icon: 'iconfont icon-xingxing',
       roles: [
         'admin',
+        'web-stay-deal_with',
+        'depart-stay-disposition',
       ]
     },
     children: [
@@ -267,7 +296,6 @@ export const asyncRoutes = [
             'admin',
             'web-stay-deal_with',
             'depart-stay-disposition',
-
           ]
         }
       },
@@ -283,6 +311,7 @@ export const asyncRoutes = [
       icon: 'iconfont icon-xingxing',
       roles: [
         'admin',
+        'web-all-query'
       ]
     },
     children: [
@@ -310,6 +339,10 @@ export const asyncRoutes = [
       icon: 'iconfont icon-xingxing',
       roles: [
         'admin',
+        'web-stay-supported-applications',
+        'centre-reject-stay-supported-applications',
+        'centre-stay-supported-applications',
+        'centre-stay-write-applications'
       ]
     },
     children: [

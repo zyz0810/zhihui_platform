@@ -117,9 +117,9 @@
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button type="warning" @click="handleOperation()">驳回</el-button>
-      <el-button type="primary" @click="handleTransfer()">协办</el-button>
-      <el-button type="success" @click="">打印</el-button>
+      <el-button type="warning" v-if="roles.includes('centre-reject-stay-supported-applications')" @click="handleOperation()">驳回</el-button>
+      <el-button type="primary" v-if="roles.includes('centre-stay-supported-applications')" @click="handleTransfer()">协办</el-button>
+      <el-button type="success" v-if="roles.includes('centre-stay-write-applications')" @click="">打印</el-button>
     </div>
     <dispatchView :showDialog.sync="showDispatchDialog" :paraData="paraData" @updateView="showViewDialog = false"></dispatchView>
     <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData" @updateView="showViewDialog = false"></abandonedView>
@@ -146,6 +146,7 @@
   import dispatchView from "./dispatchView";
   import transferView from './transferView'
   import {collectView, stepLog} from "@/api/collect"; // waves directive
+  import { mapState } from 'vuex'
   export default {
     name: 'parameterView',
     directives: { waves },
@@ -213,6 +214,9 @@
       }
     },
     computed: {
+      ...mapState({
+        roles: state => state.user.roles,
+      }),
       showViewDialog: {
         get() {
           return this.showDialog;

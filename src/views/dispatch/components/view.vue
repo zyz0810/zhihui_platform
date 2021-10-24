@@ -86,11 +86,11 @@
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button @click="handleAbandoned">废弃</el-button>
-      <el-button type="warning" @click="handleTransfer" v-if="formData.status != 4">转办</el-button>
-      <el-button type="info" @click="handleJointly">申请协办</el-button>
-      <el-button type="primary" @click="handleDispatch">派遣</el-button>
-      <el-button type="success" @click="">打 印</el-button>
+      <el-button v-if="roles.includes('centre-abandon-stay-dispatch') || roles.includes('depart-abandon-stay-dispatch')" @click="handleAbandoned">废弃</el-button>
+      <el-button type="warning" v-if="formData.status != 4 && roles.includes('depart-turn-stay-dispatch')" @click="handleTransfer">转办</el-button>
+      <el-button type="info" v-if="roles.includes('depart-supported-applications-stay-dispatch')" @click="handleJointly">申请协办</el-button>
+      <el-button type="primary" v-if="roles.includes('center-dispatch-stay-dispatch') || roles.includes('depart-dispatch-stay-dispatch')" @click="handleDispatch">派遣</el-button>
+      <el-button type="success" v-if="roles.includes('centre-write-stay-dispatch') || roles.includes('depart-write-stay-dispatch')" @click="">打 印</el-button>
     </div>
     <!--废弃-->
     <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="viewData" @updateView="showViewDialog = false"></abandonedView>
@@ -121,6 +121,7 @@
   import transferView from "./transferView"; // waves directive
   import jointlyView from "./jointlyView"; // waves directive
   import dispatchViewDialog from "./dispatchView"; // waves directive
+  import { mapState } from 'vuex'
   export default {
     name: 'dispatchView',
     directives: { waves },
@@ -189,6 +190,9 @@
       }
     },
     computed: {
+      ...mapState({
+        roles: state => state.user.roles,
+      }),
       showViewDialog: {
         get() {
           return this.showDialog;

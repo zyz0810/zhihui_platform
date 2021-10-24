@@ -90,7 +90,7 @@
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleDisposal">处置</el-button>
+      <el-button type="primary" v-if="roles.includes('depart-stay-disposition')" @click="handleDisposal">处置</el-button>
     </div>
     <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData" @updateView="showViewDialog = false"></abandonedView>
     <my-dialog :visible.sync="dialogVisible"
@@ -113,6 +113,7 @@
   import adoptView from "./adopt"; // waves directive
   import abandonedView from "./abandoned"; // waves directive
   import {collectView, stepLog} from "@/api/collect"; // waves directive
+  import { mapState } from 'vuex'
   export default {
     name: 'parameterView',
     directives: { waves },
@@ -174,6 +175,9 @@
       }
     },
     computed: {
+      ...mapState({
+        roles: state => state.user.roles,
+      }),
       showViewDialog: {
         get() {
           return this.showDialog;

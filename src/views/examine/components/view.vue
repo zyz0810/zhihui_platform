@@ -69,9 +69,9 @@
       </el-descriptions-item>
     </el-descriptions>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="showViewDialog = false">取 消</el-button>
-      <el-button type="warning" @click="handleOperation(2)">废 弃</el-button>
-      <el-button type="primary" @click="handleOperation(1)">通 过</el-button>
+      <el-button v-if="roles.includes('centre-cancel-pass-stay-check') || roles.includes('depart-cancel-pass-stay-check')" @click="showViewDialog = false">取 消</el-button>
+      <el-button type="warning" v-if="roles.includes('centre-abandon-pass-stay-check') || roles.includes('depart-pass-stay-check')" @click="handleOperation(2)">废 弃</el-button>
+      <el-button type="primary" v-if="roles.includes('centre-pass-stay-check') || roles.includes('depart-pass-stay-check')" @click="handleOperation(1)">通 过</el-button>
     </div>
     <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
     <my-dialog :visible.sync="dialogVisible"
@@ -91,6 +91,7 @@
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue"; // waves directive
   import adoptView from "./adopt"; // waves directive
+  import { mapState } from 'vuex'
   export default {
     name: 'examineView',
     directives: { waves },
@@ -146,6 +147,9 @@
       }
     },
     computed: {
+      ...mapState({
+        roles: state => state.user.roles,
+      }),
       showViewDialog: {
         get() {
           return this.showDialog;

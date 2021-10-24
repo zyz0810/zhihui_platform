@@ -127,8 +127,8 @@
     </el-tabs>
 
     <div slot="footer" class="dialog-footer">
-      <el-button type="warning" @click="handleOperation(0)">驳回</el-button>
-      <el-button type="primary" @click="handleOperation(1)">结案</el-button>
+      <el-button type="warning" v-if="roles.includes('centre-reject-stay-end-case') || roles.includes('depart-reject-stay-end-case')" @click="handleOperation(0)">驳回</el-button>
+      <el-button type="primary" v-if="roles.includes('centre-end-case') || roles.includes('depart-end-case')" @click="handleOperation(1)">结案</el-button>
     </div>
     <adoptView :showDialog.sync="showAdoptDialog" :paraData="viewData" @updateView="showViewDialog = false"></adoptView>
     <my-dialog :visible.sync="dialogVisible"
@@ -150,6 +150,7 @@
   import adoptView from "./adopt"; // waves directive
   import abandonedView from "./abandoned"; // waves directive
   import {collectView, stepLog} from "@/api/collect"; // waves directive
+  import { mapState } from 'vuex'
   export default {
     name: 'parameterView',
     directives: { waves },
@@ -214,6 +215,9 @@
       }
     },
     computed: {
+      ...mapState({
+        roles: state => state.user.roles,
+      }),
       showViewDialog: {
         get() {
           return this.showDialog;

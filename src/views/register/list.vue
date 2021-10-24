@@ -125,6 +125,8 @@
       },
     },
     mounted() {
+      console.log('郊区全徐')
+      console.log(this.roles)
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;

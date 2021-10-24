@@ -139,7 +139,7 @@ const actions = {
           setName(response.data.nickname);
           setMobile(response.data.mobile)
           let role = roleArr
-          role = ['admin']
+          // role = ['admin']
           // if(response.data.user_name == 'admin'){
           //   role = ['admin']
           // }else{
