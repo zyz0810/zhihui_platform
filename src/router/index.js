@@ -94,7 +94,7 @@ export const asyncRoutes = [
     // name: '实时监测',
     meta: {
       // title: '实时监测',
-      icon: 'iconfont icon-hangzhengguanli',
+      icon: 'iconfont icon--zongjiandengji',
       roles: ['admin',
         'web-regist-problem',
         'admin-centre-register-problem',
@@ -126,7 +126,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-shenpishenhe',
       roles: [
         'admin',
         'web-stay-check',
@@ -170,7 +170,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-yipaifagongdanshu',
       roles: [
         'admin',
         'web-stay-dispatch',
@@ -244,7 +244,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-anjian',
       roles: [
         'admin',
         'web-stay-end',
@@ -280,7 +280,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-yichuzhigaojing',
       roles: [
         'admin',
         'web-stay-deal_with',
@@ -310,7 +310,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-chaxun',
       roles: [
         'admin',
         'web-all-query'
@@ -338,7 +338,7 @@ export const asyncRoutes = [
     // name: '示范小区',
     meta: {
       // title: '示范小区',
-      icon: 'iconfont icon-xingxing',
+      icon: 'iconfont icon-wodeshenqing',
       roles: [
         'admin',
         'web-stay-supported-applications',

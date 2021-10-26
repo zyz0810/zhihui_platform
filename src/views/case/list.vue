@@ -18,14 +18,14 @@
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
         <el-table-column label="案件编号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
-        <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
-        <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
+        <el-table-column label="大类" align="center" prop="big_category_name" show-overflow-tooltip></el-table-column>
+        <el-table-column label="小类" align="center" prop="small_category_name" show-overflow-tooltip></el-table-column>
         <el-table-column label="审核时间" align="center" prop="check_time" :formatter="formatTime"></el-table-column>
         <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="紧急案件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
-        <el-table-column label="问题描述" align="center" prop="description"></el-table-column>
+        <el-table-column label="问题描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
         <el-table-column label="状态" align="center" prop="sgin_name"></el-table-column>
-        <el-table-column label="事件位置" align="center" prop="address"></el-table-column>
+        <el-table-column label="事件位置" align="center" prop="address" show-overflow-tooltip></el-table-column>
       </el-table>
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize"
                   @pagination="getList" class="text-right"/>
