@@ -12,14 +12,14 @@
     <el-tabs v-model="activeName" class="dialog_tab" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
         <div class="mb_20">
-          <span>派遣时间：{{formData.send_check_time ? $moment(Number(formData.send_check_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
-          <span class="ml_30">截止时间：{{formData.expire_time ? $moment(Number(formData.expire_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
+          <span>派遣时间：{{formData.check_send_time ? $moment(Number(formData.check_send_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
+          <span class="ml_30">截止时间：{{formData.expire_time}}</span>
           <span class="ml_30">剩余处理时间：{{formData.residue_time}}</span>
         </div>
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            {{formData.order_no}}
+            {{formData.number_no}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
@@ -186,7 +186,7 @@
         tableHeight:200,
         formData:{
           id:'',
-          order_no:'',
+          number_no:'',
           check_time:'',
           status:'',
           big_category_name:'',
@@ -200,7 +200,7 @@
           address:'',
           description:'',
           before_images:[],
-          send_check_time:'',
+          check_send_time:'',
           expire_time:'',
           residue_time:'',
           main:{},
@@ -267,8 +267,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time} = res.data
-          this.formData = {id,order_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,send_check_time,expire_time,residue_time}
+          const {id,number_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,check_send_time,expire_time,residue_time} = res.data
+          this.formData = {id,number_no,check_time,main,assist,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images,check_send_time,expire_time,residue_time}
         });
       },
       handleClick(){},
@@ -302,7 +302,7 @@
         this.tableHeight=200;
         this.formData={
           id:'',
-          order_no:'',
+          number_no:'',
           check_time:'',
           status:'',
           big_category_name:'',
@@ -316,7 +316,7 @@
           address:'',
           description:'',
           before_images:[],
-          send_check_time:'',
+          check_send_time:'',
           expire_time:'',
           residue_time:'',
           main:{},

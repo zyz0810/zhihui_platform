@@ -14,7 +14,7 @@
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
           <el-descriptions-item>
             <template slot="label">案件编号</template>
-            {{formData.order_no}}
+            {{formData.number_no}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">审核时间</template>
@@ -162,7 +162,7 @@
         viewData:{},
         formData:{
           id:'',
-          order_no:'',
+          number_no:'',
           check_time:'',
           status:'',
           big_category:'',
@@ -285,8 +285,8 @@
       handleClick(){},
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
-          this.formData = {id,order_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
+          const {id,number_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
+          this.formData = {id,number_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
         });
       },
       getStepLog(){
@@ -322,7 +322,7 @@
         this.viewData={};
         this.formData={
           id:'',
-          order_no:'',
+          number_no:'',
           check_time:'',
           status:'',
           big_category_name:'',
