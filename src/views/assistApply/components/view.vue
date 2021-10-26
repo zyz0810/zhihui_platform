@@ -37,12 +37,8 @@
           </el-descriptions-item>
           <el-descriptions-item :span="2">
             <template slot="label">申请内容</template>
-
+            {{formData.apply.language_desc}}
           </el-descriptions-item>
-
-
-
-
           <el-descriptions-item>
             <template slot="label">案件编号</template>
             {{formData.number_no}}
