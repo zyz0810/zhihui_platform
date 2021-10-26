@@ -11,11 +11,11 @@
   >
     <el-tabs v-model="activeName" class="dialog_tab" @tab-click="handleClick">
       <el-tab-pane label="详细信息" name="first">
-        <div class="mb_20">
-          <span>派遣时间：{{formData.check_send_time ? $moment(Number(formData.check_send_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'--'}}</span>
-          <span class="ml_30">截止时间：{{formData.expire_time}}</span>
-          <span class="ml_30">剩余处理时间：{{formData.residue_time}}</span>
-        </div>
+        <!--<div class="mb_20">-->
+          <!--<span>派遣时间：{{formData.check_send_time ? $moment(Number(formData.check_send_time)*1000).format("YYYY-MM-DD HH:mm:ss"):'&#45;&#45;'}}</span>-->
+          <!--<span class="ml_30">截止时间：{{formData.expire_time}}</span>-->
+          <!--<span class="ml_30">剩余处理时间：{{formData.residue_time}}</span>-->
+        <!--</div>-->
         <el-descriptions class="margin-top" title="" :column="3" size="medium" border>
 
           <el-descriptions-item>

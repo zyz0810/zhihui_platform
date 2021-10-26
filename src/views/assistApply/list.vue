@@ -14,13 +14,13 @@
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList" @row-click="handleView">
-        <el-table-column label="案件标识" align="center" prop="name">
-          <template slot-scope="scope">
-            <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>
-            <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>
-            <span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>
-          </template>
-        </el-table-column>
+        <!--<el-table-column label="案件标识" align="center" prop="name">-->
+          <!--<template slot-scope="scope">-->
+            <!--<span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>-->
+            <!--<span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>-->
+            <!--<span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
         <el-table-column label="案件编号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="事件来源" align="center" prop="source" :formatter="formatSource"></el-table-column>
