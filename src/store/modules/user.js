@@ -80,12 +80,8 @@ const actions = {
       // let role = ['admin']
       // commit('SET_ROLES', role);
       // resolve(role);
-      console.log('获取权限')
       treeList({app_type: 1}).then(response => {
-        console.log('权限获取成功')
         if(response.code == 1){
-
-
           // function getTreeData (data) {
           //   if (data != "" || data != null) {
           //     for (let i = 0; i < data.length; i++) {
@@ -108,17 +104,18 @@ const actions = {
           function getTreeData (data) {
             if (data != "" || data != null) {
               for (let i = 0; i < data.length; i++) {
-                if (data[i].child.length < 1) {
-                  // children若为空数组，则将children设为undefined
-                  // if (data[i].grade == 3) {
-                  //   data[i].childrens = undefined;
-                  // }
-                  data[i].child = undefined;
-                } else {
-                  // children若不为空数组，则继续 递归调用 本方法
-                  console.log('全系23333')
-                  getTreeData(data[i].child);
-                  roleArr = roleArr.concat(data[i].child)
+                if(data[i].child){
+                  if (data[i].child.length < 1) {
+                    // children若为空数组，则将children设为undefined
+                    // if (data[i].grade == 3) {
+                    //   data[i].childrens = undefined;
+                    // }
+                    data[i].child = undefined;
+                  } else {
+                    // children若不为空数组，则继续 递归调用 本方法
+                    getTreeData(data[i].child);
+                    roleArr = roleArr.concat(data[i].child)
+                  }
                 }
               }
               // return data;

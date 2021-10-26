@@ -18,7 +18,9 @@
                 element-loading-text="拼命加载中" fit ref="tableList"  @row-click="handleView">
         <el-table-column label="案件标识" align="center" prop="name">
           <template slot-scope="scope">
-            <span :class="['inlineBlock',scope.row.type == 0?'red_circle':'']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>
+            <span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
@@ -27,7 +29,7 @@
         <el-table-column label="大类" align="center" prop="big_category_name"></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name"></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
-        <el-table-column label="派遣时间" align="center" prop="send_check_time" :formatter="formatTime"></el-table-column>
+        <el-table-column label="派遣时间" align="center" prop="check_send_time" :formatter="formatTime"></el-table-column>
         <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="处置部门" align="center" prop="deal_department"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address"></el-table-column>

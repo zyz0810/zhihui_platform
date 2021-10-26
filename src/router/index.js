@@ -88,6 +88,8 @@ export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
+    // redirect: '/register/list',
+    // redirect: 'noRedirect',
     redirect: '/register/list',
     // name: '实时监测',
     meta: {
@@ -118,9 +120,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/examine',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/examine/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -140,7 +142,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'examine/list',
         component: () => import('@/views/examine/list'),
         name: 'examineList',
         meta: {
@@ -162,9 +164,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/dispatch',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/dispatch/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -186,7 +188,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'dispatch/list',
         component: () => import('@/views/dispatch/list'),
         name: 'dispatchList',
         meta: {
@@ -236,9 +238,9 @@ export const asyncRoutes = [
   //   ]
   // },
   {
-    path: '/end',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/end/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -254,7 +256,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'end/list',
         component: () => import('@/views/end/list'),
         name: 'endList',
         meta: {
@@ -272,9 +274,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/disposal',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/disposal/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -287,7 +289,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'disposal/list',
         component: () => import('@/views/disposal/list'),
         name: 'verifyList',
         meta: {
@@ -302,9 +304,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/case',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/case/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -316,7 +318,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'case/list',
         component: () => import('@/views/case/list'),
         name: 'verifyList',
         meta: {
@@ -330,9 +332,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/assistApply',
+    path: '/',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/assistApply/list',
     // name: '示范小区',
     meta: {
       // title: '示范小区',
@@ -347,7 +349,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'list',
+        path: 'assistApply/list',
         component: () => import('@/views/assistApply/list'),
         name: 'verifyList',
         meta: {

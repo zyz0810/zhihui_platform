@@ -11,7 +11,8 @@
         active-text-color="#fff"
         :collapse-transition="false"
         mode="vertical" class="bold">
-        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+<!--        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />-->
+        <sidebar-item v-for="route in permission_routes" :key="route.redirect" :item="route" :base-path="route.path" />
         <!--<sidebar-item v-for="route in $router.options.routes" :key="route.path" :item="route" :base-path="route.path" />-->
       </el-menu>
 
