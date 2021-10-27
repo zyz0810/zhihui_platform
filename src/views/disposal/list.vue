@@ -29,7 +29,7 @@
         <el-table-column label="大类" align="center" prop="big_category_name" show-overflow-tooltip></el-table-column>
         <el-table-column label="小类" align="center" prop="small_category_name" show-overflow-tooltip></el-table-column>
         <el-table-column label="是否紧急事件" align="center" prop="is_importance" :formatter="formatImportant"></el-table-column>
-        <el-table-column label="派遣时间" align="center" prop="send_check_time" :formatter="formatTime"></el-table-column>
+        <el-table-column label="派遣时间" align="center" prop="check_send_time" :formatter="formatTime"></el-table-column>
         <el-table-column label="剩余时间" align="center" prop="residue_time"></el-table-column>
         <el-table-column label="事件位置" align="center" prop="address" show-overflow-tooltip></el-table-column>
         <el-table-column label="问题描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
