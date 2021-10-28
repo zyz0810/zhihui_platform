@@ -87,8 +87,8 @@
 
     <div slot="footer" class="dialog-footer">
       <el-button v-if="roles.includes('centre-abandon-stay-dispatch') || roles.includes('depart-abandon-stay-dispatch')" @click="handleAbandoned">废弃</el-button>
-      <el-button type="warning" v-if="formData.status != 4 && roles.includes('depart-turn-stay-dispatch')" @click="handleTransfer">转办</el-button>
-      <el-button type="info" v-if="roles.includes('depart-supported-applications-stay-dispatch')" @click="handleJointly">申请协办</el-button>
+      <el-button type="warning" v-if="formData.status != 4 && roles.includes('depart-turn-stay-dispatch') && !(userInfo.department_id == 1 && userInfo.role_id == 2)" @click="handleTransfer">转办</el-button>
+      <el-button type="info" v-if="roles.includes('depart-supported-applications-stay-dispatch') && !(userInfo.department_id == 1 && userInfo.role_id == 2)" @click="handleJointly">申请协办</el-button>
       <el-button type="primary" v-if="roles.includes('center-dispatch-stay-dispatch') || roles.includes('depart-dispatch-stay-dispatch')" @click="handleDispatch">派遣</el-button>
       <el-button type="success" v-if="roles.includes('centre-write-stay-dispatch') || roles.includes('depart-write-stay-dispatch')" @click="">打 印</el-button>
     </div>
@@ -122,6 +122,8 @@
   import jointlyView from "./jointlyView"; // waves directive
   import dispatchViewDialog from "./dispatchView"; // waves directive
   import { mapState } from 'vuex'
+  import {getInfo} from "@/api/user";
+  import {setName} from "@/utils/auth";
   export default {
     name: 'dispatchView',
     directives: { waves },
@@ -187,6 +189,7 @@
         showTransferDialog:false,
         showJointlyDialog:false,
         showDispatchDialog:false,
+        userInfo:{},
       }
     },
     computed: {
@@ -219,6 +222,11 @@
       },
     },
     methods: {
+      getInfo(){
+        getInfo().then(res => {
+          this.userInfo = res.data;
+        })
+      },
       handlePictureCardPreview (file) {
         this.dialogImageUrl = file;
         this.dialogVisible = true;

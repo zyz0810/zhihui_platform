@@ -56,6 +56,9 @@ const actions = {
         console.log('获取')
         console.log(data)
         commit('SET_TOKEN', data.token);
+
+
+
         // commit('SET_ID', response.data.id);
         // console.log(response.data.city_list);
         // commit('SET_CITY', response.data.city_list);
@@ -80,6 +83,10 @@ const actions = {
       // let role = ['admin']
       // commit('SET_ROLES', role);
       // resolve(role);
+      getInfo().then(res => {
+        commit('SET_NAME', res.data.user_name);
+        setName(res.data.name);
+      })
       treeList({app_type: 1}).then(response => {
         if(response.code == 1){
           // function getTreeData (data) {
@@ -130,10 +137,10 @@ const actions = {
           console.log(roleArr)
 
           // commit('SET_ID', response.data.id);
-          commit('SET_NAME', response.data.nickname);
+          // commit('SET_NAME', response.data.nickname);
           commit('SET_MOBILE', response.data.mobile);
           // setId(response.data.id);
-          setName(response.data.nickname);
+          // setName(response.data.nickname);
           setMobile(response.data.mobile)
           let role = roleArr
           // role = ['admin']

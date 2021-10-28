@@ -62,8 +62,8 @@
             <!--<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
             <img :src="headImg" class="user-avatar" />
             <p>
-              <span class="block f14" style="margin: 0 5px 5px;">{{name}}</span>
-              <span class="block f12" style="margin: 5px 5px 0;color: #5fb5ec;">超级管理员</span>
+              <span class="block f14" style="margin: 0 5px 5px;">登录名</span>
+              <span class="block f12" style="margin: 5px 5px 0;color: #5fb5ec;">{{name}}</span>
             </p>
           </div>
 <!--          <div class="ml_20 clr_white" @click="logout"><i class="el-icon-switch-button bold f20" style="margin-left: 5px"></i></div>-->
@@ -92,6 +92,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -112,7 +113,6 @@ export default {
       headImg: headImg,
       systemDate:'',
       // name:getName()!='null'?getName():'',
-      name:'管理员',
       nowDate:'',
       dialogFormVisible: false,
       textMap: {
@@ -161,8 +161,12 @@ export default {
       'sidebar',
       'avatar',
       'device',
-      'city'
-    ])
+      'city',
+    ]),
+    ...mapState({
+      name: state => state.user.name,
+      roles: state => state.user.roles,
+    }),
   },
   methods: {
     chooseCity(val){
@@ -274,7 +278,10 @@ export default {
     // }
   },
   mounted() {
-
+    console.log('名字')
+    console.log(mapState)
+    console.log(this.name)
+    console.log(this.roles)
   },
 }
 </script>
