@@ -67,7 +67,9 @@
             </p>
           </div>
 <!--          <div class="ml_20 clr_white" @click="logout"><i class="el-icon-switch-button bold f20" style="margin-left: 5px"></i></div>-->
-          <a class="ml_20 clr_white" href="/jsc/index.html#/dashboard"><i class="el-icon-s-promotion bold f20" style="margin-left: 5px"></i> 回首页</a>
+<!--          <a class="ml_20 clr_white" href="/jsc/index.html#/dashboard"><i class="el-icon-s-promotion bold f20" style="margin-left: 5px"></i> 回首页</a>-->
+          <a class="ml_20 clr_white" href="/jsc/index.html#/dashboard" style="line-height: 20px;"><i class="el-icon-s-promotion bold f20 fl" style="margin: 0 5px"></i> 回首页</a>
+          <span class="clr_white ml_30" style="line-height: 20px;" @click="logout">退 出<i class="el-icon-switch-button f20 fr" style="margin-left: 5px"></i></span>
         </div>
         <my-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="80%">
           <ul class="street">
@@ -165,7 +167,6 @@ export default {
     ]),
     ...mapState({
       name: state => state.user.name,
-      roles: state => state.user.roles,
     }),
   },
   methods: {
@@ -256,7 +257,8 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-      this.$router.push(`/login?redirect=/system/organization/manage`)
+      // this.$router.push(`/login?redirect=/`)
+      location.href = window.location.protocol+"//"+window.location.host + '/jsc/index.html#/login?redirect=/dashboard';
     },
     // addDate() {
     //   let nowDate = new Date();
