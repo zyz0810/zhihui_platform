@@ -154,3 +154,25 @@ export function sendCollect(data) {
     data: Qs.stringify(data)
   })
 }
+
+/* 获取未读信息
+ *
+ */
+export function getLastMessages(data) {
+  return request({
+    url:'/admin/collect/getLastMessages',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+/* 改变消息状态
+ * id
+ */
+export function checkMessagesStatus(data) {
+  return request({
+    url:'/admin/collect/checkMessagesStatus',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

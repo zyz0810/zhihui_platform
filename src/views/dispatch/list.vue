@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-
+    <div class="wrap">
+      <!--<audio id="audioMusic" class="audio" src="http://file.sucaibar.com/file/yinxiao/yinxiao-104.mp3" controls autoplay="autoplay" hidden="true" ref="audio"></audio>-->
+      <audio id="audioMusic" class="audio" src="./../../assets/image/dingdong.mp3" controls hidden="true" ref="audio"></audio>
+    </div>
     <div class="p20 bg_white">
       <div class="mb_10">
         <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
@@ -35,13 +38,12 @@
 </template>
 
 <script>
-  import {paraList, paraSave, paraUpdate, paraDelete} from '@/api/parameter'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
   import { mapState } from 'vuex'
   import Pagination from "@/components/Pagination/index"; // waves directive
   import paraView from "./components/view";
-  import {collectList} from "@/api/collect";
+  import {collectList,getLastMessages,checkMessagesStatus} from "@/api/collect";
   export default {
     name: 'dispatchList',
     directives: {waves},
@@ -65,7 +67,11 @@
           page: 1,
           pageSize: 10
         },
-        tableHeight:'100'
+        tableHeight:'100',
+        isPlay:false,
+        timer:'',
+        notifyPromise: Promise.resolve(),
+        notifyListTwo: [],
       }
     },
     computed: {
@@ -74,6 +80,7 @@
       }),
     },
     mounted() {
+      window.handleClose = this.handleClose;
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
@@ -94,8 +101,92 @@
         };
       });
       this.getList();
+      this.getLastMessagesList()
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.timer = null;
     },
     methods: {
+      getLastMessagesList(){
+        this.timer = setInterval(()=> {
+          // $(".el-notification").remove();
+          this.notifyListTwo = [];
+          getLastMessages().then(res => {
+            if(res.data != null && res.data.length > 0){
+              let notifyList = res.data;
+              this.isPlay = true;
+              if (this.isPlay){
+                document.getElementById('audioMusic').play();
+              }
+              for(let i=0;i< notifyList.length;i++){
+                let a;
+                this.notifyPromise = this.notifyPromise.then(() => {
+                  let id =  notifyList[i].id;
+                  let that  = this;
+                  a = this.$notify({
+                    title: notifyList[i].name,
+                    dangerouslyUseHTMLString: true,
+                    message: notifyList[i].message,
+                    position: 'bottom-right',
+                    duration: 10000,
+                    showClose:false,
+                    // type:notifyList[i].id,
+                    onClick(){
+                      console.log('点击关机按钮'+id)
+                      console.log(id)
+                      that.notifyListTwo[i].close()
+                      checkMessagesStatus({id:id}).then(ress => {
+                        // this.notifyListTwo[i].close()
+                      })
+                    },
+                  })
+                  this.notifyListTwo.push(a)
+                })
+              }
+              this.isPlay = false;
+            }else{
+              this.notifyListTwo = [];
+              // let notifyList = [{id:1,message:'11'},{id:2,message:'22'}];
+              // this.isPlay = true;
+              // if (this.isPlay){
+              //   document.getElementById('audioMusic').play();
+              // }
+              // for(let i=0;i< notifyList.length;i++){
+              //   let a;
+              //   this.notifyPromise = this.notifyPromise.then(() => {
+              //     let id =  notifyList[i].id;
+              //     let that  = this;
+              //     a = this.$notify({
+              //       title: notifyList[i].name,
+              //       dangerouslyUseHTMLString: true,
+              //       message: notifyList[i].message,
+              //       position: 'bottom-right',
+              //       duration: 10000,
+              //       showClose:false,
+              //       // type:notifyList[i].id,
+              //       onClick(){
+              //         console.log('点击关机按钮'+id)
+              //         console.log(id)
+              //         that.notifyListTwo[i].close()
+              //         checkMessagesStatus({id:id}).then(ress => {
+              //           // this.notifyListTwo[i].close()
+              //         })
+              //       },
+              //     })
+              //     this.notifyListTwo.push(a)
+              //   })
+              // }
+              this.isPlay = false;
+            }
+          });
+        }, 10000);
+      },
+      handleClose(i){
+        console.log(this.notifyListTwo)
+        console.log('关系')
+        this.notifyListTwo[i].close()
+      },
       formatSource(row, column, cellValue, index) {
         return cellValue == 1
           ? "问题登记"
