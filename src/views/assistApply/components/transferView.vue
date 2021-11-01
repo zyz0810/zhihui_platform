@@ -138,7 +138,7 @@
       },
       getTime(val){
         categoryDetail({id:this.temp.small_category}).then(res => {
-          this.temp.time = res.data.send_time;
+          this.temp.time = Number(res.data.send_time)/Number(3600);
           // this.departmentList = res.data;
           // console.log( this.departmentList)
         });
@@ -182,7 +182,7 @@
             this.paraLoading = true;
             let temp = JSON.parse(JSON.stringify(this.temp));
             temp.assist_depart =  temp.assist_depart[temp.assist_depart.length - 1];
-            temp.time = Number(this.temp.time*3600);
+            temp.time = Number(this.temp.time)*Number(3600);
             collectAssist(temp).then((res) => {
               setTimeout(() => {
                 this.paraLoading = false

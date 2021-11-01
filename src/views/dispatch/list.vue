@@ -129,7 +129,7 @@
                     dangerouslyUseHTMLString: true,
                     message: notifyList[i].message,
                     position: 'bottom-right',
-                    duration: 10000,
+                    duration: 9000,
                     showClose:false,
                     // type:notifyList[i].id,
                     onClick(){

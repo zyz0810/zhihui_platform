@@ -57,7 +57,7 @@
       </el-form-item>
       <el-form-item label="处理时限">
 <!--        {{temp.time}}小时-->
-        <el-input v-model="temp.time" placeholder="" clearable/> 秒
+        <el-input v-model="temp.time" placeholder="" clearable/> 时
       </el-form-item>
       <el-form-item label="说明" prop="language_desc" clearable>
         <el-select v-model="temp.language_desc" filterable allow-create>
@@ -242,7 +242,7 @@
       },
       getTime(val){
         categoryDetail({id:val}).then(res => {
-          this.temp.time = res.data.send_time;
+          this.temp.time = Number(res.data.send_time)/Number(3600);
           // this.departmentList = res.data;
           // console.log( this.departmentList)
         });
@@ -302,10 +302,10 @@
             //   is_importance:1,
             //   time:''
             console.log(this.temp)
-            const {id,big_category,small_category,assist_people,main_people,language_desc,is_importance,time} = this.temp;
+            const {id,big_category,small_category,assist_people,main_people,language_desc,is_importance,} = this.temp;
             let assist_department = this.temp.assist_department[this.temp.assist_department.length-1];
             let main_department = this.temp.main_department[this.temp.main_department.length-1];
-            // let time = Number(this.temp.time*3600);
+            let time = Number(this.temp.time)*Number(3600);
             const temp =  {id,big_category,small_category,main_department,assist_people,assist_department,main_people,main_department,language_desc,is_importance,time};
             console.log(temp)
             console.log(assist_department)
