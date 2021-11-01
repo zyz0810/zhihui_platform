@@ -557,6 +557,7 @@
         this.getDepartTree();
       },
       close(){
+        this.$emit('insetList');
         this.dialogVisible=false;
         this.dialogImageUrl='';
         this.imageList=[];

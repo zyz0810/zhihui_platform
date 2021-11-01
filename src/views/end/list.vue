@@ -39,7 +39,7 @@
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getList"></paraView>
+    <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getListTimer"></paraView>
 
   </div>
 </template>
@@ -73,7 +73,8 @@
           page: 1,
           pageSize: 10
         },
-        tableHeight:'100'
+        tableHeight:'100',
+        timer:'',
       }
     },
     computed: {
@@ -101,9 +102,20 @@
           }
         };
       });
-      this.getList();
+      // this.getList();
+      this.getListTimer();
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.timer = null;
     },
     methods: {
+      getListTimer(){
+        this.getList();
+        this.timer = setInterval(()=> {
+          this.getList();
+        }, 10000);
+      },
       formatSource(row, column, cellValue, index) {
         return cellValue == 1
           ? "问题登记"
@@ -142,7 +154,9 @@
 
 
       handleView(row, column, event){
-        this.showViewDialog = true
+        clearInterval(this.timer);
+        this.timer = null;
+        this.showViewDialog = true;
         this.viewData = {
           id:row.id,
           order_no:row.order_no

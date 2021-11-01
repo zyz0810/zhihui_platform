@@ -32,7 +32,7 @@
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getList"></paraView>
+    <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getListTimer"></paraView>
 
   </div>
 </template>
@@ -72,6 +72,7 @@
         timer:'',
         notifyPromise: Promise.resolve(),
         notifyListTwo: [],
+        timerTwo:'',
       }
     },
     computed: {
@@ -100,14 +101,23 @@
           }
         };
       });
-      this.getList();
-      this.getLastMessagesList()
+      // this.getList();
+      this.getListTimer();
+      this.getLastMessagesList();
     },
     beforeDestroy() {
       clearInterval(this.timer);
       this.timer = null;
+      clearInterval(this.timerTwo);
+      this.timerTwo = null;
     },
     methods: {
+      getListTimer(){
+        this.getList();
+        this.timerTwo = setInterval(()=> {
+          this.getList();
+        }, 10000);
+      },
       getLastMessagesList(){
         this.timer = setInterval(()=> {
           // $(".el-notification").remove();
@@ -218,7 +228,9 @@
         });
       },
       handleView(row, column, event){
-        this.showViewDialog = true
+        clearInterval(this.timerTwo);
+        this.timerTwo = null;
+        this.showViewDialog = true;
         this.viewData = {
           id:row.id,
           order_no:row.order_no,

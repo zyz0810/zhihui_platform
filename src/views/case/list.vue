@@ -33,17 +33,17 @@
 
 <!--    根据不同状态显示不同详情页-->
 <!--    待审核状态-->
-    <examineView :showDialog.sync="showExamineDialog" :paraData="viewData" @updateList="getList"></examineView>
+    <examineView :showDialog.sync="showExamineDialog" :paraData="viewData" @updateList="getListTimer"></examineView>
     <!--    待派遣状态-->
-    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="viewData" @updateList="getList"></dispatchView>
+    <dispatchView :showDialog.sync="showDispatchDialog" :paraData="viewData" @updateList="getListTimer"></dispatchView>
     <!--    待协办-->
-    <assistView :showDialog.sync="showAssistDialog" :paraData="viewData" @updateList="getList"></assistView>
+    <assistView :showDialog.sync="showAssistDialog" :paraData="viewData" @updateList="getListTimer"></assistView>
     <!--    待结案-->
-    <endView :showDialog.sync="showEndDialog" :paraData="viewData" @updateList="getList"></endView>
+    <endView :showDialog.sync="showEndDialog" :paraData="viewData" @updateList="getListTimer"></endView>
     <!--    待处置-->
-    <disposalView :showDialog.sync="showDisposalDialog" :paraData="viewData" @updateList="getList"></disposalView>
+    <disposalView :showDialog.sync="showDisposalDialog" :paraData="viewData" @updateList="getListTimer"></disposalView>
     <!--    待协办申请-->
-    <assistApplyView :showDialog.sync="showAssistApplyDialog" :paraData="viewData" @updateList="getList"></assistApplyView>
+    <assistApplyView :showDialog.sync="showAssistApplyDialog" :paraData="viewData" @updateList="getListTimer"></assistApplyView>
 <!--    assistList-->
   </div>
 </template>
@@ -92,7 +92,8 @@
           page: 1,
           pageSize: 10
         },
-        tableHeight:'100'
+        tableHeight:'100',
+        timer:'',
       }
     },
     computed: {
@@ -120,9 +121,20 @@
           }
         };
       });
-      this.getList();
+      // this.getList();
+      this.getListTimer();
+    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.timer = null;
     },
     methods: {
+      getListTimer(){
+        this.getList();
+        this.timer = setInterval(()=> {
+          this.getList();
+        }, 10000);
+      },
       formatTime(row, column, cellValue, index) {
         return cellValue
           ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
@@ -177,18 +189,32 @@
         // let StatusArr = { 1:'待审核',2:'待派遣', 3:'待处置',4:'待协办申请', 5:'待结案',6:'结案', 7:'废弃',};
         // this.showViewDialog = true
         if(row.sgin_name == '待审核'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showExamineDialog = true;
         }else if(row.sgin_name == '待派遣'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showDispatchDialog = true;
         }else if(row.sgin_name == '待处置'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showDisposalDialog = true;
         }else if(row.sgin_name == '待协办申请'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showAssistApplyDialog = true;
         }else if(row.sgin_name == '待结案'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showEndDialog = true;
         }else if(row.sgin_name == '已结案'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showEndDialog = true;
         }else if(row.sgin_name == '废弃'){
+          clearInterval(this.timer);
+          this.timer = null;
           this.showExamineDialog = true;
         }
 

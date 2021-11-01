@@ -50,7 +50,7 @@
                   @pagination="getList" class="text-right"/>
     </div>
 
-    <paraView :showDialog.sync="showViewDialog" :paraData="paraData" @insetList="getList"></paraView>
+    <paraView :showDialog.sync="showViewDialog" :paraData="paraData" @insetList="getListTimer"></paraView>
 
   </div>
 </template>
@@ -98,7 +98,8 @@
           page: 1,
           pageSize: 10
         },
-        tableHeight:'100'
+        tableHeight:'100',
+        timer:'',
       }
     },
     computed: {
@@ -146,10 +147,21 @@
           }
         };
       });
-      this.getList();
+      // this.getList();
+      this.getListTimer();
       this.getCategory();
     },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.timer = null;
+    },
     methods: {
+      getListTimer(){
+        this.getList();
+        this.timer = setInterval(()=> {
+          this.getList();
+        }, 10000);
+      },
       changeCategory(val){
         this.listQuery.big_category = val[0];
         this.listQuery.small_category = val[1];
@@ -207,7 +219,9 @@
         this.showViewDialog = true;
         this.paraData = {
           // id:row.id
-        }
+        };
+        clearInterval(this.timer);
+        this.timer = null;
       },
 
     }
