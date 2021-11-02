@@ -30,7 +30,7 @@
   import Pagination from "@/components/Pagination/index"; // waves directive
   import SingleImage from "@/components/Upload/SingleImage.vue";
   import {languageList} from "@/api/system";
-  import {collectStatus} from "@/api/collect"; // waves directive
+  import {collectStatus,applyReject} from "@/api/collect"; // waves directive
   export default {
     name: 'abandonedView',
     directives: { waves },
@@ -95,7 +95,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.paraLoading = true;
-            collectStatus(this.temp).then((res) => {
+            applyReject(this.temp).then((res) => {
               setTimeout(() => {
                 this.paraLoading = false
               }, 1000)

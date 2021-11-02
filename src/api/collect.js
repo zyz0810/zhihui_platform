@@ -176,3 +176,23 @@ export function checkMessagesStatus(data) {
     data: Qs.stringify(data)
   })
 }
+
+/* 待协办申请 -- 驳回
+ */
+export function applyReject(data) {
+  return request({
+    url:'/admin/collect/applyReject',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+/* 待结案 -- 驳回
+ */
+export function dealReject(data) {
+  return request({
+    url:'/admin/collect/dealReject',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

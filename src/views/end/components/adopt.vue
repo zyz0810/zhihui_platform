@@ -28,7 +28,7 @@
   import {languageList,} from '@/api/system'
   import draggable from 'vuedraggable'
   import waves from '@/directive/waves'
-  import {collectStatus} from "@/api/collect";
+  import {collectStatus,dealReject} from "@/api/collect";
   export default {
     name: 'adoptView',
     directives: { waves },
@@ -116,7 +116,7 @@
             }else{//没通过
               console.log('444')
               this.temp.status = 3;
-              collectStatus(this.temp).then((res) => {
+              dealReject(this.temp).then((res) => {
                 setTimeout(()=>{
                   this.paraLoading = false
                 },1000)
