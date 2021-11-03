@@ -105,7 +105,7 @@
           <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
           <el-table-column label="处置部门" align="center" prop="user_depart" sortable></el-table-column>
           <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
-          <el-table-column label="操作" align="center" prop="status" :formatter="formatStatus"></el-table-column>
+          <el-table-column label="操作" align="center" prop="operation_name"></el-table-column>
           <el-table-column label="操作时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
           <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>

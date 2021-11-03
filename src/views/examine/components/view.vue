@@ -20,7 +20,8 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件状态</template>
-        {{formData.status | filtersStatus}}
+        <!--{{formData.status | filtersStatus}}-->
+        {{formData.sgin_name}}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">事件大类</template>
@@ -143,6 +144,7 @@
           address:'',
           description:'',
           before_images:[],
+          sgin_name:'',
         },
       }
     },
@@ -195,8 +197,8 @@
       },
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,number_no,create_at,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images} = res.data
-          this.formData = {id,number_no,create_at,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images}
+          const {id,number_no,create_at,sgin_name,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images} = res.data
+          this.formData = {id,number_no,sgin_name,create_at,status,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,address,description,before_images}
         });
       },
       close(){
@@ -210,6 +212,7 @@
           id:'',
           number_no:'',
           create_at:'',
+          sgin_name:'',
           status:'',
           big_category_name:'',
           small_category_name:'',

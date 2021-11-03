@@ -22,7 +22,8 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件状态</template>
-            {{formData.status | filtersStatus}}
+            <!--{{ formData.status | filtersStatus}}-->
+            {{formData.sgin_name}}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">事件大类</template>
@@ -78,7 +79,7 @@
           <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
           <el-table-column label="处置部门" align="center" prop="user_depart" sortable></el-table-column>
           <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
-          <el-table-column label="操作" align="center" prop="status" :formatter="formatStatus"></el-table-column>
+          <el-table-column label="操作" align="center" prop="operation_name"></el-table-column>
           <el-table-column label="操作时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
           <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>
@@ -179,7 +180,8 @@
           ai_depart_name:'',
           description:'',
           address:'',
-          before_images:[]
+          before_images:[],
+          sgin_name:'',
         },
         listLoading:false,
         tableHeight:200,
@@ -317,8 +319,8 @@
       handleClick(){},
       getView(){
         collectView({id:this.paraData.id}).then(res => {
-          const {id,number_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
-          this.formData = {id,number_no,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
+          const {id,number_no,check_time,sgin_name,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images} = res.data
+          this.formData = {id,number_no,sgin_name,check_time,status,big_category,small_category,big_category_name,small_category_name,is_importance,source,report,mobile,facility_name,ai_depart_name,description,address,before_images}
         });
       },
       getStepLog(){
@@ -357,6 +359,7 @@
           id:'',
           number_no:'',
           check_time:'',
+          sgin_name:'',
           status:'',
           big_category_name:'',
           small_category_name:'',
