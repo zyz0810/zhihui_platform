@@ -71,7 +71,7 @@
       this.getNum();
       this.timerNum = setInterval(()=> {
         this.getNum();
-      }, 10000);
+      }, 60000);
     },
     beforeDestroy() {
       clearInterval(this.timerNum);
