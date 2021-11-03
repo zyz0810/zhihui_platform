@@ -169,7 +169,7 @@
           question_images:'',
           report:'',
           mobile:'',
-          is_importance:1,
+          is_importance:2,
           add_department:'',
           log:'120.21194',
           lat:'30.20835'
@@ -580,7 +580,7 @@
           question_images:'',
           report:'',
           mobile:'',
-          is_importance:1,
+          is_importance:2,
           add_department:'',
           log:'120.21194',
           lat:'30.20835'

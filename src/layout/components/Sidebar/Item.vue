@@ -38,8 +38,7 @@ export default {
       if(title == '待审核' && num.check != 0){
         vnodes.push(<span class='num_stag'>{(num.check)}</span>)
       }
-      if(title == '待派遣' && num.dispath != 0){
-        console.log('待派遣'+num.dispath)
+      if(title == '待派遣' && num.dispatch != 0){
         vnodes.push(<span class='num_stag'>{(num.dispatch)}</span>)
       }
       if(title == '待结案' && num.end != 0){

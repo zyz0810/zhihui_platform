@@ -49,7 +49,11 @@
       basePath: {
         type: String,
         default: ''
-      }
+      },
+      collectNum: {
+        type: Object,
+        required: true
+      },
     },
     data() {
       // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
@@ -58,9 +62,9 @@
       return {}
     },
     computed: {
-      ...mapState({
-        collectNum: state => state.user.collectNum,
-      }),
+      // ...mapState({
+      //   collectNum: state => state.user.collectNum,
+      // }),
     },
     methods: {
       hasOneShowingChild(children = [], parent) {
