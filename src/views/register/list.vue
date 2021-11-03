@@ -6,6 +6,7 @@
           <el-select v-model="listQuery.source" placeholder="选择巡查来源" clearable>
             <el-option label="问题登记" value="1"></el-option>
             <el-option label="AI识别" value="2"></el-option>
+            <el-option label="车载视频" value="3"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="案件小类">

@@ -170,7 +170,7 @@
       },
       filtersSource: function(value) {
         // 1、问题登记 2、AI识别
-        let StatusArr = {1:'问题登记',2:'AI识别',};
+        let StatusArr = {1:'问题登记',2:'AI识别',3:'车载视频'};
         return StatusArr[value]
       },
       filtersImportant: function(value) {

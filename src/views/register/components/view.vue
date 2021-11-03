@@ -17,6 +17,7 @@
             <!--          问题登记，AI识别-->
             <el-option label="问题登记" value="1"></el-option>
             <el-option label="AI识别" value="2"></el-option>
+            <el-option label="车载视频" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="案件大类" prop="big_category">

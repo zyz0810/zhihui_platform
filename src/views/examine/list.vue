@@ -110,6 +110,8 @@
           ? "问题登记"
           : cellValue == 2
             ? "AI识别"
+            : cellValue == 3
+              ? "车载视频"
                     : "--";
       },
       formatImportant(row, column, cellValue, index) {
