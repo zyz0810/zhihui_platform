@@ -8,6 +8,7 @@ const getters = {
   admin_mobile: state => state.user.admin_mobile,
   // avatar: state => state.user.avatar,
   name: state => state.user.name,
+  collectNum: state => state.user.collectNum,
   id: state => state.user.id,
   city: state => state.user.city,
   citySelected: state => state.user.citySelected,

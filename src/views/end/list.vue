@@ -16,11 +16,14 @@
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 :row-class-name="tableRowClassName"
                 element-loading-text="拼命加载中" fit ref="tableList"  @row-click="handleView">
-        <el-table-column label="案件标识" align="center" prop="name">
+        <el-table-column label="案件标识" align="center" prop="is_red">
           <template slot-scope="scope">
-            <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>
-            <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>
-            <span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>
+            <!--            <span :class="['inlineBlock',scope.row.is_red == 1?'green_circle':'']"></span>-->
+            <!--            <span :class="['inlineBlock',scope.row.is_red == 2?'yellow_circle':'']"></span>-->
+            <!--            <span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>-->
+            <span class="inlineBlock green_circle" v-if="scope.row.is_red == 1"></span>
+            <span class="inlineBlock yellow_circle" v-if="scope.row.is_red == 2"></span>
+            <span class="inlineBlock red_circle" v-if="scope.row.is_red == 3"></span>
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
@@ -183,4 +186,11 @@
     border-radius: 50%;
     background: yellow;
   }
+  .green_circle{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: green;
+  }
+
 </style>

@@ -1056,3 +1056,10 @@ input[type="number"] {
 .pointer{
   cursor: pointer;
 }
+.el-notification{
+  background: #a3c0ed !important;
+  .el-notification__content{
+    color: #333 !important;
+  }
+}
+

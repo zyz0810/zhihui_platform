@@ -196,3 +196,13 @@ export function dealReject(data) {
     data: Qs.stringify(data)
   })
 }
+
+/* 路由列表数量
+ */
+export function getCountCase(data) {
+  return request({
+    url:'/admin/collect/getCountCase',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

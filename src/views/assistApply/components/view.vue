@@ -103,9 +103,9 @@
         <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                   element-loading-text="拼命加载中" fit ref="tableList">
           <el-table-column label="处置人员" align="center" prop="user_name" sortable></el-table-column>
-          <el-table-column label="处置部门" align="center" prop="depart_name" sortable></el-table-column>
+          <el-table-column label="处置部门" align="center" prop="user_depart" sortable></el-table-column>
           <!--<el-table-column label="对象" align="center" prop="source"></el-table-column>-->
-          <el-table-column label="操作" align="center" prop="status_name"></el-table-column>
+          <el-table-column label="操作" align="center" prop="status" :formatter="formatStatus"></el-table-column>
           <el-table-column label="操作时间" align="center" prop="create_at" :formatter="formatTime"></el-table-column>
           <el-table-column label="意见说明" align="center" prop="language_desc"></el-table-column>
         </el-table>
@@ -280,9 +280,33 @@
         });
       },
       handleClick(){},
+      formatStatus(row, column, cellValue, index) {
+        // 1、待审核  2、待派遣 3、待协办申请  4、转办  5、待协办 6、协办 7、待处置  8、待结案  9、结案  0、废弃
+        return cellValue == 0
+          ? "废弃"
+          : cellValue == 1
+            ? "待审核"
+            : cellValue == 2
+              ? "待派遣"
+              : cellValue == 3
+                ? "待协办申请"
+                : cellValue == 4
+                  ? "转办"
+                  : cellValue == 5
+                    ? "待协办"
+                    : cellValue == 6
+                      ? "协办"
+                      : cellValue == 7
+                        ? "待处置"
+                        : cellValue == 8
+                          ? "待结案"
+                          : cellValue == 9
+                            ? "结案"
+                            : "";
+      },
       formatTime(row, column, cellValue, index) {
         return cellValue
-          ? this.$moment(cellValue).format("YYYY-MM-DD HH:mm:ss")
+          ? this.$moment(Number(cellValue)*1000).format("YYYY-MM-DD HH:mm:ss")
           : "暂无";
       },
       open(){

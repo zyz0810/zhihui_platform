@@ -137,7 +137,7 @@
                   a = this.$notify({
                     title: notifyList[i].name,
                     dangerouslyUseHTMLString: true,
-                    message: notifyList[i].message,
+                    message: notifyList[i].message + '<i class="el-icon-close close_btn"></i>',
                     position: 'bottom-right',
                     duration: 9000,
                     showClose:false,
@@ -243,9 +243,12 @@
     }
   }
 </script>
-<style lang="scss" scoped>
-  .monitor_num{
-    line-height: 2.5;
+<style lang="scss">
+  .close_btn{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 999999;
   }
   .red_circle{
     width: 12px;

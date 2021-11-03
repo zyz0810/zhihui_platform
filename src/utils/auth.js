@@ -63,6 +63,20 @@ export function removeMobile() {
   return Cookies.remove(adminMobile)
 }
 
+
+const collectNum = 'collect_num';
+export function getCollectNum() {
+  return Cookies.get(collectNum)
+}
+export function setCollectNum(collectNum) {
+  return Cookies.set(collectNum, collectNum)
+}
+
+export function removeCollectNum() {
+  return Cookies.remove(collectNum)
+}
+
+
 const city = 'city';
 export function setCity(cityList) {
   return localStorage.setItem('city',JSON.stringify(cityList))

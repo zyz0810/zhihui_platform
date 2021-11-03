@@ -1,10 +1,11 @@
 import { login, logout, getInfo } from '@/api/user'
 import { treeList } from '@/api/system'
-import { getToken, setToken, removeToken,getId,setId,removeId,getName,setName,removeName,getMobile,setMobile,removeMobile,setCity,removeCity,setCitySelected,removeCitySelected} from '@/utils/auth'
+import { getToken, setToken, removeToken,getId,setId,removeId,getName,setName,removeName,getMobile,setMobile,removeMobile,setCity,removeCity,setCitySelected,removeCitySelected,getCollectNum,setCollectNum,removeCollectNum} from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 import store from '@/store'
 import axios from 'axios'
+import {getCountCase} from "@/api/collect";
 
 const state = {
   token: getToken(),
@@ -14,7 +15,7 @@ const state = {
   roles: [],
   id:undefined,
   admin_mobile:'',
-  // city:[],
+  collectNum:{},
   // citySelected:'',
 }
 
@@ -37,9 +38,9 @@ const mutations = {
   SET_MOBILE: (state, admin_mobile) => {
     state.admin_mobile = admin_mobile
   },
-  // SET_CITY: (state, city) => {
-  //   state.city = city
-  // },
+  SET_COLLECTNUM: (state, collectNum) => {
+    state.collectNum = collectNum
+  },
   // SET_CITYSELECTED: (state, citySelected) => {
   //   state.citySelected = citySelected
   // },
@@ -87,6 +88,21 @@ const actions = {
         commit('SET_NAME', res.data.user_name);
         setName(res.data.name);
       })
+
+      getCountCase().then(res => {
+        if(res.code == 1){
+          const {check,dispatch,end,deal,assist} = res.data;
+          commit('SET_COLLECTNUM', {register:0,case:0,check,dispatch,end,deal,assist});
+          setCollectNum({register:0,case:0,check,dispatch,end,deal,assist});
+        }else{
+          commit('SET_COLLECTNUM', {register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+          setCollectNum({register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+        }
+      }).catch(error => {
+        commit('SET_COLLECTNUM', {register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+        setCollectNum({register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+      });
+
       treeList({app_type: 1}).then(response => {
         if(response.code == 1){
           // function getTreeData (data) {
@@ -205,6 +221,8 @@ const actions = {
         // removeId();
         removeName();
         removeMobile();
+        commit('SET_COLLECTNUM', {register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+        setCollectNum({register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
         // reset visited views and cached views
         // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
         dispatch('tagsView/delAllViews', null, { root: true })
@@ -216,6 +234,8 @@ const actions = {
         commit('SET_NAME', '');
         commit('SET_MOBILE', '');
         // commit('SET_CITY', []);
+        commit('SET_COLLECTNUM', {register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+        setCollectNum({register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
         removeToken();
         // removeCitySelected();
         // removeCity();
@@ -240,6 +260,8 @@ const actions = {
       removeToken();
       // removeCity();
       // removeCitySelected();
+      commit('SET_COLLECTNUM', {register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
+      setCollectNum({register:0,case:0,check:0,dispatch:0,end:0,deal:0,assist:0});
       sessionStorage.setItem("Admin-Token", '');
       // removeId();
       removeName();
