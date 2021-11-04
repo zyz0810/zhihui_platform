@@ -21,7 +21,11 @@
             <!--<span :class="['inlineBlock',scope.row.is_red == 3?'red_circle':'']"></span>-->
           <!--</template>-->
         <!--</el-table-column>-->
-        <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
+        <el-table-column label="序号" width="80" align="center">
+          <template slot-scope="scope">
+            {{(listQuery.page - 1) * listQuery.pageSize + scope.$index + 1}}
+          </template>
+        </el-table-column>
         <el-table-column label="案件编号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="事件来源" align="center" prop="source" :formatter="formatSource"></el-table-column>
         <el-table-column label="大类" align="center" prop="big_category_name" show-overflow-tooltip></el-table-column>

@@ -250,6 +250,7 @@ export const asyncRoutes = [
         'web-stay-end',
         'centre-reject-stay-end-case',
         'depart-reject-stay-end-case',
+
         'centre-end-case',
         'depart-end-case',
       ]

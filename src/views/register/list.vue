@@ -36,7 +36,11 @@
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList">
-        <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
+        <el-table-column label="序号" width="80" align="center">
+          <template slot-scope="scope">
+            {{(listQuery.page - 1) * listQuery.pageSize + scope.$index + 1}}
+          </template>
+        </el-table-column>
         <el-table-column label="任务号" align="center" prop="number_no"></el-table-column>
         <el-table-column label="案件大类" align="center" prop="big_category_name" show-overflow-tooltip></el-table-column>
         <el-table-column label="案件小类" align="center" prop="small_category_name" show-overflow-tooltip></el-table-column>
