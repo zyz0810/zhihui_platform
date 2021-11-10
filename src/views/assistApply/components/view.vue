@@ -111,8 +111,7 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" v-if="isCanView">
       <el-button type="warning" v-if="roles.includes('centre-reject-stay-supported-applications')" @click="handleOperation()">驳回</el-button>
       <el-button type="primary" v-if="roles.includes('centre-stay-supported-applications')" @click="handleTransfer()">协办</el-button>
       <el-button type="success" v-if="roles.includes('centre-stay-write-applications')" @click="">打印</el-button>
@@ -165,7 +164,9 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            type:'',
+          },
           operatorType: "view",
           id: "",
           order_no:''
@@ -211,6 +212,9 @@
       }
     },
     computed: {
+      isCanView() {
+        return this.paraData.option.type != "caseView";
+      },
       ...mapState({
         roles: state => state.user.roles,
       }),

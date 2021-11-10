@@ -60,7 +60,13 @@
       return {
         showViewDialog:false,
         viewData:{
-          id:''
+          id:'',
+          order_no:'',
+          option: {
+            type:'',
+            big_category_name:'',
+            small_category_name:'',
+          },
         },
         total: 0,
         list: [],
@@ -241,6 +247,7 @@
           id:row.id,
           order_no:row.order_no,
           option: {
+            type:'',
             big_category_name:row.big_category_name,
             small_category_name:row.small_category_name,
           },

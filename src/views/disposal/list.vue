@@ -68,7 +68,13 @@
     },
     data() {
       return {
-        viewData:{},
+        viewData:{
+          id:'',
+          order_no:'',
+          option: {
+            type:'',
+          }
+        },
         showViewDialog:false,
         total: 0,
         list: [],
@@ -159,7 +165,10 @@
         this.showViewDialog = true;
         this.viewData = {
           id:row.id,
-          order_no:row.order_no
+          order_no:row.order_no,
+          option: {
+            type:'',
+          }
         }
       },
 

@@ -72,7 +72,17 @@
           page: 1,
           pageSize: 10
         },
-        viewData:{},
+        viewData:{
+          id:'',
+          order_no:'',
+          option: {
+            type:'',
+            big_category_name:'',
+            small_category_name:'',
+            big_category:'',
+            small_category:'',
+          }
+        },
         tableHeight:'100',
         timer:'',
       }
@@ -164,6 +174,7 @@
           id:row.id,
           order_no:row.order_no,
           option: {
+            type:'',
             big_category_name:row.big_category_name,
             small_category_name:row.small_category_name,
             big_category:row.big_category,

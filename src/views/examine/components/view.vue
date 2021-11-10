@@ -69,7 +69,8 @@
         <img v-for="item in formData.before_images" :src="item" class="my_img fl mr_10 pointer" @click="handlePictureCardPreview(item)"/>
       </el-descriptions-item>
     </el-descriptions>
-    <div slot="footer" class="dialog-footer">
+{{paraData.option.type}}
+    <div slot="footer" class="dialog-footer" v-if="isCanView">
       <el-button v-if="roles.includes('centre-cancel-pass-stay-check') || roles.includes('depart-cancel-pass-stay-check')" @click="showViewDialog = false">取 消</el-button>
       <el-button type="warning" v-if="formData.status != 0 && (roles.includes('centre-abandon-pass-stay-check') || roles.includes('depart-pass-stay-check'))" @click="handleOperation(2)">废 弃</el-button>
       <el-button type="primary" v-if="formData.status != 0 && (roles.includes('centre-pass-stay-check') || roles.includes('depart-pass-stay-check'))" @click="handleOperation(1)">通 过</el-button>
@@ -112,7 +113,9 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            type:''
+          },
           operatorType: "view",
           id: ""
         }
@@ -149,6 +152,9 @@
       }
     },
     computed: {
+      isCanView() {
+        return this.paraData.option.type != "caseView";
+      },
       ...mapState({
         roles: state => state.user.roles,
       }),

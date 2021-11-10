@@ -55,7 +55,10 @@
       return {
         showViewDialog:false,
         viewData:{
-          id:''
+          id:'',
+          option: {
+            type:'view',
+          }
         },
         total: 0,
         list: [],
@@ -147,7 +150,10 @@
         this.timer = null;
         this.showViewDialog = true;
         this.viewData = {
-          id:row.id
+          id:row.id,
+          option: {
+            type:'view',
+          }
         }
       },
     }

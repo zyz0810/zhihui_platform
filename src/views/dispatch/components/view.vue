@@ -86,7 +86,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" v-if="isCanView">
       <el-button v-if="roles.includes('centre-abandon-stay-dispatch') || roles.includes('depart-abandon-stay-dispatch')" @click="handleAbandoned">废弃</el-button>
       <el-button type="warning" v-if="formData.status != 4 && roles.includes('depart-turn-stay-dispatch') && userInfo.department_id != 1" @click="handleTransfer">转办</el-button>
       <el-button type="info" v-if="roles.includes('depart-supported-applications-stay-dispatch') && userInfo.department_id != 1" @click="handleJointly">申请协办</el-button>
@@ -150,6 +150,7 @@
         default: {
           order_no:'',
           option: {
+            type:'',
             big_category_name:'',
             small_category_name:'',
           },
@@ -195,6 +196,9 @@
       }
     },
     computed: {
+      isCanView() {
+        return this.paraData.option.type != "caseView";
+      },
       ...mapState({
         roles: state => state.user.roles,
       }),
@@ -313,6 +317,7 @@
             small_category_name:this.paraData.option.small_category_name,
             big_category:this.formData.big_category,
             small_category:this.formData.small_category,
+            is_importance:this.formData.is_importance
           }
         }
       },

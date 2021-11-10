@@ -90,7 +90,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" v-if="isCanView">
       <el-button type="primary" v-if="roles.includes('depart-stay-disposition')" @click="handleDisposal">处置</el-button>
     </div>
     <abandonedView :showDialog.sync="showAbandonedDialog" :paraData="paraData" @updateView="showViewDialog = false"></abandonedView>
@@ -135,7 +135,9 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            type:'',
+          },
           operatorType: "view",
           id: "",
           order_no:'',
@@ -177,6 +179,9 @@
       }
     },
     computed: {
+      isCanView() {
+        return this.paraData.option.type != "caseView";
+      },
       ...mapState({
         roles: state => state.user.roles,
       }),

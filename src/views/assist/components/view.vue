@@ -88,7 +88,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" v-if="paraData.option.type == 'caseView'">
       <el-button type="primary" @click="handleDispatch">派遣</el-button>
       <el-button type="success" @click="">打印</el-button>
     </div>
@@ -132,7 +132,9 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            type:'',
+          },
           operatorType: "view",
           id: "",
           order_no:''

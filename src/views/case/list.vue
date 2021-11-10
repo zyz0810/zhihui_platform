@@ -82,7 +82,13 @@
         showDisposalDialog:false,
         showAssistApplyDialog:false,
         viewData:{
-          id:''
+          id:'',
+          order_no:'',
+          option: {
+            type:'caseView',
+            big_category_name:'',
+            small_category_name:'',
+          },
         },
         showViewDialog:false,
         paraData:{
@@ -228,6 +234,7 @@
           id:row.id,
           order_no:row.order_no,
           option: {
+            type:'caseView',
             big_category_name:row.big_category_name,
             small_category_name:row.small_category_name,
           },

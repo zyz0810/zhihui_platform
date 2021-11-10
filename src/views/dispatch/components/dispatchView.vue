@@ -103,6 +103,7 @@
           option: {
             big_category_name:'',
             small_category_name:'',
+            is_importance:'',
           },
           operatorType: "view",
           id: ""
@@ -177,6 +178,7 @@
         this.temp.small_category_name = this.paraData.option.small_category_name;
         this.temp.big_category = this.paraData.option.big_category;
         this.temp.small_category = this.paraData.option.small_category;
+        this.temp.is_importance = this.paraData.option.is_importance
         this.getTime(this.paraData.option.small_category);
       },
       close(){
@@ -306,10 +308,7 @@
             let assist_department = this.temp.assist_department[this.temp.assist_department.length-1];
             let main_department = this.temp.main_department[this.temp.main_department.length-1];
             let time = Number(this.temp.time)*Number(3600);
-            const temp =  {id,big_category,small_category,main_department,assist_people,assist_department,main_people,main_department,language_desc,is_importance,time};
-            console.log(temp)
-            console.log(assist_department)
-
+            const temp =  {id,big_category,small_category,main_department,assist_people,assist_department,main_people,language_desc,is_importance,time};
             this.paraLoading = true;
             sendCollect(temp).then((res) => {
               setTimeout(() => {

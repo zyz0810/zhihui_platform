@@ -137,6 +137,9 @@
         this.viewData = {
           id:row.id,
           order_no:row.order_no,
+          option: {
+            type:'',
+          }
         }
         // console.log(row)
         // console.log(column)

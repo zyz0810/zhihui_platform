@@ -127,7 +127,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" v-if="isCanView">
       <el-button type="warning" v-if="formData.status != 9 && (roles.includes('centre-reject-stay-end-case') || roles.includes('depart-reject-stay-end-case'))" @click="handleOperation(0)">驳回</el-button>
       <el-button type="primary" v-if="formData.status != 9 && (roles.includes('centre-end-case') || roles.includes('depart-end-case'))" @click="handleOperation(1)">结案</el-button>
     </div>
@@ -172,7 +172,9 @@
         required: true,
         type: Object,
         default: {
-          option: {},
+          option: {
+            type:'',
+          },
           operatorType: "view",
           id: "",
           order_no:''
@@ -217,6 +219,9 @@
       }
     },
     computed: {
+      isCanView() {
+        return this.paraData.option.type != "caseView";
+      },
       ...mapState({
         roles: state => state.user.roles,
       }),
@@ -288,7 +293,10 @@
         this.showAdoptDialog = true
         this.viewData = {
           id:this.paraData.id,
-          operatorType:type
+          operatorType:type,
+          option: {
+            type:'',
+          }
         }
       },
       getView(){
