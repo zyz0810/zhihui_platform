@@ -277,7 +277,7 @@
 
       },
       getUser(id){
-        departmentUserList({department_id:id,}).then(res => {
+        departmentUserList({department_id:id,type:1}).then(res => {
           this.userList = res.data;
           this.firstUserList = res.data;
           this.secondUserList = res.data;
