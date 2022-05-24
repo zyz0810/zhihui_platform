@@ -5,7 +5,7 @@
         <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">
-            <el-input v-model="listQuery.key_word" placeholder="" clearable/>
+            <el-input v-model="listQuery.key_word" placeholder="请输入问题描述" clearable/>
           </el-form-item>
           <el-form-item>
             <el-button class="btn_blue02" type="primary" @click="handleFilter">搜索</el-button>
