@@ -32,7 +32,7 @@
       <div class="mb_10">
         <el-button type="primary" icon="iconfont icon-daochu1" v-if="roles.includes('admin-centre-register-problem') || roles.includes('two-depart-register-problem') ||
  roles.includes('centre-register-problem') || roles.includes('depart-register-problem')" @click="handleView">问题登记</el-button>
-        <el-button type="primary" icon="iconfont icon-daochu1" @click="">导出</el-button>
+        <el-button type="primary" icon="iconfont icon-daochu1" @click="handleExport">导出</el-button>
       </div>
       <el-table v-loading="listLoading" :data="list" :height="tableHeight" border :header-cell-style="{background:'rgb(163,192,237)',}"
                 element-loading-text="拼命加载中" fit ref="tableList">
@@ -56,7 +56,7 @@
     </div>
 
     <paraView :showDialog.sync="showViewDialog" :paraData="paraData" @insetList="getListTimer"></paraView>
-
+    <a v-show="false" :href="downLoadUrl" id="fileDownload"></a>
   </div>
 </template>
 
@@ -105,6 +105,7 @@
         },
         tableHeight:'100',
         timer:'',
+        downLoadUrl:'',
       }
     },
     computed: {
@@ -131,8 +132,6 @@
       },
     },
     mounted() {
-      console.log('郊区全徐')
-      console.log(this.roles)
       this.$nextTick(function() {
         // this.$refs.filter-container.offsetHeight
         let height = window.innerHeight - this.$refs.tableList.$el.offsetTop - 190;
@@ -161,6 +160,14 @@
       this.timer = null;
     },
     methods: {
+      getUrl(){
+        this.downLoadUrl= this.global.domainName + 'admin/Export/collectList?big_category='+this.listQuery.big_category+'&small_category='+this.listQuery.small_category+'&source='+this.listQuery.source
+          +'&start_time='+this.listQuery.start_time + '&end_time='+this.listQuery.end_time + '&status='+this.listQuery.status + '&page='+this.listQuery.page + '&pageSize='+this.listQuery.pageSize;
+      },
+      async handleExport(){
+        await this.getUrl();
+        document.getElementById("fileDownload").click();
+      },
       getListTimer(){
         this.getList();
         this.timer = setInterval(()=> {

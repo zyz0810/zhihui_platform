@@ -31,7 +31,8 @@ import '@/styles/reset.css'
 
 import moment from 'moment'
 Vue.prototype.$moment = moment
-
+import constant from './utils/const.js'
+Vue.use(constant);
 Vue.use(commonComponents)
 Vue.use(VueQuillEditor)
 Vue.use(directive)

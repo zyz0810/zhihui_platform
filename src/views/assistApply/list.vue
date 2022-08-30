@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="p20 bg_white">
       <div class="mb_10">
-        <el-button class="btn_blue02" type="primary"  @click="">导出</el-button>
+        <el-button class="btn_blue02" type="primary"  @click="handleExport">导出</el-button>
         <el-form :inline="true" :model="listQuery" :label="280" class="fr">
           <el-form-item label="">
             <el-input v-model="listQuery.key_word" placeholder="请输入问题描述" clearable/>
@@ -40,7 +40,7 @@
     </div>
 
     <paraView :showDialog.sync="showViewDialog" :paraData="viewData" @updateList="getListTimer"></paraView>
-
+    <a v-show="false" :href="downLoadUrl" id="fileDownload"></a>
   </div>
 </template>
 
@@ -85,6 +85,7 @@
         },
         tableHeight:'100',
         timer:'',
+        downLoadUrl:'',
       }
     },
     filters: {
@@ -134,6 +135,14 @@
       this.timer = null;
     },
     methods: {
+      getUrl(){
+        this.downLoadUrl= this.global.domainName + 'admin/Export/collectList?big_category='+this.listQuery.big_category+'&small_category='+this.listQuery.small_category+'&source='+this.listQuery.source
+          +'&start_time='+this.listQuery.start_time + '&end_time='+this.listQuery.end_time + '&status='+this.listQuery.status + '&page='+this.listQuery.page + '&pageSize='+this.listQuery.pageSize;
+      },
+      async handleExport(){
+        await this.getUrl();
+        document.getElementById("fileDownload").click();
+      },
       getListTimer(){
         this.getList();
         this.timer = setInterval(()=> {
