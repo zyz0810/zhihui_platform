@@ -52,6 +52,7 @@
   import Pagination from "@/components/Pagination/index"; // waves directive
   import paraView from "./components/view";
   import {collectList, sendCollectList} from "@/api/collect";
+  import store from "@/store";
   export default {
     name: 'parameterList',
     directives: {waves},
@@ -135,13 +136,41 @@
       this.timer = null;
     },
     methods: {
-      getUrl(){
-        this.downLoadUrl= this.global.domainName + 'admin/Export/collectList?big_category='+this.listQuery.big_category+'&small_category='+this.listQuery.small_category+'&source='+this.listQuery.source
-          +'&start_time='+this.listQuery.start_time + '&end_time='+this.listQuery.end_time + '&status='+this.listQuery.status + '&page='+this.listQuery.page + '&pageSize='+this.listQuery.pageSize;
-      },
-      async handleExport(){
-        await this.getUrl();
-        document.getElementById("fileDownload").click();
+      // getUrl(){
+      //   this.downLoadUrl= this.global.domainName + 'admin/Export/collectList?big_category='+this.listQuery.big_category+'&small_category='+this.listQuery.small_category+'&source='+this.listQuery.source
+      //     +'&start_time='+this.listQuery.start_time + '&end_time='+this.listQuery.end_time + '&status='+this.listQuery.status + '&page='+this.listQuery.page + '&pageSize='+this.listQuery.pageSize;
+      // },
+      // async handleExport(){
+      //   await this.getUrl();
+      //   document.getElementById("fileDownload").click();
+      // },
+      handleExport(){
+        this.$axios({
+          headers: { token: store.getters.token },
+          method: 'get',
+          url: '/admin/Export/collectList', // 请求地址
+          params:this.listQuery,
+          responseType: 'blob' // 表明返回服务器返回的数据类型
+        }).then(response => {
+
+          const blob = new Blob([response.data]);
+          let myDate = new Date();
+          let timename = myDate.toLocaleDateString().split('/').join('-');
+          const fileName = '待协办申请' + timename + '.xls';
+          const linkNode = document.createElement('a');
+          linkNode.download = fileName; //a标签的download属性规定下载文件的名称
+          linkNode.style.display = 'none';
+          linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
+          document.body.appendChild(linkNode);
+          linkNode.click();  //模拟在按钮上的一次鼠标单击
+          URL.revokeObjectURL(linkNode.href); // 释放URL 对象
+          document.body.removeChild(linkNode);
+
+        }).catch(
+          function (error) {
+            // 请求失败处理
+            alert('请求失败！')
+          })
       },
       getListTimer(){
         this.getList();

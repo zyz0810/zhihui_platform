@@ -30,6 +30,9 @@ import '@/styles/animate.css'
 import '@/styles/reset.css'
 
 import moment from 'moment'
+import axios from 'axios'
+//其他vue组件中就可以this.$axios调用使用
+Vue.prototype.$axios = axios
 Vue.prototype.$moment = moment
 import constant from './utils/const.js'
 Vue.use(constant);
