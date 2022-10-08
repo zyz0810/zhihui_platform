@@ -28,6 +28,13 @@ export function getInfo(data) {
     data: Qs.stringify(data)
   })
 }
+export function updatePassword(data) {
+  return request({
+    url: `/admin/user/updatePassword`,
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
 // export function getInfo() {
 //   return request({
 //     url:'api-user/users/current',
